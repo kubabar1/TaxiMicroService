@@ -5,7 +5,7 @@ CREATED --> ASSIGNED : assign
 ASSIGNED --> IN_PROGRESS : start
 CREATED --> CANCELED : cancel
 ASSIGNED --> CANCELED : cancel
-ASSIGNED --> CREATED : remove
+ASSIGNED --> CREATED : unassign
 IN_PROGRESS --> FINISHED : finish
 IN_PROGRESS --> ABORTED : abort
 FINISHED --> [*]
