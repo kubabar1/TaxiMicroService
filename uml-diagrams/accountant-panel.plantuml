@@ -1,0 +1,20 @@
+@startuml
+
+left to right direction
+
+package AccountantPanel {
+    (Display accountant panel) as dap
+    (Log out) as lo
+    (Generate report) as gr
+    (Display trip history) as dth
+    (Select trip date range) as stdr
+    (Generate XML for given date range) as gxfgdr
+}
+
+lo .> dap : extends
+dth .> dap : extends
+gr .> dth : extends
+stdr .> dth : extends
+gxfgdr .> dth : extends
+
+@enduml

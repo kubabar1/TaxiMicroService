@@ -1,0 +1,48 @@
+@startuml
+
+left to right direction
+
+package PassengerPanel {
+  (Display passenger panel) as dpp
+  (Display trip history) as dth
+  (Log out) as lo 
+  (Display notifications modal window) as dnmw
+  (Set notification as read) as snar
+  (Order trip) as  ot
+  (Show trip route by passenger) as strbp
+  (Show nearby drivers) as snd
+  (Show driver data) as sdd
+  (Create opinion about driver) as coad
+  (Edit trip) as et
+  (Display trip window) as dtw
+  (Send message to the driver) as smttd
+  (Cancel trip order) as ctl
+  (Display settings) as ds
+  (Change language) as cl
+  (Change appearance) as ca
+  (Change passenger data) as cpd
+}
+
+snar .> dnmw : extends
+ot.> dpp : extends
+ot .> snd : include
+cl .> ds : extends
+cpd .> ds : extends
+ca .> ds : extends
+lo .> dpp : extends
+dnmw .> dpp : extends
+dth .> dpp : extends
+ds .> dpp : extends
+dtw .> dth : extends
+ctl .> dth : extends
+ctl .> dtw : extends
+smttd .> dtw : extends
+sdd .> dtw : extends
+et .> dtw : extends
+sdd .> snd : extends
+coad .> sdd : extends
+ot .> strbp : include
+dth .> strbp : include
+dtw .> strbp : include
+
+@enduml

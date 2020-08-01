@@ -1,0 +1,30 @@
+@startuml
+
+left to right direction
+
+package AdminPanel {
+    (Display admin panel) as dap
+    (Log out) as lo
+    (Display user list) as dul
+    (Display trip history) as dth
+    (Generate report) as gh
+    (Select trip date range) as stdr
+    (Generate XML for given date range) as gxfgdr
+    (Display users edit modal window) as duemw
+    (Edit user data) as eud
+    (Add role to user) as artu
+    (Remove role from user) as rrfu
+}
+
+lo .> dap : extends
+dul .> dap : extends
+dth .> dap : extends
+gh .> dth : extends
+stdr .> dth : extends
+gxfgdr .> dth : extends
+duemw .> dul : extends
+eud .> duemw : extends
+artu .> duemw : extends
+rrfu .> duemw : extends
+
+@enduml
