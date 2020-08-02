@@ -6,7 +6,7 @@ actor Driver
 participant "BookingService" as BookingService  << (S,#ADD1B2) Server >>
 participant "NotificationService" as NotificationService  << (S,#ADD1B2) Server >>
 
-Driver -> BookingService : startTrip
+Driver -> BookingService : unassignOrder
 
 BookingService -> BookingService : getStatus
 
@@ -16,7 +16,7 @@ alt status is ASSIGNED
 
     alt current driver is assigned
 
-        BookingService -> BookingService : setStatusToInProgress
+        BookingService -> BookingService : setStatusToCreated
 
         BookingService -> NotificationService : sendNotificationToDriver
 

@@ -6,23 +6,17 @@ actor Passenger
 participant "BookingService" as BookingService  << (S,#ADD1B2) Server >>
 participant "NotificationService" as NotificationService  << (S,#ADD1B2) Server >>
 
-Passenger -> BookingService : cancelOrder
+Passenger -> BookingService : assignDriver
 
 alt status is CREATED
 
-    BookingService -> BookingService : setStatusToCanceled
-
-    BookingService -> NotificationService : sendNotificationToPassenger
-
-else status is ASSIGNED
-
-    BookingService -> BookingService : setStatusToCanceled
+    BookingService -> BookingService : assignDriverToOrder
 
     BookingService -> NotificationService : sendNotificationToDriver
 
     BookingService -> NotificationService : sendNotificationToPassenger
 
-else status is not CREATED and not in ASSIGNED
+else status is not CREATED
 
     BookingService -> NotificationService : displayErrorMessage
 

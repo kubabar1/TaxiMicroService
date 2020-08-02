@@ -1,0 +1,29 @@
+@startuml
+
+hide footbox
+
+actor Driver
+participant "BookingService" as BookingService  << (S,#ADD1B2) Server >>
+participant "NotificationService" as NotificationService  << (S,#ADD1B2) Server >>
+
+Driver -> BookingService : abortTrip
+
+BookingService -> BookingService : getStatus
+
+alt status is IN_PROGRESS
+
+    BookingService -> BookingService : setStatusToFinished
+
+    BookingService -> BookingService : saveCause
+
+    BookingService -> NotificationService : sendNotificationToDriver
+
+    BookingService -> NotificationService : sendNotificationToPassenger
+
+else status is not IN_PROGRESS
+
+    BookingService -> NotificationService : displayErrorMessage
+
+end
+
+@enduml
