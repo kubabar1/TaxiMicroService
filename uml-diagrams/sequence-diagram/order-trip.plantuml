@@ -1,0 +1,52 @@
+@startuml
+
+hide footbox
+
+actor Passenger
+participant "BookingService" as BookingService  << (S,#ADD1B2) Server >>
+participant "NotificationService" as NotificationService  << (S,#ADD1B2) Server >>
+participant "PaymentService" as PaymentService  << (S,#ADD1B2) Server >>
+participant "ExternalPaymentService" as ExternalPaymentService  << (S,#ADD1B2) External Server >>
+
+loop while order is not valid
+
+Passenger -> BookingService : orderTrip
+
+BookingService -> BookingService : validateOrder
+
+
+BookingService --> Passenger : validationResult
+
+end
+
+Passenger -> PaymentService : enterPaymentsDetails
+
+PaymentService -> ExternalPaymentService : makePayment
+
+ExternalPaymentService --> PaymentService : paymentResult
+
+PaymentService --> BookingService : paymentResult
+
+alt paymentResult OK
+
+BookingService -> BookingService : saveBooking
+
+alt driver is set AND order is valid
+
+BookingService -> NotificationService : notifyDriver
+
+else driver not set AND order is valid
+
+BookingService -> NotificationService : notifyAllNearestDrivers
+
+end
+
+else paymentResult not OK
+
+BookingService -> NotificationService : notifyUserAboutPaymentFail
+
+end
+
+
+@enduml
+

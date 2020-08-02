@@ -13,7 +13,6 @@ package PassengerPanel {
   (Show nearby drivers) as snd
   (Show driver data) as sdd
   (Create opinion about driver) as coad
-  (Edit trip) as et
   (Display trip window) as dtw
   (Send message to the driver) as smttd
   (Cancel trip order) as ctl
@@ -38,7 +37,6 @@ ctl .> dth : extends
 ctl .> dtw : extends
 smttd .> dtw : extends
 sdd .> dtw : extends
-et .> dtw : extends
 sdd .> snd : extends
 coad .> sdd : extends
 ot .> strbp : include
