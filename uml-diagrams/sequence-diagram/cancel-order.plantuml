@@ -1,0 +1,31 @@
+@startuml
+
+hide footbox
+
+actor Passenger
+participant "BookingService" as BookingService  << (S,#ADD1B2) Server >>
+participant "NotificationService" as NotificationService  << (S,#ADD1B2) Server >>
+
+Passenger -> BookingService : cancelOrder
+
+alt status is CREATED
+
+    BookingService -> BookingService : setStatusToCanceled
+
+    BookingService -> NotificationService : sendNotificationToPassenger
+
+else status is ASSIGNED
+
+    BookingService -> BookingService : setStatusToCanceled
+
+    BookingService -> NotificationService : sendNotificationToDriver
+
+    BookingService -> NotificationService : sendNotificationToPassenger
+
+else status is not CREATED and not in ASSIGNED
+
+    BookingService -> NotificationService : displayErrorMessage
+
+end
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+
+hide footbox
+
+actor Driver
+participant "BookingService" as BookingService  << (S,#ADD1B2) Server >>
+participant "NotificationService" as NotificationService  << (S,#ADD1B2) Server >>
+
+Driver -> BookingService : getListOfUnassignedOrders
+
+return listOfUnassignedOrders
+
+Driver -> BookingService : assignToOrder
+
+BookingService -> BookingService : checkIfDriverIsFree
+
+alt driver is free
+
+    BookingService -> BookingService : assignDriverToOrder
+
+    BookingService -> NotificationService : sendNotificationToDriver
+
+    BookingService -> NotificationService : sendNotificationToPassenger
+
+else driver is not free
+
+    BookingService -> NotificationService : displayErrorMessage
+
+end
+
+@enduml

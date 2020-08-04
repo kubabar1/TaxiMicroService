@@ -1,0 +1,62 @@
+@startuml
+
+left to right direction
+
+package DriverPanel {
+    (Display driver panel) as ddp
+    (Log out) as lo
+    (Display settings) as ds
+    (Change language) as cl
+    (Change appearance) as ca
+    (Change driver data) as cdd
+    (Display waiting orders) as dwo
+    (Display navigation) as dn
+    (Display trip history) as dth
+    (Display earnings) as de
+    (Select earnings date range) as sedr
+    (Export selected earnings to html) as eseth
+    (Display assigned orders) as dao
+    (Display dashboard) as dd
+    (Display trip map) as dtm
+    (Display order window) as dow
+    (Send message to passenger) as smtp
+    (Finish trip) as ft
+    (Start trip) as st
+    (Cancel trip) as ct
+    (Write trip cancel cause) as wtcc
+    (Abort trip) as at
+    (Write trip abort cause) as wtac
+}
+
+lo .> ddp : extends
+ds .> ddp : extends
+cl .> ds : extends
+ca .> ds : extends
+cdd .> ds : extends
+dth .> ddp : extends
+de .> ddp : extends
+sedr .> de : extends
+eseth .> de : extends
+dn .> ddp : extends
+dao .> ddp : extends
+dwo .> ddp : extends
+dow .> dwo : extends
+dtm .> dow : include
+smtp .> dow : extends
+at .> dow : extends
+wtac .> at : extends
+dow .> dd : extends
+dow .> dao : extends
+dow .> dth : extends
+ct .> dow : extends
+wtcc .> ct : extends
+smtp .> dow : extends
+st .> dow : extends
+ft .> dow : extends
+dtm .> dwo : include
+dtm .> dth : include
+dtm .> dn : include
+dtm .> dao : include
+dtm .> dd : include
+
+@enduml

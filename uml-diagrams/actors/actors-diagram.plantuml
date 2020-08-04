@@ -1,0 +1,8 @@
+@startuml
+
+:Passenger:
+:Driver:
+:Accountant:
+:Admin:
+
+@enduml

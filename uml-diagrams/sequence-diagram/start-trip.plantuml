@@ -1,0 +1,37 @@
+@startuml
+
+hide footbox
+
+actor Driver
+participant "BookingService" as BookingService  << (S,#ADD1B2) Server >>
+participant "NotificationService" as NotificationService  << (S,#ADD1B2) Server >>
+
+Driver -> BookingService : startTrip
+
+BookingService -> BookingService : getStatus
+
+alt status is ASSIGNED
+
+    BookingService -> BookingService : getAssignedDriver
+
+    alt current driver is assigned
+
+        BookingService -> BookingService : setStatusToInProgress
+
+        BookingService -> NotificationService : sendNotificationToDriver
+
+        BookingService -> NotificationService : sendNotificationToPassenger
+
+    else current driver is NOT assigned
+
+        BookingService -> NotificationService : displayErrorMessage
+
+    end
+
+else status is not ASSIGNED
+
+    BookingService -> NotificationService : displayErrorMessage
+
+end
+
+@enduml
