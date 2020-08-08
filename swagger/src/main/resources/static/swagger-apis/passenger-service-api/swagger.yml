@@ -3,7 +3,6 @@ info:
     description: "Service for passengers"
     version: "1.0.0"
     title: "Passenger service"
-    termsOfService: "http://swagger.io/terms/"
 host: "passenger-service.taxi-microservice.com"
 basePath: "/"
 schemes:
@@ -97,7 +96,7 @@ paths:
                 "403":
                     description: "Access forbidden"
                 "404":
-                    description: "Passenger for given ID was not found"
+                    description: "Passenger with given ID was not found"
         put:
             tags:
                 - "passenger"
@@ -130,7 +129,7 @@ paths:
                 "403":
                     description: "Access forbidden"
                 "404":
-                    description: "Passenger for given ID was not found"
+                    description: "Passenger with given ID was not found"
         delete:
             tags:
                 - "passenger"
@@ -153,7 +152,7 @@ paths:
                 "403":
                     description: "Access forbidden"
                 "404":
-                    description: "Passenger for given ID was not found"
+                    description: "Passenger with given ID was not found"
     /passengers/{passengerId}/settings:
         get:
             tags:
@@ -173,13 +172,13 @@ paths:
                     description: "Passenger settings successfully returned"
                     schema:
                         items:
-                            $ref: "#/definitions/Settings"
+                            $ref: "#/definitions/PassengerSettingsDTO"
                 "401":
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
                 "404":
-                    description: "Passenger for given ID was not found"
+                    description: "Passenger with given ID was not found"
         put:
             tags:
                 - "passengerSettings"
@@ -200,19 +199,19 @@ paths:
                     description: "Passenger settings object that needs to be updated"
                     required: true
                     schema:
-                        $ref: "#/definitions/Settings"
+                        $ref: "#/definitions/PassengerSettingsDTO"
             responses:
                 "200":
                     description: "Passenger settings successfully returned"
                     schema:
                         items:
-                            $ref: "#/definitions/Settings"
+                            $ref: "#/definitions/PassengerSettingsDTO"
                 "401":
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
                 "404":
-                    description: "Passenger for given ID was not found"
+                    description: "Passenger with given ID was not found"
 definitions:
     PassengerAddDTO:
         type: "object"
@@ -250,10 +249,11 @@ definitions:
             surname:
                 type: "string"
 
-    Settings:
+    PassengerSettingsDTO:
         type: "object"
         properties:
             appearance:
+                type: "string"
                 enum: ["light", "dark"]
             language:
                 type: "string"

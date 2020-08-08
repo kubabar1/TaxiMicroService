@@ -3,7 +3,6 @@ info:
     description: "Service for opinions"
     version: "1.0.0"
     title: "Opinion service"
-    termsOfService: "http://swagger.io/terms/"
 host: "opinion-service.taxi-microservice.com"
 basePath: "/"
 schemes:
