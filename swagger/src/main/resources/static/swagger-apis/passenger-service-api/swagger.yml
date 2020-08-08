@@ -1,0 +1,84 @@
+swagger: "2.0"
+info:
+    description: "Service for passengers"
+    version: "1.0.0"
+    title: "Passenger service"
+    termsOfService: "http://swagger.io/terms/"
+host: "passenger-service.taximicroservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    - name: "passenger"
+      description: "Passenger related operations"
+paths:
+    /passengers:
+        get:
+            tags:
+                - "passenger"
+            summary: "Get list of passengers"
+            description: ""
+            operationId: "getPassengers"
+            produces:
+                - "application/json"
+            parameters:
+                - in: "query"
+                  type: "string"
+                  name: "role"
+                  required: true
+            responses:
+                "200":
+                    description: "Passengers succesfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/Passenger"
+                "405":
+                    description: "Invalid input"
+        post:
+            tags:
+                - "passenger"
+            summary: "Add new passenger"
+            description: ""
+            operationId: "addPassenger"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "body"
+                    name: "body"
+                    description: "Passenger object that needs to be added to the store"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/Passenger"
+            responses:
+                "200":
+                    description: "Passenger was successfully added"
+                "400":
+                    description: "User with given ID already exists"
+                "401":
+                    description: "Unauthorized user"
+                "405":
+                    description: "Invalid input"
+
+
+definitions:
+    Passenger:
+        type: "object"
+        properties:
+            id:
+                type: "integer"
+                format: "long"
+            userName:
+                type: "string"
+            email:
+                type: "string"
+            password:
+                type: "string"
+            passwordSalt:
+                type: "string"
+            accountCreationDate:
+                type: "string"
+                format: "date-time"
