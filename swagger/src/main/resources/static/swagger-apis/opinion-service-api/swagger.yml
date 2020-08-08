@@ -56,6 +56,10 @@ paths:
             description: ""
             operationId: "getDriverOpinions"
             parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
                 -   in: "query"
                     type: "integer"
                     name: "page"
@@ -86,6 +90,11 @@ paths:
                 - "application/json"
             description: ""
             operationId: "getDriverRatings"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
             responses:
                 "200":
                     description: "Driver average rating successfully returned"
