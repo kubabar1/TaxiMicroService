@@ -1,0 +1,163 @@
+swagger: "2.0"
+info:
+    description: "Service for opinions"
+    version: "1.0.0"
+    title: "Opinion service"
+    termsOfService: "http://swagger.io/terms/"
+host: "opinion-service.taxi-microservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    - name: "opinions"
+      description: "Opinions related operations"
+    - name: "average-rating"
+      description: "Average driver rating"
+paths:
+    /opinions:
+        post:
+            summary: "Add opinion for driver"
+            tags:
+                - "opinions"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            description: ""
+            operationId: "addDriverOpinion"
+            parameters:
+                -   in: "body"
+                    name: "body"
+                    description: "Opinion object to add"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/OpinionDTO"
+            responses:
+                "200":
+                    description: "Opinion successfully added"
+                    schema:
+                        items:
+                            $ref: "#/definitions/OpinionDTO"
+                "204":
+                    description: "No opinions assigned to driver with given ID"
+                "401":
+                    description: "Unauthorized user"
+                "404":
+                    description: "Driver with given ID doesn't exists"
+
+    /opinions/{driverId}:
+        get:
+            summary: "Get driver opinion"
+            tags:
+                - "opinions"
+            produces:
+                - "application/json"
+            description: ""
+            operationId: "getDriverOpinions"
+            parameters:
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
+            responses:
+                "200":
+                    description: "Driver opinions successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/OpinionDTO"
+                "204":
+                    description: "No opinions assigned to driver with given ID"
+                "401":
+                    description: "Unauthorized user"
+                "404":
+                    description: "Driver with given ID doesn't exists"
+
+    /opinions/average-rating/{driverId}:
+        get:
+            summary: "Get driver ratings"
+            tags:
+                - "average-rating"
+            produces:
+                - "application/json"
+            description: ""
+            operationId: "getDriverRatings"
+            responses:
+                "200":
+                    description: "Driver average rating successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/RatingDTO"
+                "204":
+                    description: "No ratings assigned to driver with given ID"
+                "401":
+                    description: "Unauthorized user"
+                "404":
+                    description: "Driver with given ID doesn't exists"
+
+
+
+
+    /passengers:
+        get:
+            summary: "Get list of passengers"
+            description: ""
+            operationId: "getPassengers"
+            parameters:
+                - in: "query"
+                  type: "integer"
+                  name: "page"
+                  required: false
+                - in: "query"
+                  type: "integer"
+                  name: "count"
+                  required: false
+            responses:
+                "200":
+                    description: "Passengers successfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/Passenger"
+                "204":
+                    description: "No passengers"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "405":
+                    description: "Invalid input"
+
+definitions:
+    OpinionDTO:
+        type: "object"
+        properties:
+            id:
+                type: "integer"
+                format: "long"
+            passengerId:
+                type: "integer"
+                format: "long"
+            driverId:
+                type: "integer"
+                format: "long"
+            opinionText:
+                type: "string"
+            rating:
+                type: "integer"
+            creationDate:
+                type: "string"
+                format: "date-time"
+    RatingDTO:
+        type: "object"
+        properties:
+            averageRating:
+                type: "number"
+                format: "double"
+            driverId:
+                type: "integer"
+                format: "long"
