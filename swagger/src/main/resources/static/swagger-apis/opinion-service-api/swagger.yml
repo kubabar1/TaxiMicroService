@@ -99,39 +99,6 @@ paths:
                 "404":
                     description: "Driver with given ID doesn't exists"
 
-
-
-
-    /passengers:
-        get:
-            summary: "Get list of passengers"
-            description: ""
-            operationId: "getPassengers"
-            parameters:
-                - in: "query"
-                  type: "integer"
-                  name: "page"
-                  required: false
-                - in: "query"
-                  type: "integer"
-                  name: "count"
-                  required: false
-            responses:
-                "200":
-                    description: "Passengers successfully returned"
-                    schema:
-                        type: "array"
-                        items:
-                            $ref: "#/definitions/Passenger"
-                "204":
-                    description: "No passengers"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "405":
-                    description: "Invalid input"
-
 definitions:
     OpinionDTO:
         type: "object"
