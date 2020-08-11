@@ -1,0 +1,255 @@
+swagger: "2.0"
+info:
+    description: "Service for notifications handling"
+    version: "1.0.0"
+    title: "Notifications service"
+host: "notification-service.taxi-microservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    - name: "notifications"
+      description: "Notifications related operations"
+    - name: "notificationsPassenger"
+      description: "Notifications related operations associated with passengers"
+    - name: "notificationsDriver"
+      description: "Notifications related operations associated with drivers"
+paths:
+    /notifications/passenger:
+        get:
+            summary: "Get passenger notifications"
+            tags:
+                - "notificationsPassenger"
+            produces:
+                - "application/json"
+            description: "Return only notifications assigned to authorized passenger which sent request"
+            operationId: "getPassengerNotifications"
+            parameters:
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
+            responses:
+                "200":
+                    description: "Passenger notifications successfully returned"
+                    schema:
+                        items:
+                            type: "array"
+                            $ref: "#/definitions/NotificationResponseDTO"
+                "204":
+                    description: "Passenger hasn't got any notification"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+    /notifications/passenger/{passengerId}:
+        post:
+            summary: "Send notification to passenger"
+            tags:
+                - "notificationsPassenger"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            description: ""
+            operationId: "sendNotificationToPassenger"
+            parameters:
+                -   in: "path"
+                    type: "integer"
+                    format: "long"
+                    name: "passengerId"
+                    required: true
+                -   in: "body"
+                    name: "body"
+                    description: "Notification to send"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/NotificationSendDTO"
+            responses:
+                "200":
+                    description: "Notification sent successfully"
+                    schema:
+                        items:
+                            $ref: "#/definitions/NotificationSendDTO"
+                "401":
+                    description: "Unauthorized user"
+                "404":
+                    description: "Passenger with given ID was not found"
+    /notifications/driver:
+        get:
+            summary: "Get driver notifications"
+            tags:
+                - "notificationsDriver"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            description: "Return only notifications assigned to authorized driver which sent request"
+            operationId: "getDriverNotifications"
+            parameters:
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
+            responses:
+                "200":
+                    description: "Driver notifications successfully returned"
+                    schema:
+                        items:
+                            type: "array"
+                            $ref: "#/definitions/NotificationResponseDTO"
+                "204":
+                    description: "Driver hasn't got any notification"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+    /notifications/driver/{driverId}:
+        post:
+            summary: "Send notification to driver"
+            tags:
+                - "notificationsDriver"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            description: ""
+            operationId: "sendNotificationToDriver"
+            parameters:
+                -   in: "path"
+                    type: "integer"
+                    format: "long"
+                    name: "driverId"
+                    required: true
+                -   in: "body"
+                    name: "body"
+                    description: "Notification to send"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/NotificationSendDTO"
+            responses:
+                "200":
+                    description: "Notification sent successfully"
+                    schema:
+                        items:
+                            $ref: "#/definitions/NotificationSendDTO"
+                "401":
+                    description: "Unauthorized user"
+                "404":
+                    description: "Driver with given ID was not found"
+
+    /notifications/{notificationId}:
+        get:
+            summary: "Return notification with given ID"
+            tags:
+                - "notifications"
+            produces:
+                - "application/json"
+            description: ""
+            operationId: "getNotificationById"
+            parameters:
+                -   in: "path"
+                    type: "integer"
+                    format: "long"
+                    name: "notificationId"
+                    required: true
+            responses:
+                "200":
+                    description: "Notification received successfully"
+                    schema:
+                        items:
+                            $ref: "#/definitions/NotificationResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Notification with given ID was not found"
+
+        delete:
+            summary: "Delete notification with given ID"
+            tags:
+                - "notifications"
+            produces:
+                - "application/json"
+            description: ""
+            operationId: "deleteNotificationById"
+            parameters:
+                -   in: "path"
+                    type: "integer"
+                    format: "long"
+                    name: "notificationId"
+                    required: true
+            responses:
+                "200":
+                    description: "Notification deleted successfully"
+                    schema:
+                        items:
+                            $ref: "#/definitions/NotificationResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Notification with given ID was not found"
+    /notifications/set-read/{notificationId}:
+        put:
+            summary: "Set notification with given ID as read"
+            tags:
+                - "notifications"
+            produces:
+                - "application/json"
+            description: ""
+            operationId: "setReadToNotificationById"
+            parameters:
+                -   in: "path"
+                    type: "integer"
+                    format: "long"
+                    name: "notificationId"
+                    required: true
+            responses:
+                "200":
+                    description: "Notification status successfully set as read"
+                    schema:
+                        items:
+                            $ref: "#/definitions/NotificationResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Notification with given ID was not found"
+definitions:
+    NotificationSendDTO:
+        type: "object"
+        properties:
+            tittle:
+                type: "string"
+            message:
+                type: "string"
+    NotificationResponseDTO:
+        type: "object"
+        properties:
+            sender:
+                type: "string"
+                $ref: "#/definitions/SenderDTO"
+            tittle:
+                type: "string"
+            message:
+                type: "string"
+    SenderDTO:
+        type: "object"
+        properties:
+            name:
+                type: "string"
+            surname:
+                type: "string"
