@@ -12,7 +12,7 @@ tags:
     - name: "chatBooking"
       description: "Chat related operations assigned to given booking"
 paths:
-    /chat/bookings/{bookingId}:
+    /messages/bookings/{bookingId}:
         post:
             tags:
                 - "chatBooking"
