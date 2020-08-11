@@ -111,9 +111,6 @@ definitions:
     OpinionDTO:
         type: "object"
         properties:
-            id:
-                type: "integer"
-                format: "long"
             passengerId:
                 type: "integer"
                 format: "long"
