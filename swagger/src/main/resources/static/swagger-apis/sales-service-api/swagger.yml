@@ -1,0 +1,29 @@
+swagger: "2.0"
+info:
+    description: "Service for handling commerce operations"
+    version: "1.0.0"
+    title: "Sales service"
+host: "sales-service.taxi-microservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    - name: "sales"
+      description: "Commerce operations"
+paths:
+    /salary/driver/{driverId}:
+        get:
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+            responses:
+                "200":
+                    description: ""
+    /generate-report:
+        get:
+            responses:
+                "200":
+                    description: ""

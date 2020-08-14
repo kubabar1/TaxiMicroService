@@ -1,0 +1,335 @@
+swagger: "2.0"
+info:
+    description: "Service for drivers"
+    version: "1.0.0"
+    title: "Driver service"
+host: "driver-service.taxi-microservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    - name: "driver"
+      description: "Driver related operations"
+    - name: "driverSettings"
+      description: "Driver settings"
+    - name: "driverLocalisation"
+      description: "Driver localisation related operations"
+paths:
+    /drivers:
+        get:
+            tags:
+                - "driver"
+            summary: "Get list of drivers"
+            description: ""
+            operationId: "getDrivers"
+            produces:
+                - "application/json"
+            parameters:
+                - in: "query"
+                  type: "integer"
+                  name: "page"
+                  required: false
+                - in: "query"
+                  type: "integer"
+                  name: "count"
+                  required: false
+            responses:
+                "200":
+                    description: "Drivers successfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/DriverDTO"
+                "204":
+                    description: "No drivers"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "405":
+                    description: "Invalid input"
+        post:
+            tags:
+                - "driver"
+            summary: "Add new driver"
+            description: ""
+            operationId: "addDriver"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "body"
+                    name: "body"
+                    description: "Driver object that needs to be added"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/DriverAddDTO"
+            responses:
+                "200":
+                    description: "Driver was successfully added"
+                "400":
+                    description: "User with given ID already exists"
+                "405":
+                    description: "Invalid input"
+    /drivers/{driverId}:
+        get:
+            tags:
+                - "driver"
+            summary: "Get driver with given ID"
+            description: ""
+            operationId: "getDriver"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+            responses:
+                "200":
+                    description: "Driver successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/DriverDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Driver with given ID was not found"
+        put:
+            tags:
+                - "driver"
+            summary: "Update driver with given ID"
+            description: ""
+            operationId: "updateDriver"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+                -   in: "body"
+                    name: "body"
+                    description: "Driver object that needs to be updated"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/DriverUpdateDTO"
+            responses:
+                "200":
+                    description: "Driver successfully updated"
+                    schema:
+                        items:
+                            $ref: "#/definitions/DriverUpdateDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Driver with given ID was not found"
+        delete:
+            tags:
+                - "driver"
+            summary: "Delete driver with given ID"
+            description: ""
+            operationId: "deleteDriver"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+            responses:
+                "200":
+                    description: "Driver successfully deleted"
+                    schema:
+                        items:
+                            $ref: "#/definitions/DriverDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Driver with given ID was not found"
+    /drivers/{driverId}/settings:
+        get:
+            tags:
+                - "driverSettings"
+            summary: "Get settings for driver with given ID"
+            description: ""
+            operationId: "getDriverSettings"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+            responses:
+                "200":
+                    description: "Driver settings successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/DriverSettingsDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Driver with given ID was not found"
+        put:
+            tags:
+                - "driverSettings"
+            summary: "Update settings for driver with given ID"
+            description: ""
+            operationId: "updateDriverSettings"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+                -   in: "body"
+                    name: "body"
+                    description: "Driver settings object that needs to be updated"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/DriverSettingsDTO"
+            responses:
+                "200":
+                    description: "Driver settings successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/DriverSettingsDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Driver with given ID was not found"
+    /drivers/{driverId}/localisation:
+        get:
+            tags:
+                - "driverLocalisation"
+            summary: "Get current driver localisation"
+            description: ""
+            operationId: "getDriverCurrentLocalisation"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+            responses:
+                "200":
+                    description: "Driver current localisation successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/LocalisationDTO"
+                "401":
+                    description: "Unauthorized user"
+                "404":
+                    description: "Driver with given ID was not found"
+    /drivers/nearby:
+        get:
+            tags:
+                - "driverLocalisation"
+            summary: "Get nearby drivers"
+            description: ""
+            operationId: "getNearbyDrivers"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "body"
+                    name: "body"
+                    description: "Object with current driver localisation"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/LocalisationDTO"
+                -   in: "query"
+                    type: "integer"
+                    name: "distance"
+                    required: true
+            responses:
+                "200":
+                    description: "Driver current localisation successfully returned"
+                    schema:
+                        items:
+                            type: "array"
+                            $ref: "#/definitions/DriverDTO"
+                "401":
+                    description: "Unauthorized user"
+                "404":
+                    description: "Any driver for given parameters was not found"
+
+definitions:
+    DriverAddDTO:
+        type: "object"
+        properties:
+            userName:
+                type: "string"
+            email:
+                type: "string"
+            password:
+                type: "string"
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            pesel:
+                type: "string"
+
+    DriverUpdateDTO:
+        type: "object"
+        properties:
+            password:
+                type: "string"
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            pesel:
+                type: "string"
+
+    DriverDTO:
+        type: "object"
+        properties:
+            userName:
+                type: "string"
+            email:
+                type: "string"
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            pesel:
+                type: "string"
+
+    LocalisationDTO:
+        type: "object"
+        properties:
+            x:
+                type: "number"
+                format: "double"
+            y:
+                type: "number"
+                format: "double"
+
+    DriverSettingsDTO:
+        type: "object"
+        properties:
+            appearance:
+                type: "string"
+                enum: ["light", "dark"]
+            language:
+                type: "string"

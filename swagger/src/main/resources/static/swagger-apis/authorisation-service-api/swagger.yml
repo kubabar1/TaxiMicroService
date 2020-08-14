@@ -1,0 +1,76 @@
+swagger: "2.0"
+info:
+    description: "Service responsible for authorisation"
+    version: "1.0.0"
+    title: "Authorisation service"
+host: "authorisation-service.taxi-microservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    - name: "authorisation"
+      description: "Authorisation related operations"
+paths:
+    /authorise:
+        post:
+            responses:
+                "200":
+                    description: ""
+
+    /current-user-data:
+        get:
+            tags:
+                - "authorisation"
+            summary: "Return current user data"
+            description: ""
+            operationId: "getCurrentUserData"
+            produces:
+                - "application/json"
+            responses:
+                "200":
+                    description: "Current user data successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/CurrentUserDataDTO"
+                "401":
+                    description: "Unauthorized user"
+
+    /login:
+        post:
+            responses:
+                "200":
+                    description: ""
+
+    /logout:
+        post:
+            responses:
+                "200":
+                    description: ""
+
+    /register:
+        post:
+            responses:
+                "200":
+                    description: ""
+
+definitions:
+    CurrentUserDataDTO:
+        type: "object"
+        properties:
+            id:
+                type: "integer"
+                format: "long"
+            userName:
+                type: "string"
+            email:
+                type: "string"
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            pesel:
+                type: "string"
+            userRole:
+                type: "string"
+                enum: ["driver", "passenger"]

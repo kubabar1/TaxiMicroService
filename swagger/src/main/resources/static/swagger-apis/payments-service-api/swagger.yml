@@ -1,0 +1,19 @@
+swagger: "2.0"
+info:
+    description: "Service for operations associated with payments"
+    version: "1.0.0"
+    title: "Payments service"
+host: "payments-service.taxi-microservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    - name: "payments"
+      description: "Payments related operations"
+paths:
+    /payments:
+        post:
+            responses:
+                "200":
+                    description: ""

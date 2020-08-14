@@ -1,0 +1,495 @@
+swagger: "2.0"
+info:
+    description: "Service for taxi orders made by passengers"
+    version: "1.0.0"
+    title: "Booking service"
+host: "booking-service.taxi-microservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    -   name: "bookings"
+        description: "Orders related operations"
+paths:
+    /bookings:
+        get:
+            tags:
+                - "bookings"
+            summary: "Get list of bookings"
+            description: ""
+            operationId: "getBookings"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
+            responses:
+                "200":
+                    description: "Bookings successfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "204":
+                    description: "No bookings"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "405":
+                    description: "Invalid input"
+
+        # put:
+        #     tags:
+        #         - "bookings"
+        #     summary: "Update booking"
+        #     description: ""
+        #     operationId: "updateBooking"
+        #     consumes:
+        #         - "application/json"
+        #     produces:
+        #         - "application/json"
+        #     parameters:
+        #         -   in: "body"
+        #             name: "body"
+        #             description: "Booking object that needs to be updated"
+        #             required: true
+        #             schema:
+        #                 $ref: "#/definitions/BookingAddDTO"
+        #     responses:
+        #         "200":
+        #             description: "Booking was successfully updated"
+        #         "405":
+        #             description: "Invalid input"
+
+        post:
+            tags:
+                - "bookings"
+            summary: "Add new booking"
+            description: ""
+            operationId: "addBooking"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "body"
+                    name: "body"
+                    description: "Booking object that needs to be added"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/BookingAddDTO"
+            responses:
+                "200":
+                    description: "Booking was successfully added"
+                "405":
+                    description: "Invalid input"
+
+    /bookings/{bookingId}:
+        get:
+            tags:
+                - "bookings"
+            summary: "Get booking with given ID"
+            description: ""
+            operationId: "getBooking"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "bookingId"
+                    required: true
+            responses:
+                "200":
+                    description: "Booking successfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Booking with given ID was not found"
+
+    /bookings/cancel/{bookingId}:
+        put:
+            tags:
+                - "bookings"
+            summary: "Cancel booking with given ID"
+            description: ""
+            operationId: "cancelBooking"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "bookingId"
+                    required: true
+            responses:
+                "200":
+                    description: "Booking successfully canceled"
+                    schema:
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Booking with given ID was not found"
+                "409":
+                    description: "Booking cannot be canceled because of its inappropriate current state"
+
+    /bookings/abort/{bookingId}:
+        put:
+            tags:
+                - "bookings"
+            summary: "Abort booking with given ID"
+            description: ""
+            operationId: "abortBooking"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "bookingId"
+                    required: true
+            responses:
+                "200":
+                    description: "Booking successfully aborted"
+                    schema:
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Booking with given ID was not found"
+                "409":
+                    description: "Booking cannot be aborted because of its inappropriate current state"
+
+    /bookings/start/{bookingId}:
+        put:
+            tags:
+                - "bookings"
+            summary: "Start booking with given ID"
+            description: ""
+            operationId: "startBooking"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "bookingId"
+                    required: true
+            responses:
+                "200":
+                    description: "Booking successfully started"
+                    schema:
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Booking with given ID was not found"
+                "409":
+                    description: "Booking cannot be start because of its inappropriate current state"
+
+    /bookings/assign/{bookingId}:
+        put:
+            tags:
+                - "bookings"
+            summary: "Assign booking with given ID"
+            description: ""
+            operationId: "assignBooking"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "bookingId"
+                    required: true
+            responses:
+                "200":
+                    description: "Booking successfully assigned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Booking with given ID was not found"
+                "409":
+                    description: "Booking cannot be assigned because of its inappropriate current state"
+
+    /bookings/finish/{bookingId}:
+        put:
+            tags:
+                - "bookings"
+            summary: "Finish booking with given ID"
+            description: ""
+            operationId: "finishBooking"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "bookingId"
+                    required: true
+            responses:
+                "200":
+                    description: "Booking successfully finished"
+                    schema:
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Booking with given ID was not found"
+                "409":
+                    description: "Booking cannot be finished because of its inappropriate current state"
+
+    /bookings/remove/{bookingId}:
+        put:
+            tags:
+                - "bookings"
+            summary: "Set booking with given ID status to REMOVED"
+            description: ""
+            operationId: "removeBooking"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "bookingId"
+                    required: true
+            responses:
+                "200":
+                    description: "Booking status successfully updated to REMOVED"
+                    schema:
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Booking with given ID was not found"
+                "409":
+                    description: "Booking status cannot be changed to REMOVED because of its inappropriate current state"
+
+    /bookings/history/passenger/{passengerId}:
+        get:
+            tags:
+                - "bookings"
+            summary: "Get all previous bookings created by passenger"
+            description: ""
+            operationId: "getPreviousBookingsForPassenger"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "passengerId"
+                    required: true
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
+            responses:
+                "200":
+                    description: "Previous bookings created by passenger was successfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Passenger with given ID was not found"
+
+    /bookings/history/driver/{driverId}:
+        get:
+            tags:
+                - "bookings"
+            summary: "Get all previous bookings realised by driver"
+            description: ""
+            operationId: "getPreviousBookingsForDriver"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
+            responses:
+                "200":
+                    description: "Previous bookings realised by driver was successfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Driver with given ID was not found"
+
+    /bookings/nearby-created:
+        get:
+            tags:
+                - "bookings"
+            summary: "Get all nearby created bookings"
+            description: ""
+            operationId: "getNearbyCreatedBookings"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "body"
+                    name: "body"
+                    description: "Object with current driver localisation"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/LocalisationDTO"
+                -   in: "query"
+                    type: "integer"
+                    name: "distance"
+                    required: true
+            responses:
+                "200":
+                    description: "Bookings created nearby driver current location was successfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Any booking for given parameters was not found"
+
+    /bookings/assigned/{driverId}:
+        get:
+            tags:
+                - "bookings"
+            summary: "Get all bookings assigned to driver with given ID"
+            description: ""
+            operationId: "getBookingsAssignedToDriver"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "driverId"
+                    required: true
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
+            responses:
+                "200":
+                    description: "Booking successfully removed"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/BookingResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Driver with given ID was not found"
+
+definitions:
+    BookingAddDTO:
+        type: "object"
+        properties:
+            userId:
+                type: "integer"
+                format: "long"
+            driverId:
+                type: "integer"
+                format: "long"
+            status:
+                $ref: "#/definitions/BookingStatus"
+            startingPoint:
+                $ref: "#/definitions/LocalisationDTO"
+            finishPoint:
+                $ref: "#/definitions/LocalisationDTO"
+            creationDate:
+                type: "string"
+                format: "date-time"
+
+    BookingResponseDTO:
+        type: "object"
+        properties:
+            bookingId:
+                type: "integer"
+                format: "long"
+            userId:
+                type: "integer"
+                format: "long"
+            driverId:
+                type: "integer"
+                format: "long"
+            status:
+                $ref: "#/definitions/BookingStatus"
+            startingPoint:
+                $ref: "#/definitions/LocalisationDTO"
+            finishPoint:
+                $ref: "#/definitions/LocalisationDTO"
+            creationDate:
+                type: "string"
+                format: "date-time"
+
+    LocalisationDTO:
+        type: "object"
+        properties:
+            x:
+                type: "number"
+                format: "double"
+            y:
+                type: "number"
+                format: "double"
+
+    BookingStatus:
+        type: "string"
+        enum: ["CREATED", "ASSIGNED", "IN_PROGRESS", "CANCELED", "FINISHED", "ABORTED"]
