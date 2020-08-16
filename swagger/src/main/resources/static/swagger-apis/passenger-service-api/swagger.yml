@@ -38,7 +38,7 @@ paths:
                     schema:
                         type: "array"
                         items:
-                            $ref: "#/definitions/PassengerDTO"
+                            $ref: "#/definitions/PassengerResponseDTO"
                 "204":
                     description: "No passengers"
                 "401":
@@ -47,30 +47,7 @@ paths:
                     description: "Access forbidden"
                 "405":
                     description: "Invalid input"
-        post:
-            tags:
-                - "passenger"
-            summary: "Add new passenger"
-            description: ""
-            operationId: "addPassenger"
-            consumes:
-                - "application/json"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "body"
-                    name: "body"
-                    description: "Passenger object that needs to be added"
-                    required: true
-                    schema:
-                        $ref: "#/definitions/PassengerAddDTO"
-            responses:
-                "200":
-                    description: "Passenger was successfully added"
-                "400":
-                    description: "User with given ID already exists"
-                "405":
-                    description: "Invalid input"
+
     /passengers/{passengerId}:
         get:
             tags:
@@ -90,69 +67,14 @@ paths:
                     description: "Passenger successfully returned"
                     schema:
                         items:
-                            $ref: "#/definitions/PassengerDTO"
+                            $ref: "#/definitions/PassengerResponseDTO"
                 "401":
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
                 "404":
                     description: "Passenger with given ID was not found"
-        put:
-            tags:
-                - "passenger"
-            summary: "Update passenger with given ID"
-            description: ""
-            operationId: "updatePassenger"
-            consumes:
-                - "application/json"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "passengerId"
-                    required: true
-                -   in: "body"
-                    name: "body"
-                    description: "Passenger object that needs to be updated"
-                    required: true
-                    schema:
-                        $ref: "#/definitions/PassengerUpdateDTO"
-            responses:
-                "200":
-                    description: "Passenger successfully updated"
-                    schema:
-                        items:
-                            $ref: "#/definitions/PassengerUpdateDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "404":
-                    description: "Passenger with given ID was not found"
-        delete:
-            tags:
-                - "passenger"
-            summary: "Delete passenger with given ID"
-            description: ""
-            operationId: "deletePassenger"
-            parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "passengerId"
-                    required: true
-            responses:
-                "200":
-                    description: "Passenger successfully deleted"
-                    schema:
-                        items:
-                            $ref: "#/definitions/PassengerDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "404":
-                    description: "Passenger with given ID was not found"
+
     /passengers/{passengerId}/settings:
         get:
             tags:
@@ -213,31 +135,7 @@ paths:
                 "404":
                     description: "Passenger with given ID was not found"
 definitions:
-    PassengerAddDTO:
-        type: "object"
-        properties:
-            userName:
-                type: "string"
-            email:
-                type: "string"
-            password:
-                type: "string"
-            name:
-                type: "string"
-            surname:
-                type: "string"
-
-    PassengerUpdateDTO:
-        type: "object"
-        properties:
-            password:
-                type: "string"
-            name:
-                type: "string"
-            surname:
-                type: "string"
-
-    PassengerDTO:
+    PassengerResponseDTO:
         type: "object"
         properties:
             userName:
@@ -254,6 +152,10 @@ definitions:
         properties:
             appearance:
                 type: "string"
-                enum: ["light", "dark"]
+                $ref: "#/definitions/AppearanceType"
             language:
                 type: "string"
+
+    AppearanceType:
+        type: "string"
+        enum: ["light", "dark"]

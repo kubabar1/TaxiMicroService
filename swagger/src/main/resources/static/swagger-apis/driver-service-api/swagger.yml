@@ -40,7 +40,7 @@ paths:
                     schema:
                         type: "array"
                         items:
-                            $ref: "#/definitions/DriverDTO"
+                            $ref: "#/definitions/DriverResponseDTO"
                 "204":
                     description: "No drivers"
                 "401":
@@ -49,30 +49,7 @@ paths:
                     description: "Access forbidden"
                 "405":
                     description: "Invalid input"
-        post:
-            tags:
-                - "driver"
-            summary: "Add new driver"
-            description: ""
-            operationId: "addDriver"
-            consumes:
-                - "application/json"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "body"
-                    name: "body"
-                    description: "Driver object that needs to be added"
-                    required: true
-                    schema:
-                        $ref: "#/definitions/DriverAddDTO"
-            responses:
-                "200":
-                    description: "Driver was successfully added"
-                "400":
-                    description: "User with given ID already exists"
-                "405":
-                    description: "Invalid input"
+
     /drivers/{driverId}:
         get:
             tags:
@@ -92,69 +69,14 @@ paths:
                     description: "Driver successfully returned"
                     schema:
                         items:
-                            $ref: "#/definitions/DriverDTO"
+                            $ref: "#/definitions/DriverResponseDTO"
                 "401":
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
                 "404":
                     description: "Driver with given ID was not found"
-        put:
-            tags:
-                - "driver"
-            summary: "Update driver with given ID"
-            description: ""
-            operationId: "updateDriver"
-            consumes:
-                - "application/json"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "driverId"
-                    required: true
-                -   in: "body"
-                    name: "body"
-                    description: "Driver object that needs to be updated"
-                    required: true
-                    schema:
-                        $ref: "#/definitions/DriverUpdateDTO"
-            responses:
-                "200":
-                    description: "Driver successfully updated"
-                    schema:
-                        items:
-                            $ref: "#/definitions/DriverUpdateDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "404":
-                    description: "Driver with given ID was not found"
-        delete:
-            tags:
-                - "driver"
-            summary: "Delete driver with given ID"
-            description: ""
-            operationId: "deleteDriver"
-            parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "driverId"
-                    required: true
-            responses:
-                "200":
-                    description: "Driver successfully deleted"
-                    schema:
-                        items:
-                            $ref: "#/definitions/DriverDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "404":
-                    description: "Driver with given ID was not found"
+
     /drivers/{driverId}/settings:
         get:
             tags:
@@ -214,6 +136,7 @@ paths:
                     description: "Access forbidden"
                 "404":
                     description: "Driver with given ID was not found"
+
     /drivers/{driverId}/localisation:
         get:
             tags:
@@ -238,6 +161,7 @@ paths:
                     description: "Unauthorized user"
                 "404":
                     description: "Driver with given ID was not found"
+
     /drivers/nearby:
         get:
             tags:
@@ -266,42 +190,14 @@ paths:
                     schema:
                         items:
                             type: "array"
-                            $ref: "#/definitions/DriverDTO"
+                            $ref: "#/definitions/DriverResponseDTO"
                 "401":
                     description: "Unauthorized user"
                 "404":
                     description: "Any driver for given parameters was not found"
 
 definitions:
-    DriverAddDTO:
-        type: "object"
-        properties:
-            userName:
-                type: "string"
-            email:
-                type: "string"
-            password:
-                type: "string"
-            name:
-                type: "string"
-            surname:
-                type: "string"
-            pesel:
-                type: "string"
-
-    DriverUpdateDTO:
-        type: "object"
-        properties:
-            password:
-                type: "string"
-            name:
-                type: "string"
-            surname:
-                type: "string"
-            pesel:
-                type: "string"
-
-    DriverDTO:
+    DriverResponseDTO:
         type: "object"
         properties:
             userName:
@@ -329,7 +225,10 @@ definitions:
         type: "object"
         properties:
             appearance:
-                type: "string"
-                enum: ["light", "dark"]
+                $ref: "#/definitions/AppearanceType"
             language:
                 type: "string"
+
+    AppearanceType:
+        type: "string"
+        enum: ["light", "dark"]

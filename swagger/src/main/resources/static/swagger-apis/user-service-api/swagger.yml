@@ -1,0 +1,219 @@
+swagger: "2.0"
+info:
+    description: "Service handling operations associated with users"
+    version: "1.0.0"
+    title: "User service"
+host: "user-service.taxi-microservice.com"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+tags:
+    - name: "user"
+      description: "Users related operations"
+paths:
+    /users:
+        get:
+            tags:
+                - "user"
+            summary: "Get list of users"
+            description: ""
+            operationId: "getUsers"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
+            responses:
+                "200":
+                    description: "Users successfully returned"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/UserResponseDTO"
+                "204":
+                    description: "No users"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "405":
+                    description: "Invalid input"
+
+        post:
+            tags:
+                - "user"
+            summary: "Add new user"
+            description: ""
+            operationId: "addUser"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "body"
+                    name: "body"
+                    description: "User that needs to be added"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/UserAddDTO"
+            responses:
+                "200":
+                    description: "Users successfully added"
+                    schema:
+                        type: "array"
+                        items:
+                            $ref: "#/definitions/UserAddDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "405":
+                    description: "Invalid input"
+
+    /users/{userId}:
+        put:
+            tags:
+                - "user"
+            summary: "Update user with given ID"
+            description: ""
+            operationId: "updateUser"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "userId"
+                    required: true
+                -   in: "body"
+                    name: "body"
+                    description: "User object that needs to be updated"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/UserUpdateDTO"
+            responses:
+                "200":
+                    description: "User successfully updated"
+                    schema:
+                        items:
+                            $ref: "#/definitions/UserUpdateDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Passenger with given ID was not found"
+        delete:
+            tags:
+                - "user"
+            summary: "Delete user with given ID"
+            description: ""
+            operationId: "deleteUser"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "userId"
+                    required: true
+            responses:
+                "200":
+                    description: "User successfully deleted"
+                    schema:
+                        items:
+                            $ref: "#/definitions/UserResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "User with given ID was not found"
+
+    /current-user-data:
+        get:
+            tags:
+                - "user"
+            summary: "Return current user data"
+            description: ""
+            operationId: "getCurrentUserData"
+            produces:
+                - "application/json"
+            responses:
+                "200":
+                    description: "Current user data successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/UserResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+
+    /register:
+        post:
+            responses:
+                "200":
+                    description: ""
+
+definitions:
+    UserUpdateDTO:
+        type: "object"
+        properties:
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            pesel:
+                type: "string"
+            birthDate:
+                type: "string"
+                format: "date"
+
+    UserResponseDTO:
+        type: "object"
+        properties:
+            id:
+                type: "integer"
+                format: "long"
+            userName:
+                type: "string"
+            email:
+                type: "string"
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            pesel:
+                type: "string"
+            birthDate:
+                type: "string"
+                format: "date"
+            userRole:
+                $ref: "#/definitions/UserRole"
+
+    UserAddDTO:
+        type: "object"
+        properties:
+            userName:
+                type: "string"
+            email:
+                type: "string"
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            pesel:
+                type: "string"
+            birthDate:
+                type: "string"
+                format: "date"
+            userRole:
+                $ref: "#/definitions/UserRole"
+
+    UserRole:
+        type: "string"
+        enum: ["driver", "passenger"]
