@@ -11,6 +11,8 @@ schemes:
 tags:
     - name: "user"
       description: "Users related operations"
+    - name: "userSettings"
+      description: "User settings"
 paths:
     /users:
         get:
@@ -135,6 +137,66 @@ paths:
                 "404":
                     description: "User with given ID was not found"
 
+    /users/{userId}/settings:
+        get:
+            tags:
+                - "userSettings"
+            summary: "Get settings for user with given ID"
+            description: ""
+            operationId: "getUserSettings"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "userId"
+                    required: true
+            responses:
+                "200":
+                    description: "User settings successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/UserSettingsDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "User with given ID was not found"
+        put:
+            tags:
+                - "userSettings"
+            summary: "Update settings for user with given ID"
+            description: ""
+            operationId: "updateUserSettings"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "userId"
+                    required: true
+                -   in: "body"
+                    name: "body"
+                    description: "User settings object that needs to be updated"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/UserSettingsDTO"
+            responses:
+                "200":
+                    description: "User settings successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/UserSettingsDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "User with given ID was not found"
+
     /current-user-data:
         get:
             tags:
@@ -152,12 +214,6 @@ paths:
                             $ref: "#/definitions/UserResponseDTO"
                 "401":
                     description: "Unauthorized user"
-
-    /register:
-        post:
-            responses:
-                "200":
-                    description: ""
 
 definitions:
     UserUpdateDTO:
@@ -214,6 +270,18 @@ definitions:
             userRole:
                 $ref: "#/definitions/UserRole"
 
+    UserSettingsDTO:
+        type: "object"
+        properties:
+            appearance:
+                $ref: "#/definitions/AppearanceType"
+            language:
+                type: "string"
+
     UserRole:
         type: "string"
         enum: ["driver", "passenger"]
+
+    AppearanceType:
+        type: "string"
+        enum: ["light", "dark"]

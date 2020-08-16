@@ -11,8 +11,6 @@ schemes:
 tags:
     - name: "driver"
       description: "Driver related operations"
-    - name: "driverSettings"
-      description: "Driver settings"
     - name: "driverLocalisation"
       description: "Driver localisation related operations"
 paths:
@@ -70,66 +68,6 @@ paths:
                     schema:
                         items:
                             $ref: "#/definitions/DriverResponseDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "404":
-                    description: "Driver with given ID was not found"
-
-    /drivers/{driverId}/settings:
-        get:
-            tags:
-                - "driverSettings"
-            summary: "Get settings for driver with given ID"
-            description: ""
-            operationId: "getDriverSettings"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "driverId"
-                    required: true
-            responses:
-                "200":
-                    description: "Driver settings successfully returned"
-                    schema:
-                        items:
-                            $ref: "#/definitions/DriverSettingsDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "404":
-                    description: "Driver with given ID was not found"
-        put:
-            tags:
-                - "driverSettings"
-            summary: "Update settings for driver with given ID"
-            description: ""
-            operationId: "updateDriverSettings"
-            consumes:
-                - "application/json"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "driverId"
-                    required: true
-                -   in: "body"
-                    name: "body"
-                    description: "Driver settings object that needs to be updated"
-                    required: true
-                    schema:
-                        $ref: "#/definitions/DriverSettingsDTO"
-            responses:
-                "200":
-                    description: "Driver settings successfully returned"
-                    schema:
-                        items:
-                            $ref: "#/definitions/DriverSettingsDTO"
                 "401":
                     description: "Unauthorized user"
                 "403":
@@ -220,15 +158,3 @@ definitions:
             y:
                 type: "number"
                 format: "double"
-
-    DriverSettingsDTO:
-        type: "object"
-        properties:
-            appearance:
-                $ref: "#/definitions/AppearanceType"
-            language:
-                type: "string"
-
-    AppearanceType:
-        type: "string"
-        enum: ["light", "dark"]

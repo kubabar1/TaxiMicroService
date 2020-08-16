@@ -11,8 +11,6 @@ schemes:
 tags:
     - name: "passenger"
       description: "Passenger related operations"
-    - name: "passengerSettings"
-      description: "Passenger settings"
 paths:
     /passengers:
         get:
@@ -75,65 +73,6 @@ paths:
                 "404":
                     description: "Passenger with given ID was not found"
 
-    /passengers/{passengerId}/settings:
-        get:
-            tags:
-                - "passengerSettings"
-            summary: "Get settings for passenger with given ID"
-            description: ""
-            operationId: "getPassengerSettings"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "passengerId"
-                    required: true
-            responses:
-                "200":
-                    description: "Passenger settings successfully returned"
-                    schema:
-                        items:
-                            $ref: "#/definitions/PassengerSettingsDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "404":
-                    description: "Passenger with given ID was not found"
-        put:
-            tags:
-                - "passengerSettings"
-            summary: "Update settings for passenger with given ID"
-            description: ""
-            operationId: "updatePassengerSettings"
-            consumes:
-                - "application/json"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "passengerId"
-                    required: true
-                -   in: "body"
-                    name: "body"
-                    description: "Passenger settings object that needs to be updated"
-                    required: true
-                    schema:
-                        $ref: "#/definitions/PassengerSettingsDTO"
-            responses:
-                "200":
-                    description: "Passenger settings successfully returned"
-                    schema:
-                        items:
-                            $ref: "#/definitions/PassengerSettingsDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "404":
-                    description: "Passenger with given ID was not found"
 definitions:
     PassengerResponseDTO:
         type: "object"
@@ -146,16 +85,3 @@ definitions:
                 type: "string"
             surname:
                 type: "string"
-
-    PassengerSettingsDTO:
-        type: "object"
-        properties:
-            appearance:
-                type: "string"
-                $ref: "#/definitions/AppearanceType"
-            language:
-                type: "string"
-
-    AppearanceType:
-        type: "string"
-        enum: ["light", "dark"]
