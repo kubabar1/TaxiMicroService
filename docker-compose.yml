@@ -1,0 +1,126 @@
+version: '2.2'
+
+services:
+    eureka-naming-server:
+        image: eureka-naming-server
+        container_name: eureka-naming-server
+        build: ./eureka-naming-server
+        ports:
+            - "8761:8761"
+        mem_limit: 160m
+
+    spring-config-server:
+        image: spring-config-server
+        container_name: spring-config-server
+        build: ./spring-config-server
+        ports:
+            - "8080:8080"
+        mem_limit: 160m
+
+    swagger:
+        image: swagger
+        container_name: swagger
+        build: ./swagger
+        ports:
+            - "8000:8080"
+        mem_limit: 160m
+
+    booking-service:
+        image: booking-service
+        container_name: booking-service
+        build: ./booking-service
+        ports:
+            - "8081:8080"
+        depends_on:
+          - eureka-naming-server
+        mem_limit: 160m
+
+    user-service:
+        image: user-service
+        container_name: user-service
+        build: ./user-service
+        ports:
+            - "8082:8080"
+        depends_on:
+            - eureka-naming-server
+        mem_limit: 160m
+
+    driver-service:
+        image: driver-service
+        container_name: driver-service
+        build: ./driver-service
+        ports:
+            - "8083:8080"
+        depends_on:
+          - eureka-naming-server
+        mem_limit: 160m
+
+    passenger-service:
+        image: passenger-service
+        container_name: passenger-service
+        build: ./passenger-service
+        ports:
+            - "8084:8080"
+        depends_on:
+          - eureka-naming-server
+        mem_limit: 160m
+
+    chat-service:
+        image: chat-service
+        container_name: chat-service
+        build: ./chat-service
+        ports:
+            - "8085:8080"
+        depends_on:
+            - eureka-naming-server
+        mem_limit: 160m
+
+    notification-service:
+        image: notification-service
+        container_name: notification-service
+        build: ./notification-service
+        ports:
+            - "8086:8080"
+        depends_on:
+            - eureka-naming-server
+        mem_limit: 160m
+
+    mailing-service:
+        image: mailing-service
+        container_name: mailing-service
+        build: ./mailing-service
+        ports:
+            - "8087:8080"
+        depends_on:
+            - eureka-naming-server
+        mem_limit: 160m
+
+    opinion-service:
+        image: opinion-service
+        container_name: opinion-service
+        build: ./opinion-service
+        ports:
+            - "8088:8080"
+        depends_on:
+            - eureka-naming-server
+        mem_limit: 160m
+
+    payment-service:
+        image: payment-service
+        container_name: payment-service
+        build: ./payment-service
+        ports:
+            - "8089:8080"
+        depends_on:
+            - eureka-naming-server
+        mem_limit: 160m
+
+    sales-service:
+        image: sales-service
+        container_name: sales-service
+        build: ./sales-service
+        ports:
+            - "8090:8080"
+        depends_on:
+            - eureka-naming-server
+        mem_limit: 160m
