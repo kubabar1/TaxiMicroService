@@ -10,5 +10,4 @@ COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application
 # COPY ./wait-for-it.sh /script/wait-for-it.sh
 # RUN ["chmod", "+x", "/script/wait-for-it.sh"]
 # HEALTHCHECK --interval=5m --timeout=3s CMD curl -f http://images-service-database:5432 || exit 1
-# ,"-Dspring.profiles.active=docker"
-ENTRYPOINT ["java","-jar","/app/spring-boot-application.jar"]
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=docker","/app/spring-boot-application.jar"]
