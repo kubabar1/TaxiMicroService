@@ -10,10 +10,9 @@ import springfox.documentation.swagger.web.InMemorySwaggerResourcesProvider;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -31,32 +30,36 @@ public class SwaggerSpecConfig {
 
     @Primary
     @Bean
-    public SwaggerResourcesProvider swaggerResourcesProvider(InMemorySwaggerResourcesProvider defaultResourcesProvider) throws IOException {
-       return () -> {
+    public SwaggerResourcesProvider swaggerResourcesProvider(InMemorySwaggerResourcesProvider defaultResourcesProvider) {
+        return () -> {
             try {
                 return getListOfApiDirs()
                         .stream()
                         .map(this::mapApiDirectoryToResourceLocation)
                         .collect(Collectors.toList());
-            } catch (IOException exception) {
+            } catch (Exception exception) {
                 return new ArrayList<>();
             }
         };
     }
 
-    private List<String> getListOfApiDirs() throws IOException {
-        String classpathSwaggerConfigPath = "classpath:static/" + swaggerConfigRootDirectory;
-        URI uriToRootConfigDit = resourceLoader.getResource(classpathSwaggerConfigPath).getURI();
-        File[] listOfDirectoriesInSwaggerConfig = new File(uriToRootConfigDit).listFiles(File::isDirectory);
-        if (Objects.isNull(listOfDirectoriesInSwaggerConfig)) {
-            return new ArrayList<>();
-        } else {
-            return Arrays.stream(listOfDirectoriesInSwaggerConfig).map(File::getName).collect(Collectors.toList());
-        }
+    private List<String> getListOfApiDirs() {
+        String[] swaggerApisArray = {
+                "booking-service-api",
+                "chat-service-api",
+                "driver-service-api",
+                "notification-service-api",
+                "opinion-service-api",
+                "passenger-service-api",
+                "payments-service-api",
+                "sales-service-api",
+                "user-service-api"
+        };
+        return new ArrayList<>(Arrays.asList(swaggerApisArray));
     }
 
     private SwaggerResource mapApiDirectoryToResourceLocation(String apiDirectory) {
-        String resourcePath = "/" +  String.join("/", swaggerConfigRootDirectory, apiDirectory, swaggerFileName);
+        String resourcePath = "/" + String.join("/", swaggerConfigRootDirectory, apiDirectory, swaggerFileName);
         return loadResource(resourcePath, apiDirectory);
     }
 
