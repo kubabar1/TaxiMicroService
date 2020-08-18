@@ -1,0 +1,6 @@
+spring:
+    application:
+        name: 'opinion-service'
+    cloud:
+        discovery:
+            enabled: false
