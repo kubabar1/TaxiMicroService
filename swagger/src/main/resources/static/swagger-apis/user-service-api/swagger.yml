@@ -48,37 +48,6 @@ paths:
                 "405":
                     description: "Invalid input"
 
-        post:
-            tags:
-                - "user"
-            summary: "Add new user"
-            description: ""
-            operationId: "addUser"
-            consumes:
-                - "application/json"
-            produces:
-                - "application/json"
-            parameters:
-                -   in: "body"
-                    name: "body"
-                    description: "User that needs to be added"
-                    required: true
-                    schema:
-                        $ref: "#/definitions/UserAddDTO"
-            responses:
-                "200":
-                    description: "Users successfully added"
-                    schema:
-                        type: "array"
-                        items:
-                            $ref: "#/definitions/UserAddDTO"
-                "401":
-                    description: "Unauthorized user"
-                "403":
-                    description: "Access forbidden"
-                "405":
-                    description: "Invalid input"
-
     /users/{userId}:
         put:
             tags:
@@ -223,6 +192,8 @@ definitions:
                 type: "string"
             surname:
                 type: "string"
+            password:
+                type: "string"
             pesel:
                 type: "string"
             birthDate:
@@ -235,25 +206,6 @@ definitions:
             id:
                 type: "integer"
                 format: "long"
-            userName:
-                type: "string"
-            email:
-                type: "string"
-            name:
-                type: "string"
-            surname:
-                type: "string"
-            pesel:
-                type: "string"
-            birthDate:
-                type: "string"
-                format: "date"
-            userRole:
-                $ref: "#/definitions/UserRole"
-
-    UserAddDTO:
-        type: "object"
-        properties:
             userName:
                 type: "string"
             email:
