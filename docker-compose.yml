@@ -48,6 +48,9 @@ services:
           eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     user-service:
         image: user-service
@@ -61,6 +64,9 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     driver-service:
         image: driver-service
@@ -74,6 +80,9 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     passenger-service:
         image: passenger-service
@@ -87,6 +96,9 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     chat-service:
         image: chat-service
@@ -100,6 +112,9 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     notification-service:
         image: notification-service
@@ -113,6 +128,9 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     mailing-service:
         image: mailing-service
@@ -126,6 +144,9 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     opinion-service:
         image: opinion-service
@@ -139,6 +160,9 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     payment-service:
         image: payment-service
@@ -152,6 +176,9 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
     sales-service:
         image: sales-service
@@ -165,3 +192,6 @@ services:
             eureka-naming-server:
                 condition: service_healthy
         mem_limit: 160m
+        environment:
+            SPRING_CONFIG_SERVER_URI: "spring-config-server"
+            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"

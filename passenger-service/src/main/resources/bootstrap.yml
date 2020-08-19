@@ -1,8 +1,8 @@
 spring:
     cloud:
         config:
-            uri: 'http://spring-config-server:8888'
+            uri: 'http://${SPRING_CONFIG_SERVER_URI:localhost}:8888'
             fail-fast: true
             enabled: true
             name: 'passenger-service'
-            profile: 'development'
+            profile: '${SPRING_CONFIG_SERVER_ACTIVE_PROFILE:development}'
