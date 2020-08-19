@@ -1,6 +1,15 @@
+server:
+    port: 8888
+
 spring:
     application:
         name: 'spring-config-server'
+    profiles:
+        active: 'native'
     cloud:
         discovery:
             enabled: false
+        config:
+            server:
+                native:
+                    searchLocations: 'classpath:/config-server-repo'
