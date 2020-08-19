@@ -7,6 +7,10 @@ services:
         build: ./eureka-naming-server
         ports:
             - "8761:8761"
+        healthcheck:
+            test: curl http://eureka-naming-server:8761 || exit 1
+            interval: 3s
+            retries: 10
         mem_limit: 160m
 
     spring-config-server:
@@ -14,7 +18,14 @@ services:
         container_name: spring-config-server
         build: ./spring-config-server
         ports:
-            - "8080:8080"
+            - "8888:8888"
+        depends_on:
+            eureka-naming-server:
+                condition: service_healthy
+        healthcheck:
+            test: curl http://spring-config-server:8888 || exit 1
+            interval: 3s
+            retries: 10
         mem_limit: 160m
 
     swagger:
@@ -32,8 +43,10 @@ services:
         ports:
             - "8081:8080"
         depends_on:
-          - eureka-naming-server
-          - spring-config-server
+          spring-config-server:
+                condition: service_healthy
+          eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     user-service:
@@ -43,8 +56,10 @@ services:
         ports:
             - "8082:8080"
         depends_on:
-            - eureka-naming-server
-            - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     driver-service:
@@ -54,8 +69,10 @@ services:
         ports:
             - "8083:8080"
         depends_on:
-          - eureka-naming-server
-          - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     passenger-service:
@@ -65,8 +82,10 @@ services:
         ports:
             - "8084:8080"
         depends_on:
-          - eureka-naming-server
-          - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     chat-service:
@@ -76,8 +95,10 @@ services:
         ports:
             - "8085:8080"
         depends_on:
-            - eureka-naming-server
-            - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     notification-service:
@@ -87,8 +108,10 @@ services:
         ports:
             - "8086:8080"
         depends_on:
-            - eureka-naming-server
-            - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     mailing-service:
@@ -98,8 +121,10 @@ services:
         ports:
             - "8087:8080"
         depends_on:
-            - eureka-naming-server
-            - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     opinion-service:
@@ -109,8 +134,10 @@ services:
         ports:
             - "8088:8080"
         depends_on:
-            - eureka-naming-server
-            - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     payment-service:
@@ -120,8 +147,10 @@ services:
         ports:
             - "8089:8080"
         depends_on:
-            - eureka-naming-server
-            - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
 
     sales-service:
@@ -131,6 +160,8 @@ services:
         ports:
             - "8090:8080"
         depends_on:
-            - eureka-naming-server
-            - spring-config-server
+            spring-config-server:
+                condition: service_healthy
+            eureka-naming-server:
+                condition: service_healthy
         mem_limit: 160m
