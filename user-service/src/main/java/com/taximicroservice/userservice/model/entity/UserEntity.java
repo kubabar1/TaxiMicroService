@@ -48,12 +48,20 @@ public class UserEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserSettingsEntity userSettings;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "user_roles",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "role_id") }
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
     private Set<RoleEntity> roleEntitySet = new HashSet<>();
+
+    public void addRole(RoleEntity roleEntity) {
+        roleEntitySet.add(roleEntity);
+    }
+
+    public void removeRole(RoleEntity roleEntity) {
+        roleEntitySet.remove(roleEntity);
+    }
 
 }

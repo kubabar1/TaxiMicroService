@@ -5,12 +5,12 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserSettingsDTO {
-
-    @NotNull
-    private String appearanceCode;
+public class LanguageDTO {
 
     @NotNull
     private String languageCode;
+
+    @NotNull
+    private String name;
 
 }

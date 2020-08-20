@@ -3,7 +3,9 @@ package com.taximicroservice.userservice.model.dto;
 import lombok.Data;
 
 @Data
-public class UserRoleDTO {
+public class RoleDTO {
+
+    private Long id;
 
     private String name;
 

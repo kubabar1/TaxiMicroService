@@ -32,14 +32,14 @@ CREATE TABLE languages (
 );
 
 CREATE TABLE appearances (
-    id SERIAL PRIMARY KEY NOT NULL,
+    appearance_code VARCHAR PRIMARY KEY NOT NULL,
     name VARCHAR NOT NULL
 );
 
 CREATE TABLE user_settings (
     user_id INT PRIMARY KEY NOT NULL,
     language_code VARCHAR NOT NULL,
-    appearance_id INT NOT NULL,
+    appearance_code VARCHAR NOT NULL,
     foreign key (language_code) references languages(language_code),
-    foreign key (appearance_id) references appearances(id)
+    foreign key (appearance_code) references appearances(appearance_code)
 );

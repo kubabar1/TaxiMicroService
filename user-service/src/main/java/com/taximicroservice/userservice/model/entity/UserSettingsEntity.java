@@ -18,14 +18,14 @@ public class UserSettingsEntity {
 
     @Id
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     @ManyToOne
     @JoinColumn(name = "language_code", nullable=false)
     private LanguageEntity language;
 
     @ManyToOne
-    @JoinColumn(name = "appearance_id", nullable=false)
+    @JoinColumn(name = "appearance_code", nullable=false)
     private AppearanceEntity appearance;
 
     @OneToOne

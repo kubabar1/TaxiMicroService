@@ -13,8 +13,8 @@ import javax.persistence.Column;
 public class AppearanceEntity {
 
     @Id
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "appearance_code")
+    private String appearanceCode;
 
     @Column(name = "name")
     private String name;

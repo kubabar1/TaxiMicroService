@@ -11,8 +11,10 @@ schemes:
 tags:
     - name: "user"
       description: "Users related operations"
-    - name: "userSettings"
-      description: "User settings"
+    - name: "user-settings"
+      description: "User settings related operations"
+    - name: "user-roles"
+      description: "User roles related operations"
 paths:
     /users:
         get:
@@ -27,11 +29,11 @@ paths:
                 -   in: "query"
                     type: "integer"
                     name: "page"
-                    required: false
+                    required: true
                 -   in: "query"
                     type: "integer"
                     name: "count"
-                    required: false
+                    required: true
             responses:
                 "200":
                     description: "Users successfully returned"
@@ -45,10 +47,36 @@ paths:
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
-                "405":
+                "422":
                     description: "Invalid input"
 
     /users/{userId}:
+        get:
+            tags:
+                - "user"
+            summary: "Get user with given ID"
+            description: ""
+            operationId: "getUserWithId"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "userId"
+                    required: true
+            responses:
+                "200":
+                    description: "User with given ID successfully returned"
+                    schema:
+                        items:
+                            $ref: "#/definitions/UserResponseDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "User with given ID was not found"
+
         put:
             tags:
                 - "user"
@@ -81,7 +109,7 @@ paths:
                 "403":
                     description: "Access forbidden"
                 "404":
-                    description: "Passenger with given ID was not found"
+                    description: "User with given ID was not found"
         delete:
             tags:
                 - "user"
@@ -105,11 +133,97 @@ paths:
                     description: "Access forbidden"
                 "404":
                     description: "User with given ID was not found"
-
-    /users/{userId}/settings:
+    /users/roles/{userId}:
         get:
             tags:
-                - "userSettings"
+                - "user-roles"
+            summary: "Get roles of user with given ID"
+            description: ""
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "userId"
+                    required: true
+            responses:
+                "200":
+                    description: "User roles successfully returned"
+                    schema:
+                        items:
+                            type: "array"
+                            $ref: "#/definitions/UserRoleDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "User with given ID was not found"
+        post:
+            tags:
+                - "user-roles"
+            summary: "Add new role for user with given ID"
+            description: "New roles can be added for user only by admin"
+            produces:
+                - "application/json"
+            consumes:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "userId"
+                    required: true
+                -   in: "body"
+                    name: "body"
+                    description: "User role object that needs to be added"
+                    required: true
+                    schema:
+                        $ref: "#/definitions/UserRoleDTO"
+            responses:
+                "200":
+                    description: "Successfully added role for user with given ID"
+                    schema:
+                        items:
+                            $ref: "#/definitions/UserRoleDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "User with given ID was not found"
+        delete:
+            tags:
+                - "user-roles"
+            summary: "Delete role with given id for user with given ID"
+            description: "Roles can be deleted only by admin"
+            produces:
+                - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "userId"
+                    required: true
+                -   in: "query"
+                    type: "string"
+                    name: "roleId"
+                    required: true
+            responses:
+                "200":
+                    description: "Successfully deleted role of user with given ID"
+                    schema:
+                        items:
+                            $ref: "#/definitions/UserRoleDTO"
+                "401":
+                    description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "User or role with given ID was not found"
+
+    /users/settings/{userId}:
+        get:
+            tags:
+                - "user-settings"
             summary: "Get settings for user with given ID"
             description: ""
             operationId: "getUserSettings"
@@ -134,7 +248,7 @@ paths:
                     description: "User with given ID was not found"
         put:
             tags:
-                - "userSettings"
+                - "user-settings"
             summary: "Update settings for user with given ID"
             description: ""
             operationId: "updateUserSettings"
@@ -228,6 +342,12 @@ definitions:
             appearance:
                 $ref: "#/definitions/AppearanceType"
             language:
+                type: "string"
+
+    UserRoleDTO:
+        type: "object"
+        properties:
+            role:
                 type: "string"
 
     UserRole:

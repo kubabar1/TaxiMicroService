@@ -26,8 +26,8 @@ public class UserResponseDTO {
 
     private LocalDateTime creationDate;
 
-    private UserSettingsDTO userSettings;
+    private UserSettingsResponseDTO userSettings;
 
-    private UserRoleDTO userRole;
+    private RoleDTO userRole;
 
 }
