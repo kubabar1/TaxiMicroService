@@ -1,5 +1,6 @@
 package com.taximicroservice.userservice.service.impl;
 
+import com.taximicroservice.userservice.exception.UserServiceException;
 import com.taximicroservice.userservice.model.dto.RoleDTO;
 import com.taximicroservice.userservice.model.entity.RoleEntity;
 import com.taximicroservice.userservice.model.entity.UserEntity;
@@ -38,20 +39,32 @@ public class UserRolesServiceImpl implements UserRolesService {
     }
 
     @Override
-    public RoleDTO addUserRole(Long userId, Long roleId) throws EntityNotFoundException {
+    public RoleDTO addUserRole(Long userId, Long roleId) throws EntityNotFoundException, UserServiceException {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         RoleEntity roleEntity = roleRepository.findById(roleId).orElseThrow(EntityNotFoundException::new);
-        userEntity.addRole(roleEntity);
-        userRepository.save(userEntity);
+        boolean roleAdded = userEntity.addRole(roleEntity);
+
+        if (roleAdded) {
+            userRepository.save(userEntity);
+        } else {
+            throw new UserServiceException("User is already assigned to this role");
+        }
+
         return modelMapper.map(roleEntity, RoleDTO.class);
     }
 
     @Override
-    public RoleDTO deleteUserRole(Long userId, Long roleId) throws EntityNotFoundException {
+    public RoleDTO deleteUserRole(Long userId, Long roleId) throws EntityNotFoundException, UserServiceException {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         RoleEntity roleEntity = roleRepository.findById(roleId).orElseThrow(EntityNotFoundException::new);
-        userEntity.removeRole(roleEntity);
-        userRepository.save(userEntity);
+        boolean roleRemoved = userEntity.removeRole(roleEntity);
+
+        if (roleRemoved) {
+            userRepository.save(userEntity);
+        } else {
+            throw new UserServiceException("User is not assigned to this role");
+        }
+
         return modelMapper.map(roleEntity, RoleDTO.class);
     }
 

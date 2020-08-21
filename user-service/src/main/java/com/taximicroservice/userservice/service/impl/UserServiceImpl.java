@@ -1,8 +1,11 @@
 package com.taximicroservice.userservice.service.impl;
 
+import com.taximicroservice.userservice.exception.UserServiceException;
 import com.taximicroservice.userservice.model.dto.UserResponseDTO;
 import com.taximicroservice.userservice.model.dto.UserUpdateDTO;
+import com.taximicroservice.userservice.model.entity.RoleEntity;
 import com.taximicroservice.userservice.model.entity.UserEntity;
+import com.taximicroservice.userservice.repository.RoleRepository;
 import com.taximicroservice.userservice.repository.UserRepository;
 import com.taximicroservice.userservice.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -25,7 +28,14 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<UserResponseDTO> getUsersPage(int page, int count) {
+    public Page<UserResponseDTO> getUsersPage(int page, int count) throws UserServiceException {
+        if (page < 0) {
+            throw new UserServiceException("Page must be greater than or equal 0");
+        }
+        if (count <= 0) {
+            throw new UserServiceException("Count must be greater than 0");
+        }
+
         return userRepository.findAll(PageRequest.of(page, count))
                 .map(userEntity -> modelMapper.map(userEntity, UserResponseDTO.class));
     }
@@ -39,7 +49,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDTO deleteUserWithId(Long userId) throws EntityNotFoundException {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-        userRepository.deleteById(userId);
+        userEntity.clearRolesSet();
+        userRepository.delete(userEntity);
         return modelMapper.map(userEntity, UserResponseDTO.class);
     }
 

@@ -32,12 +32,12 @@ public class UserSettingsServiceImpl implements UserSettingsService {
 
 
     @Override
-    public UserSettingsResponseDTO getUserSettings(Long userId) {
+    public UserSettingsResponseDTO getUserSettings(Long userId) throws EntityNotFoundException {
         return modelMapper.map(userSettingsRepository.findById(userId).orElseThrow(EntityNotFoundException::new), UserSettingsResponseDTO.class);
     }
 
     @Override
-    public UserSettingsResponseDTO updateUserSettings(Long userId, UserSettingsDTO userSettingsDTO) {
+    public UserSettingsResponseDTO updateUserSettings(Long userId, UserSettingsDTO userSettingsDTO) throws EntityNotFoundException {
         UserSettingsEntity userSettingsEntity = userSettingsRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         userSettingsEntity.setLanguage(languageRepository.findById(userSettingsDTO.getLanguageCode()).orElseThrow(EntityNotFoundException::new));
         userSettingsEntity.setAppearance(appearanceRepository.findById(userSettingsDTO.getAppearanceCode()).orElseThrow(EntityNotFoundException::new));

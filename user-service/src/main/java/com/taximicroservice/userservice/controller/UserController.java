@@ -1,5 +1,6 @@
 package com.taximicroservice.userservice.controller;
 
+import com.taximicroservice.userservice.exception.UserServiceException;
 import com.taximicroservice.userservice.model.dto.UserResponseDTO;
 import com.taximicroservice.userservice.model.dto.UserUpdateDTO;
 import com.taximicroservice.userservice.service.UserService;
@@ -22,11 +23,13 @@ public class UserController {
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getUserList(@RequestParam(value = "page") int page,
                                                              @RequestParam(value = "count") int count) {
-        if (page < 0 || count <= 0) {
+        Page<UserResponseDTO> userResponseDTOPage;
+        try {
+            userResponseDTOPage = userService.getUsersPage(page, count);
+        } catch (UserServiceException e) {
             return ResponseEntity.unprocessableEntity().build();
         }
 
-        Page<UserResponseDTO> userResponseDTOPage = userService.getUsersPage(page, count);
         if (userResponseDTOPage.getNumberOfElements() == 0) {
             return new ResponseEntity<>(userResponseDTOPage, HttpStatus.NO_CONTENT);
         } else {
@@ -54,7 +57,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserUpdateDTO> updateUserWithId(@PathVariable(value = "userId") Long userId,
-                                                            @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+                                                          @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
         try {
             return new ResponseEntity<>(userService.updateUserWithId(userId, userUpdateDTO), HttpStatus.OK);
         } catch (EntityNotFoundException e) {

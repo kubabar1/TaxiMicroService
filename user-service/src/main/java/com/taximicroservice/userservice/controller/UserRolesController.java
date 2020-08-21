@@ -1,5 +1,6 @@
 package com.taximicroservice.userservice.controller;
 
+import com.taximicroservice.userservice.exception.UserServiceException;
 import com.taximicroservice.userservice.model.dto.RoleDTO;
 import com.taximicroservice.userservice.service.UserRolesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class UserRolesController {
             return new ResponseEntity<>(userRolesService.addUserRole(userId, roleId), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (UserServiceException e) {
+            return ResponseEntity.unprocessableEntity().build();
         }
     }
 
@@ -44,6 +47,8 @@ public class UserRolesController {
             return new ResponseEntity<>(userRolesService.deleteUserRole(userId, roleId), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (UserServiceException e) {
+            return ResponseEntity.unprocessableEntity().build();
         }
     }
 

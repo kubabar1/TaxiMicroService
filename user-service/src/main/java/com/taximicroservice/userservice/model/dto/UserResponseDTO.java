@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 public class UserResponseDTO {
@@ -28,6 +29,6 @@ public class UserResponseDTO {
 
     private UserSettingsResponseDTO userSettings;
 
-    private RoleDTO userRole;
+    private Set<RoleDTO> userRole;
 
 }

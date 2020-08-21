@@ -48,7 +48,7 @@ public class UserEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserSettingsEntity userSettings;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -56,12 +56,16 @@ public class UserEntity {
     )
     private Set<RoleEntity> roleEntitySet = new HashSet<>();
 
-    public void addRole(RoleEntity roleEntity) {
-        roleEntitySet.add(roleEntity);
+    public boolean addRole(RoleEntity roleEntity) {
+        return roleEntitySet.add(roleEntity);
     }
 
-    public void removeRole(RoleEntity roleEntity) {
-        roleEntitySet.remove(roleEntity);
+    public boolean removeRole(RoleEntity roleEntity) {
+        return roleEntitySet.remove(roleEntity);
+    }
+
+    public void clearRolesSet() {
+        roleEntitySet.clear();
     }
 
 }

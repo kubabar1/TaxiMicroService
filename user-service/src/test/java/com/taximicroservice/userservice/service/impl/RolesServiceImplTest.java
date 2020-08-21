@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityNotFoundException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -32,6 +34,8 @@ class RolesServiceImplTest {
         assertEquals(role3.getName(), "admin");
         assertEquals(role4.getId(), 4L);
         assertEquals(role4.getName(), "accountant");
+
+        assertThrows(EntityNotFoundException.class, () -> rolesService.getRoleById(5L));
     }
 
 }
