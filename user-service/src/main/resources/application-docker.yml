@@ -2,6 +2,22 @@ spring:
     cloud:
         discovery:
             enabled: true
+    datasource:
+        url: "${USER_SERVICE_DATASOURCE_URL}"
+        username: "${USER_SERVICE_DATASOURCE_USERNAME}"
+        password: "${USER_SERVICE_DATASOURCE_PASSWORD}"
+        initialization-mode: never
+        driverClassName: org.postgresql.Driver
+        schema:
+        data:
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: none
+    h2:
+        console:
+            enabled:
+                false
 
 eureka:
     client:
