@@ -7,6 +7,7 @@ import com.taximicroservice.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<Page<UserResponseDTO>> getUserList(@RequestParam(value = "page") int page,
-                                                             @RequestParam(value = "count") int count) {
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Page<UserResponseDTO>> getUsersPage(@RequestParam(value = "page") int page,
+                                                              @RequestParam(value = "count") int count) {
         Page<UserResponseDTO> userResponseDTOPage;
         try {
             userResponseDTOPage = userService.getUsersPage(page, count);
@@ -37,7 +38,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping(value = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable(value = "userId") Long userId) {
         try {
             return new ResponseEntity<>(userService.getUserWithId(userId), HttpStatus.OK);
@@ -46,7 +47,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping(value = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserResponseDTO> deleteUserById(@PathVariable(value = "userId") Long userId) {
         try {
             return new ResponseEntity<>(userService.deleteUserWithId(userId), HttpStatus.OK);
@@ -55,7 +56,9 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping(value = "/{userId}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserUpdateDTO> updateUserWithId(@PathVariable(value = "userId") Long userId,
                                                           @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
         try {

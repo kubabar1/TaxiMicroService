@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.taximicroservice.userservice.utils.UserUtils.generateUserResponseDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -28,56 +29,7 @@ class UserServiceImplTest {
 
     @BeforeAll
     static void initBeforeAll() {
-        RoleDTO passengerRole = new RoleDTO();
-        passengerRole.setId(1L);
-        passengerRole.setName("passenger");
-
-        RoleDTO driverRole = new RoleDTO();
-        driverRole.setId(2L);
-        driverRole.setName("driver");
-
-        RoleDTO adminRole = new RoleDTO();
-        adminRole.setId(3L);
-        adminRole.setName("admin");
-
-        RoleDTO accountantRole = new RoleDTO();
-        accountantRole.setId(4L);
-        accountantRole.setName("accountant");
-
-        Set<RoleDTO> userRolesSet = new HashSet<>();
-        userRolesSet.add(passengerRole);
-        userRolesSet.add(driverRole);
-        userRolesSet.add(adminRole);
-        userRolesSet.add(accountantRole);
-
-        AppearanceDTO appearanceDTO = new AppearanceDTO();
-        appearanceDTO.setAppearanceCode("lt");
-        appearanceDTO.setName("light");
-
-        LanguageDTO languageDTO = new LanguageDTO();
-        languageDTO.setLanguageCode("en");
-        languageDTO.setName("English");
-
-        UserSettingsResponseDTO userSettingsResponseDTO = new UserSettingsResponseDTO();
-        userSettingsResponseDTO.setAppearance(appearanceDTO);
-        userSettingsResponseDTO.setLanguage(languageDTO);
-
-        String str = "2013-02-14 06:01:17";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-
-        user1 = new UserResponseDTO();
-        user1.setId(1L);
-        user1.setUserName("adam123");
-        user1.setName("Adam");
-        user1.setSurname("Kowalski");
-        user1.setEmail("adam@qwerty.com");
-        user1.setPassword("qwerty");
-        user1.setPesel("92111000000");
-        user1.setBirthDate(LocalDate.parse("1992-11-10"));
-        user1.setCreationDate(dateTime);
-        user1.setUserRole(userRolesSet);
-        user1.setUserSettings(userSettingsResponseDTO);
+        user1 = generateUserResponseDTO();
     }
 
     @Test

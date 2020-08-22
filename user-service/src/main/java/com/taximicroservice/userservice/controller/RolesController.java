@@ -4,6 +4,7 @@ import com.taximicroservice.userservice.model.dto.RoleDTO;
 import com.taximicroservice.userservice.service.RolesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ public class RolesController {
     @Autowired
     private RolesService rolesService;
 
-    @GetMapping("/{roleId}")
+    @GetMapping(value = "/{roleId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<RoleDTO> getRoleById(@PathVariable("roleId") Long roleId) {
         try {
             return new ResponseEntity<>(rolesService.getRoleById(roleId), HttpStatus.OK);

@@ -32,6 +32,7 @@ dependencies {
     }
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.4.RELEASE'
     compile 'org.modelmapper:modelmapper:0.7.5'
+    compile 'com.google.code.gson:gson:2.8.6'
 }
 
 test {
