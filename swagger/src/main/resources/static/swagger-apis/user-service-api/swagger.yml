@@ -9,12 +9,14 @@ schemes:
     - "https"
     - "http"
 tags:
-    - name: "user"
-      description: "Users related operations"
-    - name: "user-settings"
-      description: "User settings related operations"
-    - name: "user-roles"
-      description: "User roles related operations"
+    -   name: "user"
+        description: "Users related operations"
+    -   name: "user-settings"
+        description: "User settings related operations"
+    -   name: "user-roles"
+        description: "User roles related operations"
+    -   name: "roles"
+        description: "Roles related operations"
 paths:
     /users:
         get:
@@ -146,13 +148,17 @@ paths:
                     type: "string"
                     name: "userId"
                     required: true
+                -   in: "query"
+                    type: "string"
+                    name: "roleId"
+                    required: true
             responses:
                 "200":
                     description: "User roles successfully returned"
                     schema:
                         items:
                             type: "array"
-                            $ref: "#/definitions/UserRoleDTO"
+                            $ref: "#/definitions/RoleDTO"
                 "401":
                     description: "Unauthorized user"
                 "403":
@@ -166,31 +172,29 @@ paths:
             description: "New roles can be added for user only by admin"
             produces:
                 - "application/json"
-            consumes:
-                - "application/json"
             parameters:
                 -   in: "path"
                     type: "string"
                     name: "userId"
                     required: true
-                -   in: "body"
-                    name: "body"
-                    description: "User role object that needs to be added"
+                -   in: "query"
+                    type: "string"
+                    name: "roleId"
                     required: true
-                    schema:
-                        $ref: "#/definitions/UserRoleDTO"
             responses:
                 "200":
                     description: "Successfully added role for user with given ID"
                     schema:
                         items:
-                            $ref: "#/definitions/UserRoleDTO"
+                            $ref: "#/definitions/RoleDTO"
                 "401":
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
                 "404":
                     description: "User with given ID was not found"
+                "422":
+                    description: "User already has assigned this role"
         delete:
             tags:
                 - "user-roles"
@@ -212,13 +216,15 @@ paths:
                     description: "Successfully deleted role of user with given ID"
                     schema:
                         items:
-                            $ref: "#/definitions/UserRoleDTO"
+                            $ref: "#/definitions/RoleDTO"
                 "401":
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
                 "404":
                     description: "User or role with given ID was not found"
+                "422":
+                    description: "User hasn't got entity with given ID"
 
     /users/settings/{userId}:
         get:
@@ -245,7 +251,7 @@ paths:
                 "403":
                     description: "Access forbidden"
                 "404":
-                    description: "User with given ID was not found"
+                    description: "User or role with given ID was not found"
         put:
             tags:
                 - "user-settings"
@@ -280,23 +286,50 @@ paths:
                 "404":
                     description: "User with given ID was not found"
 
-    /current-user-data:
+    # /current-user-data:
+    #     get:
+    #         tags:
+    #             - "user"
+    #         summary: "Return current user data"
+    #         description: ""
+    #         operationId: "getCurrentUserData"
+    #         produces:
+    #             - "application/json"
+    #         responses:
+    #             "200":
+    #                 description: "Current user data successfully returned"
+    #                 schema:
+    #                     items:
+    #                         $ref: "#/definitions/UserResponseDTO"
+    #             "401":
+    #                 description: "Unauthorized user"
+
+    /roles/{roleId}:
         get:
             tags:
-                - "user"
-            summary: "Return current user data"
+                - "roles"
+            summary: "Get role with given ID"
             description: ""
-            operationId: "getCurrentUserData"
+            operationId: "getROleById"
             produces:
                 - "application/json"
+            parameters:
+                -   in: "path"
+                    type: "string"
+                    name: "roleId"
+                    required: true
             responses:
                 "200":
-                    description: "Current user data successfully returned"
+                    description: "Role successfully returned"
                     schema:
                         items:
-                            $ref: "#/definitions/UserResponseDTO"
+                            $ref: "#/definitions/RoleDTO"
                 "401":
                     description: "Unauthorized user"
+                "403":
+                    description: "Access forbidden"
+                "404":
+                    description: "Role with given ID was not found"
 
 definitions:
     UserUpdateDTO:
@@ -344,7 +377,7 @@ definitions:
             language:
                 type: "string"
 
-    UserRoleDTO:
+    RoleDTO:
         type: "object"
         properties:
             role:
