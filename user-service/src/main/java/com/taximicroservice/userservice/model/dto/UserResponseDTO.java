@@ -2,12 +2,13 @@ package com.taximicroservice.userservice.model.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
-public class UserResponseDTO {
+public class UserResponseDTO implements Serializable {
 
     private Long id;
 

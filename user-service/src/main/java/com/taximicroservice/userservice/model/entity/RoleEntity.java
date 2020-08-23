@@ -8,11 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "roles")
-public class RoleEntity {
+public class RoleEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

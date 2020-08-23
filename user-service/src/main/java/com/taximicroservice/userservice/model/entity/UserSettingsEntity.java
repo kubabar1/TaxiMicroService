@@ -10,11 +10,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.MapsId;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "user_settings")
-public class UserSettingsEntity {
+public class UserSettingsEntity implements Serializable {
 
     @Id
     @Column(name = "user_id")
