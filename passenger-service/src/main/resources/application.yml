@@ -4,3 +4,11 @@ spring:
     cloud:
         discovery:
             enabled: false
+
+passengerService:
+    kafka:
+        bootstrapAddress: "localhost:9092"
+        addUserImageTopic: "add_user_image"
+        groupId: "passenger_service_group"
+        topics:
+            addPassengerTopic: "add_passenger_topic"

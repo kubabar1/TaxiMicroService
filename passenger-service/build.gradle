@@ -24,13 +24,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.4.RELEASE'
+    compile 'org.modelmapper:modelmapper:0.7.5'
+    compile 'com.google.code.gson:gson:2.8.6'
+    compile 'org.apache.kafka:kafka-clients:2.4.1'
+    compile 'org.springframework.kafka:spring-kafka:2.5.3.RELEASE'
 }
 
 test {
