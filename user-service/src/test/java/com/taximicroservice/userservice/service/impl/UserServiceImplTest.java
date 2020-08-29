@@ -76,7 +76,6 @@ class UserServiceImplTest {
         assertEquals("John", userResponseDTO.getName());
         assertEquals("Wayne", userResponseDTO.getSurname());
         assertEquals("11111111111", userResponseDTO.getPesel());
-        assertEquals("asdfgh", userResponseDTO.getPassword());
         assertEquals(LocalDate.parse("1991-02-03"), userResponseDTO.getBirthDate());
 
         assertThrows(EntityNotFoundException.class, () -> userService.updateUserWithId(100L, userUpdateDTO));

@@ -55,7 +55,6 @@ public class UserUtils {
         user.setName("Adam");
         user.setSurname("Kowalski");
         user.setEmail("adam@qwerty.com");
-        user.setPassword("qwerty");
         user.setPesel("92111000000");
         user.setBirthDate(LocalDate.parse("1992-11-10"));
         user.setCreationDate(dateTime);

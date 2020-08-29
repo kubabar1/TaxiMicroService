@@ -16,3 +16,11 @@ spring:
         hibernate:
             ddl-auto:
                 update
+
+userService:
+    kafka:
+        bootstrapAddress: "localhost:9092"
+        groupId: "passenger_service_group"
+        topics:
+            addPassengerTopic: "add_passenger_topic"
+            addPassengerReplyTopic: "add_passenger_reply_topic"

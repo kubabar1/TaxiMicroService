@@ -24,8 +24,6 @@ public class UserResponseDTO implements Serializable {
 
     private LocalDate birthDate;
 
-    private String password;
-
     private LocalDateTime creationDate;
 
     private UserSettingsResponseDTO userSettings;
