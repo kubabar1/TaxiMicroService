@@ -1,10 +1,9 @@
 package com.taximicroservice.userservice.config.kafka;
 
-import com.taximicroservice.userservice.model.dto.PassengerAddDTO;
+import com.taximicroservice.userservice.model.dto.UserAddDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -33,9 +32,9 @@ public class KafkaConsumerConfig  {
     }
 
     @Bean
-    public ConsumerFactory<String, PassengerAddDTO> requestConsumerFactory() {
+    public ConsumerFactory<String, UserAddDTO> requestConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
-                new JsonDeserializer<>(PassengerAddDTO.class, false));
+                new JsonDeserializer<>(UserAddDTO.class, false));
     }
 
 }
