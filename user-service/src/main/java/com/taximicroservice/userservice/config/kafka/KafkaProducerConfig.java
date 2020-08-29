@@ -1,12 +1,13 @@
-package com.taximicroservice.passengerservice.config;
+package com.taximicroservice.userservice.config.kafka;
 
-import com.taximicroservice.passengerservice.model.PassengerAddDTO;
+import com.taximicroservice.userservice.model.dto.PassengerResponseDTO;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
@@ -30,8 +31,13 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, PassengerAddDTO> requestProducerFactory() {
+    public ProducerFactory<String, PassengerResponseDTO> replyProducerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, PassengerResponseDTO> replyTemplate() {
+        return new KafkaTemplate<>(replyProducerFactory());
     }
 
 }
