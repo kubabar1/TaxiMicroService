@@ -1,6 +1,7 @@
 spring:
     application:
         name: 'passenger-service'
+        exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration, org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
     cloud:
         discovery:
             enabled: false
@@ -8,7 +9,7 @@ spring:
 passengerService:
     kafka:
         bootstrapAddress: "localhost:9092"
-        addUserImageTopic: "add_user_image"
         groupId: "passenger_service_group"
         topics:
             addPassengerTopic: "add_passenger_topic"
+            addPassengerReplyTopic: "add_passenger_reply_topic"

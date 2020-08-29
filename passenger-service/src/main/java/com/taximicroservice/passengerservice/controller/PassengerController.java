@@ -54,7 +54,7 @@ public class PassengerController {
         try {
             return new ResponseEntity<>(passengerService.addPassenger(passengerAddDTO), HttpStatus.OK);
         } catch (PassengerServiceException e) {
-            return ResponseEntity.unprocessableEntity().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

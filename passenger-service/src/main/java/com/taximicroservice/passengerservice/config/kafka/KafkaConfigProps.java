@@ -1,4 +1,4 @@
-package com.taximicroservice.passengerservice.config;
+package com.taximicroservice.passengerservice.config.kafka;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

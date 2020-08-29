@@ -1,4 +1,4 @@
-package com.taximicroservice.passengerservice.config;
+package com.taximicroservice.passengerservice.config.kafka;
 
 import com.taximicroservice.passengerservice.model.PassengerResponseDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
