@@ -45,24 +45,26 @@ paths:
                     description: "Access forbidden"
                 "405":
                     description: "Invalid input"
-
-    /passengers/{passengerId}:
-        get:
+        post:
             tags:
                 - "passenger"
-            summary: "Get passenger with given ID"
+            summary: "Add passenger"
             description: ""
-            operationId: "getPassenger"
+            operationId: "addPassengers"
             produces:
                 - "application/json"
             parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "passengerId"
+                -   in: "body"
+                    name: "body"
+                    description: "User object that needs to be updated"
                     required: true
+                    schema:
+                        items:
+                            type: "array"
+                            $ref: "#/definitions/PassengerAddDTO"
             responses:
                 "200":
-                    description: "Passenger successfully returned"
+                    description: "Passengers successfully added"
                     schema:
                         items:
                             $ref: "#/definitions/PassengerResponseDTO"
@@ -70,11 +72,39 @@ paths:
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
-                "404":
-                    description: "Passenger with given ID was not found"
 
 definitions:
     PassengerResponseDTO:
+        type: "object"
+        properties:
+            id:
+                type: "number"
+                format: "long"
+            userName:
+                type: "string"
+            email:
+                type: "string"
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            pesel:
+                type: "string"
+            birthDate:
+                type: "string"
+                format: "date"
+            creationDate:
+                type: "string"
+                format: "date-time"
+            userSettings:
+                items:
+                    type: "array"
+                    $ref: "#/definitions/UserSettingsDTO"
+            userRole:
+                items:
+                    type: "array"
+                    $ref: "#/definitions/RoleDTO"
+    PassengerAddDTO:
         type: "object"
         properties:
             userName:
@@ -85,3 +115,33 @@ definitions:
                 type: "string"
             surname:
                 type: "string"
+            password:
+                type: "string"
+            pesel:
+                type: "string"
+            birthDate:
+                type: "string"
+                format: "date"
+
+    UserSettingsDTO:
+        type: "object"
+        properties:
+            appearance:
+                $ref: "#/definitions/AppearanceType"
+            language:
+                type: "string"
+
+    RoleDTO:
+        type: "object"
+        properties:
+            role:
+                type: "string"
+
+    UserRole:
+        type: "string"
+        enum: ["driver", "passenger"]
+
+    AppearanceType:
+        type: "string"
+        enum: ["light", "dark"]
+

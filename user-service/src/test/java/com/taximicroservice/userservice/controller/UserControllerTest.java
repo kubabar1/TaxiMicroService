@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.taximicroservice.userservice.utils.UserUtils.generateUserResponseDTO;
+import static com.taximicroservice.passengerservice.model.utils.UserUtils.generateUserResponseDTO;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -64,7 +64,6 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.content[0].surname").value("Kowalski"))
                 .andExpect(jsonPath("$.content[0].pesel").value("92111000000"))
                 .andExpect(jsonPath("$.content[0].birthDate").value("1992-11-10"))
-                .andExpect(jsonPath("$.content[0].password").value("qwerty"))
                 .andExpect(jsonPath("$.content[0].creationDate").value("2013-02-14T06:01:17"))
                 .andExpect(jsonPath("$.content[0].userSettings.appearance.appearanceCode").value("lt"))
                 .andExpect(jsonPath("$.content[0].userSettings.appearance.name").value("light"))
@@ -108,7 +107,6 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.surname").value("Kowalski"))
                 .andExpect(jsonPath("$.pesel").value("92111000000"))
                 .andExpect(jsonPath("$.birthDate").value("1992-11-10"))
-                .andExpect(jsonPath("$.password").value("qwerty"))
                 .andExpect(jsonPath("$.creationDate").value("2013-02-14T06:01:17"))
                 .andExpect(jsonPath("$.userSettings.appearance.appearanceCode").value("lt"))
                 .andExpect(jsonPath("$.userSettings.appearance.name").value("light"))
@@ -141,7 +139,6 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.surname").value("Kowalski"))
                 .andExpect(jsonPath("$.pesel").value("92111000000"))
                 .andExpect(jsonPath("$.birthDate").value("1992-11-10"))
-                .andExpect(jsonPath("$.password").value("qwerty"))
                 .andExpect(jsonPath("$.creationDate").value("2013-02-14T06:01:17"))
                 .andExpect(jsonPath("$.userSettings.appearance.appearanceCode").value("lt"))
                 .andExpect(jsonPath("$.userSettings.appearance.name").value("light"))
@@ -181,7 +178,6 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("John"))
                 .andExpect(jsonPath("$.surname").value("Wayne"))
-                .andExpect(jsonPath("$.password").value("qwertyuiop"))
                 .andExpect(jsonPath("$.pesel").value("00000000000"))
                 .andExpect(jsonPath("$.birthDate").value("2001-12-12"));
 

@@ -6,11 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "languages")
-public class LanguageEntity {
+public class LanguageEntity implements Serializable {
 
     @Id
     @Column(name = "language_code")

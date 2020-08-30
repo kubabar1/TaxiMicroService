@@ -1,7 +1,0 @@
-spring:
-    cloud:
-        config:
-            uri: 'http://${SPRING_CONFIG_SERVER_URI:localhost}:8888'
-            enabled: true
-            name: 'user-service'
-            profile: '${SPRING_CONFIG_SERVER_ACTIVE_PROFILE:development}'
