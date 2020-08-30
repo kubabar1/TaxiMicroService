@@ -1,6 +1,7 @@
 package com.taximicroservice.passengerservice.config.kafka;
 
 import com.taximicroservice.passengerservice.model.PassengerResponseDTO;
+import com.taximicroservice.passengerservice.model.PassengerResponseDTOPage;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,20 +32,31 @@ public class KafkaConsumerConfig {
         // props.put(ProducerConfig.ACKS_CONFIG, "all");
         // props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaConfigProps.groupId);
-
         return props;
     }
 
     @Bean
-    public ConsumerFactory<String, PassengerResponseDTO> replyConsumerFactory() {
+    public ConsumerFactory<String, PassengerResponseDTO> replyPassengerResponseDTOConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
                 new JsonDeserializer<>(PassengerResponseDTO.class, false));
     }
 
     @Bean
-    public KafkaMessageListenerContainer<String, PassengerResponseDTO> replyListenerContainer() {
+    public KafkaMessageListenerContainer<String, PassengerResponseDTO> replyPassengerResponseDTOListenerContainer() {
         ContainerProperties containerProperties = new ContainerProperties(kafkaConfigProps.addPassengerReplyTopic);
-        return new KafkaMessageListenerContainer<>(replyConsumerFactory(), containerProperties);
+        return new KafkaMessageListenerContainer<>(replyPassengerResponseDTOConsumerFactory(), containerProperties);
+    }
+
+    @Bean
+    public ConsumerFactory<String, PassengerResponseDTOPage> replyPassengerResponseDTOListConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
+                new JsonDeserializer<>(PassengerResponseDTOPage.class, false));
+    }
+
+    @Bean
+    public KafkaMessageListenerContainer<String, PassengerResponseDTOPage> replyPassengerResponseDTOListListenerContainer() {
+        ContainerProperties containerProperties = new ContainerProperties(kafkaConfigProps.getPassengersPageReplyTopic);
+        return new KafkaMessageListenerContainer<>(replyPassengerResponseDTOListConsumerFactory(), containerProperties);
     }
 
 }

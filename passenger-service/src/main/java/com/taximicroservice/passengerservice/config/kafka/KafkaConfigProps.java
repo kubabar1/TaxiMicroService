@@ -15,4 +15,7 @@ public class KafkaConfigProps {
     @Value(value = "${passengerService.kafka.topics.addPassengerReplyTopic}")
     protected String addPassengerReplyTopic;
 
+    @Value(value = "${passengerService.kafka.topics.getPassengersPageReplyTopic}")
+    protected String getPassengersPageReplyTopic;
+
 }

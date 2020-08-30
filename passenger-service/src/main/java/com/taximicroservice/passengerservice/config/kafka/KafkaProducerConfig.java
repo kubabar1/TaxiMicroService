@@ -1,5 +1,6 @@
 package com.taximicroservice.passengerservice.config.kafka;
 
+import com.taximicroservice.passengerservice.model.PageRequestDTO;
 import com.taximicroservice.passengerservice.model.PassengerAddDTO;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -30,7 +31,12 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, PassengerAddDTO> requestProducerFactory() {
+    public ProducerFactory<String, PassengerAddDTO> requestPassengerAddDTOProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public ProducerFactory<String, PageRequestDTO> requestPageRequestDTOProducerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 

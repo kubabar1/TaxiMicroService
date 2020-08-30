@@ -1,6 +1,7 @@
 package com.taximicroservice.userservice.config.kafka;
 
 import com.taximicroservice.userservice.model.dto.UserResponseDTO;
+import com.taximicroservice.userservice.model.dto.kafka.UserResponseDTOPage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,23 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, UserResponseDTO> replyProducerFactory() {
+    public ProducerFactory<String, UserResponseDTO> replyUserResponseDTOProducerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, UserResponseDTO> replyTemplate() {
-        return new KafkaTemplate<>(replyProducerFactory());
+    public KafkaTemplate<String, UserResponseDTO> replyUserResponseDTOTemplate() {
+        return new KafkaTemplate<>(replyUserResponseDTOProducerFactory());
+    }
+
+    @Bean
+    public ProducerFactory<String, UserResponseDTOPage> replyUserResponseDTOPageProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, UserResponseDTOPage> replyUserResponseDTOPageTemplate() {
+        return new KafkaTemplate<>(replyUserResponseDTOPageProducerFactory());
     }
 
 }

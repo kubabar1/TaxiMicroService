@@ -28,6 +28,8 @@ userService:
         topics:
             addPassengerTopic: "add_passenger_topic"
             addPassengerReplyTopic: "add_passenger_reply_topic"
+            getPassengersPageTopic: "get_passengers_page_topic"
+            getPassengersPageReplyTopic: "get_passengers_page_reply_topic"
 
 server:
     port: 8081

@@ -3,6 +3,7 @@ package com.taximicroservice.passengerservice.controller;
 import com.taximicroservice.passengerservice.exception.PassengerServiceException;
 import com.taximicroservice.passengerservice.model.PassengerAddDTO;
 import com.taximicroservice.passengerservice.model.PassengerResponseDTO;
+import com.taximicroservice.passengerservice.model.utils.RestPageImpl;
 import com.taximicroservice.passengerservice.service.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -25,7 +25,7 @@ public class PassengerController {
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Page<PassengerResponseDTO>> getPassengersPage(@RequestParam(value = "page") int page,
                                                                         @RequestParam(value = "count") int count) {
-        Page<PassengerResponseDTO> passengerResponseDTOPage;
+        RestPageImpl<PassengerResponseDTO> passengerResponseDTOPage;
 
         try {
             passengerResponseDTOPage = passengerService.getPassengersPage(page, count);
@@ -33,19 +33,10 @@ public class PassengerController {
             return ResponseEntity.unprocessableEntity().build();
         }
 
-        if (passengerResponseDTOPage.getNumberOfElements() == 0) {
+        if (passengerResponseDTOPage.getSize() == 0) {
             return new ResponseEntity<>(passengerResponseDTOPage, HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(passengerResponseDTOPage, HttpStatus.OK);
-        }
-    }
-
-    @GetMapping(value = "/{passengerId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<PassengerResponseDTO> getPassengersPage(@PathVariable("passengerId") Long passengerId) {
-        try {
-            return new ResponseEntity<>(passengerService.getPassengerById(passengerId), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
         }
     }
 

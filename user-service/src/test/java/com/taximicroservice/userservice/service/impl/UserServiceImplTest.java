@@ -10,12 +10,8 @@ import org.springframework.data.domain.Page;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Set;
 
-import static com.taximicroservice.userservice.utils.UserUtils.generateUserResponseDTO;
+import static com.taximicroservice.passengerservice.model.utils.UserUtils.generateUserResponseDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest

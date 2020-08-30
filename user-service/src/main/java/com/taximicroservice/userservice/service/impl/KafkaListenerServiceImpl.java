@@ -1,7 +1,10 @@
 package com.taximicroservice.userservice.service.impl;
 
+import com.taximicroservice.userservice.exception.UserServiceException;
 import com.taximicroservice.userservice.model.dto.UserAddDTO;
 import com.taximicroservice.userservice.model.dto.UserResponseDTO;
+import com.taximicroservice.userservice.model.dto.kafka.PageRequestDTO;
+import com.taximicroservice.userservice.model.dto.kafka.UserResponseDTOPage;
 import com.taximicroservice.userservice.model.entity.RoleEntity;
 import com.taximicroservice.userservice.model.entity.UserEntity;
 import com.taximicroservice.userservice.model.entity.UserSettingsEntity;
@@ -12,6 +15,8 @@ import com.taximicroservice.userservice.repository.UserRepository;
 import com.taximicroservice.userservice.service.KafkaListenerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
@@ -38,7 +43,7 @@ public class KafkaListenerServiceImpl implements KafkaListenerService {
     private ModelMapper modelMapper;
 
 
-    @KafkaListener(topics = "${userService.kafka.topics.addPassengerTopic}", containerFactory = "requestListenerContainerFactory")
+    @KafkaListener(topics = "${userService.kafka.topics.addPassengerTopic}", containerFactory = "requestUserAddDTOListenerContainerFactory")
     @SendTo()
     @Override
     public UserResponseDTO addPassengerListener(UserAddDTO userAddDTO) {
@@ -58,6 +63,27 @@ public class KafkaListenerServiceImpl implements KafkaListenerService {
         userRepository.save(userEntity);
 
         return modelMapper.map(userEntity, UserResponseDTO.class);
+    }
+
+    @KafkaListener(topics = "${userService.kafka.topics.getPassengersPageTopic}", containerFactory = "requestUserResponseDTOPageListenerContainerFactory")
+    @SendTo()
+    @Override
+    public UserResponseDTOPage getPassengersPageListener(PageRequestDTO pageRequestDTO) {
+        int page = pageRequestDTO.getPage();
+        int count = pageRequestDTO.getCount();
+
+        if (page < 0) {
+            throw new UserServiceException("Page must be greater than or equal 0");
+        }
+        if (count <= 0) {
+            throw new UserServiceException("Count must be greater than 0");
+        }
+
+        Page<UserResponseDTO> userResponseDTOPage = userRepository
+                .findByRoleEntitySet_id(1L, PageRequest.of(page, count))
+                .map(userEntity -> modelMapper.map(userEntity, UserResponseDTO.class));
+
+        return new UserResponseDTOPage(userResponseDTOPage);
     }
 
 }

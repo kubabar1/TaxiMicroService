@@ -12,7 +12,4 @@ public class KafkaConfigProps {
     @Value(value = "${userService.kafka.groupId}")
     protected String groupId;
 
-    @Value(value = "${userService.kafka.topics.addPassengerReplyTopic}")
-    protected String addPassengerReplyTopic;
-
 }
