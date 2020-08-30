@@ -17,18 +17,36 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
+
       - uses: eskatos/gradle-command-action@v1
+        name: build user-service
         with:
           wrapper-directory: user-service
           build-root-directory: user-service
           gradle-version: 6.5.1
           arguments: build
-      - name: publish test results
+      - name: publish user-service test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
-          name: user-service-unit-tests
+          name: unit-tests-results
           if-no-files-found: error
           path:  |
             user-service/build/reports/tests/test
+            
+      - uses: eskatos/gradle-command-action@v1
+        name: build passenger-service
+        with:
+          wrapper-directory: passenger-service
+          build-root-directory: passenger-service
+          gradle-version: 6.5.1
+          arguments: build
+      - name: publish passenger-service test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-tests-results
+          if-no-files-found: error
+          path:  |
+            passenger-service/build/reports/tests/test
       
