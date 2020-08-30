@@ -29,7 +29,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
-          name: unit-tests-results
+          name: user-service-unit-tests-results
           if-no-files-found: error
           path:  |
             user-service/build/reports/tests/test
@@ -45,7 +45,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
-          name: unit-tests-results
+          name: passenger-service-unit-tests-results
           if-no-files-found: error
           path:  |
             passenger-service/build/reports/tests/test
