@@ -1,21 +1,19 @@
 package com.taximicroservice.passengerservice.utils;
 
+import com.taximicroservice.passengerservice.model.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserUtils {
+public class PassengerUtils {
 
-    public static UserResponseDTO generateUserResponseDTO() {
+    public static PassengerResponseDTO generatePassengerResponseDTO() {
         RoleDTO passengerRole = new RoleDTO();
         passengerRole.setId(1L);
         passengerRole.setName("passenger");
-
-        RoleDTO driverRole = new RoleDTO();
-        driverRole.setId(2L);
-        driverRole.setName("driver");
 
         RoleDTO adminRole = new RoleDTO();
         adminRole.setId(3L);
@@ -27,7 +25,6 @@ public class UserUtils {
 
         Set<RoleDTO> userRolesSet = new HashSet<>();
         userRolesSet.add(passengerRole);
-        userRolesSet.add(driverRole);
         userRolesSet.add(adminRole);
         userRolesSet.add(accountantRole);
 
@@ -47,7 +44,7 @@ public class UserUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
 
-        UserResponseDTO user = new UserResponseDTO();
+        PassengerResponseDTO user = new PassengerResponseDTO();
         user.setId(1L);
         user.setUserName("adam123");
         user.setName("Adam");

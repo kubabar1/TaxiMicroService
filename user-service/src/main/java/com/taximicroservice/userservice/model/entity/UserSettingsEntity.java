@@ -33,4 +33,13 @@ public class UserSettingsEntity implements Serializable {
     @MapsId
     private UserEntity user;
 
+    @Override
+    public String toString() {
+        return "UserSettingsEntity{" +
+                "userId=" + userId +
+                ", language=" + language +
+                ", appearance=" + appearance +
+                '}';
+    }
+
 }
