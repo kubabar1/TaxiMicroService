@@ -25,8 +25,7 @@ jobs:
         build-root-directory: user-service
         gradle-version: 6.5.1
         arguments: build
-    - name: Upload user-service unit tests results
-        uses: actions/upload-artifact@v2
-        with:
-          name: user-service-unit-tests
-          path: /home/runner/work/TaxiMicroService/TaxiMicroService/user-service/build/reports/tests/test/index.html
+    - uses: actions/upload-artifact@v2
+      with:
+        name: user-service-unit-tests
+        path: /home/runner/work/TaxiMicroService/TaxiMicroService/user-service/build/reports/tests/test/index.html
