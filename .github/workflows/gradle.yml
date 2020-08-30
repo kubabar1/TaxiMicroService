@@ -24,13 +24,9 @@ jobs:
           wrapper-directory: user-service
           build-root-directory: user-service
           gradle-version: 6.5.1
-          arguments: test
-      - run: ls user-service
-      - run: ls user-service/build
-      - run: ls user-service/build/reports
-      - run: ls user-service/build/reports/tests
-      - run: ls user-service/build/reports/tests/test
+          arguments: build
       - name: publish test results
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: user-service-unit-tests
