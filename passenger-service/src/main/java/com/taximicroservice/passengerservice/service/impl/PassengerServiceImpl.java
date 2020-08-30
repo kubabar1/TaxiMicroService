@@ -1,5 +1,6 @@
 package com.taximicroservice.passengerservice.service.impl;
 
+import com.taximicroservice.passengerservice.exception.ExternalServiceException;
 import com.taximicroservice.passengerservice.exception.PassengerServiceException;
 import com.taximicroservice.passengerservice.model.PageRequestDTO;
 import com.taximicroservice.passengerservice.model.PassengerAddDTO;
@@ -7,7 +8,6 @@ import com.taximicroservice.passengerservice.model.PassengerResponseDTO;
 import com.taximicroservice.passengerservice.model.PassengerResponseDTOPage;
 import com.taximicroservice.passengerservice.model.utils.RestPageImpl;
 import com.taximicroservice.passengerservice.service.PassengerService;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +41,21 @@ public class PassengerServiceImpl implements PassengerService {
 
 
     @Override
-    public RestPageImpl<PassengerResponseDTO> getPassengersPage(int page, int count) throws PassengerServiceException {
+    public RestPageImpl<PassengerResponseDTO> getPassengersPage(int page, int count) throws PassengerServiceException, ExternalServiceException {
+        if (page < 0) {
+            throw new PassengerServiceException("Page must be greater than or equal 0");
+        }
+        if (count <= 0) {
+            throw new PassengerServiceException("Count must be greater than 0");
+        }
+
         ProducerRecord<String, PageRequestDTO> record = new ProducerRecord<>(getPassengersPageTopic, new PageRequestDTO(page, count));
         record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, getPassengersPageReplyTopic.getBytes()));
 
         try {
             return replyPassengerResponseDTOListListenerContainer.sendAndReceive(record).get().value().getUserResponseDTORestPage();
         } catch (InterruptedException | ExecutionException e) {
-            throw new PassengerServiceException("Cannot send object \"" + e.getMessage() + "\"");
+            throw new ExternalServiceException("Cannot send object \"" + e.getMessage() + "\"");
         }
     }
 

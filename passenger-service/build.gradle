@@ -33,6 +33,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.6'
     compile 'org.apache.kafka:kafka-clients:2.4.1'
     compile 'org.springframework.kafka:spring-kafka:2.5.3.RELEASE'
+    compile 'com.netflix.hystrix:hystrix-core:1.5.18'
+    compile 'com.netflix.hystrix:hystrix-javanica:1.5.18'
 }
 
 test {

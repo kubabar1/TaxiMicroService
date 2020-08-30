@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication(exclude = {
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Bean;
         HibernateJpaAutoConfiguration.class
 })
 @EnableDiscoveryClient
+@EnableHystrix
 public class PassengerServiceApplication {
 
     @Bean

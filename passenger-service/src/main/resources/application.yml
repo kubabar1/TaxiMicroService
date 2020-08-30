@@ -15,3 +15,11 @@ passengerService:
             addPassengerReplyTopic: "add_passenger_reply_topic"
             getPassengersPageTopic: "get_passengers_page_topic"
             getPassengersPageReplyTopic: "get_passengers_page_reply_topic"
+
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 3000

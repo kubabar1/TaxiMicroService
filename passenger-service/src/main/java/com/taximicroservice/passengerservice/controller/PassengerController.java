@@ -1,5 +1,7 @@
 package com.taximicroservice.passengerservice.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.taximicroservice.passengerservice.exception.ExternalServiceException;
 import com.taximicroservice.passengerservice.exception.PassengerServiceException;
 import com.taximicroservice.passengerservice.model.PassengerAddDTO;
 import com.taximicroservice.passengerservice.model.PassengerResponseDTO;
@@ -23,6 +25,7 @@ public class PassengerController {
 
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @HystrixCommand(fallbackMethod = "getPassengersPageFallback")
     public ResponseEntity<Page<PassengerResponseDTO>> getPassengersPage(@RequestParam(value = "page") int page,
                                                                         @RequestParam(value = "count") int count) {
         RestPageImpl<PassengerResponseDTO> passengerResponseDTOPage;
@@ -31,6 +34,8 @@ public class PassengerController {
             passengerResponseDTOPage = passengerService.getPassengersPage(page, count);
         } catch (PassengerServiceException e) {
             return ResponseEntity.unprocessableEntity().build();
+        } catch (ExternalServiceException e) {
+            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
 
         if (passengerResponseDTOPage.getSize() == 0) {
@@ -41,12 +46,21 @@ public class PassengerController {
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @HystrixCommand(fallbackMethod = "addPassengerFallback")
     public ResponseEntity<PassengerResponseDTO> addPassenger(@Valid @RequestBody PassengerAddDTO passengerAddDTO) {
         try {
             return new ResponseEntity<>(passengerService.addPassenger(passengerAddDTO), HttpStatus.OK);
         } catch (PassengerServiceException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    public ResponseEntity<Page<PassengerResponseDTO>> getPassengersPageFallback(int page, int countZ, Throwable e) {
+        return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    public ResponseEntity<PassengerResponseDTO> addPassengerFallback(PassengerAddDTO passengerAddDTO) {
+        return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
 
 }
