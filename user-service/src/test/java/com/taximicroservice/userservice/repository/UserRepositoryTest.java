@@ -30,7 +30,6 @@ class UserRepositoryTest {
         Page<UserEntity> userEntityPage = userRepository.findByRoleEntitySet_id(1L, PageRequest.of(0, 5));
 
         assertEquals(2, userEntityPage.getTotalPages());
-        assertEquals(9, userEntityPage.getTotalElements());
         assertEquals(0, userEntityPage.getNumber());
         assertEquals(5, userEntityPage.getNumberOfElements());
         assertEquals(5, userEntityPage.getSize());
