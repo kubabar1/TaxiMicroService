@@ -60,14 +60,14 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public PassengerResponseDTO addPassenger(PassengerAddDTO passengerAddDTO) throws PassengerServiceException {
+    public PassengerResponseDTO addPassenger(PassengerAddDTO passengerAddDTO) throws ExternalServiceException {
         ProducerRecord<String, PassengerAddDTO> record = new ProducerRecord<>(addPassengerTopic, passengerAddDTO);
         record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, addPassengerReplyTopic.getBytes()));
 
         try {
             return addPassengerReplyKafkaTemplate.sendAndReceive(record).get().value();
         } catch (InterruptedException | ExecutionException e) {
-            throw new PassengerServiceException("Cannot send object \"" + e.getMessage() + "\"");
+            throw new ExternalServiceException("Cannot send object \"" + e.getMessage() + "\"");
         }
     }
 

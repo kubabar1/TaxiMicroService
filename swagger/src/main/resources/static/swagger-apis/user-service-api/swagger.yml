@@ -310,7 +310,7 @@ paths:
                 - "roles"
             summary: "Get role with given ID"
             description: ""
-            operationId: "getROleById"
+            operationId: "getRoleById"
             produces:
                 - "application/json"
             parameters:

@@ -10,6 +10,6 @@ public interface PassengerService {
 
     RestPageImpl<PassengerResponseDTO> getPassengersPage(int page, int count) throws PassengerServiceException, ExternalServiceException;
 
-    PassengerResponseDTO addPassenger(PassengerAddDTO passengerAddDTO) throws PassengerServiceException;
+    PassengerResponseDTO addPassenger(PassengerAddDTO passengerAddDTO) throws ExternalServiceException;
 
 }

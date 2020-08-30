@@ -50,16 +50,16 @@ public class PassengerController {
     public ResponseEntity<PassengerResponseDTO> addPassenger(@Valid @RequestBody PassengerAddDTO passengerAddDTO) {
         try {
             return new ResponseEntity<>(passengerService.addPassenger(passengerAddDTO), HttpStatus.OK);
-        } catch (PassengerServiceException e) {
+        } catch (ExternalServiceException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    public ResponseEntity<Page<PassengerResponseDTO>> getPassengersPageFallback(int page, int countZ, Throwable e) {
+    public ResponseEntity<Page<PassengerResponseDTO>> getPassengersPageFallback(int page, int count, Throwable e) {
         return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    public ResponseEntity<PassengerResponseDTO> addPassengerFallback(PassengerAddDTO passengerAddDTO) {
+    public ResponseEntity<PassengerResponseDTO> addPassengerFallback(PassengerAddDTO passengerAddDTO, Throwable e) {
         return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
 
