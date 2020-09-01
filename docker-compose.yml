@@ -207,10 +207,10 @@ services:
             SPRING_CONFIG_SERVER_URI: "spring-config-server"
             SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
-    sales-service:
-        image: sales-service
-        container_name: sales-service
-        build: ./sales-service
+    commerce-service:
+        image: commerce-service
+        container_name: commerce-service
+        build: ./commerce-service
         ports:
             - "8090:8080"
         depends_on:

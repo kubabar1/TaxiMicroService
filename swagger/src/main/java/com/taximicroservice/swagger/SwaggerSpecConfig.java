@@ -52,7 +52,7 @@ public class SwaggerSpecConfig {
                 "opinion-service-api",
                 "passenger-service-api",
                 "payments-service-api",
-                "sales-service-api",
+                "commerce-service-api",
                 "user-service-api"
         };
         return new ArrayList<>(Arrays.asList(swaggerApisArray));
