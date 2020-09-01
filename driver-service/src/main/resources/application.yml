@@ -4,3 +4,21 @@ spring:
     cloud:
         discovery:
             enabled: false
+
+driverService:
+    kafka:
+        bootstrapAddress: "localhost:9092"
+        groupId: "driver_service_group"
+        topics:
+            addDriverTopic: "add_driver_topic"
+            addDriverReplyTopic: "add_driver_reply_topic"
+            getDriversPageTopic: "get_drivers_page_topic"
+            getDriversPageReplyTopic: "get_drivers_page_reply_topic"
+
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 3000

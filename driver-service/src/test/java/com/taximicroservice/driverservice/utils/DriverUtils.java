@@ -1,7 +1,6 @@
-package com.taximicroservice.passengerservice.model.utils;
+package com.taximicroservice.driverservice.utils;
 
-import com.taximicroservice.userservice.model.dto.*;
-import com.taximicroservice.userservice.model.entity.*;
+import com.taximicroservice.driverservice.model.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,9 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserUtils {
+public class DriverUtils {
 
-    public static UserResponseDTO generateUserResponseDTO() {
+    public static DriverResponseDTO generateDriverResponseDTO() {
         RoleDTO passengerRole = new RoleDTO();
         passengerRole.setId(1L);
         passengerRole.setName("passenger");
@@ -50,7 +49,7 @@ public class UserUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
 
-        UserResponseDTO user = new UserResponseDTO();
+        DriverResponseDTO user = new DriverResponseDTO();
         user.setId(1L);
         user.setUserName("adam123");
         user.setName("Adam");

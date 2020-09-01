@@ -30,6 +30,7 @@ userService:
             addPassengerReplyTopic: "add_passenger_reply_topic"
             getPassengersPageTopic: "get_passengers_page_topic"
             getPassengersPageReplyTopic: "get_passengers_page_reply_topic"
-
-server:
-    port: 8081
+            addDriverTopic: "add_driver_topic"
+            addDriverReplyTopic: "add_driver_reply_topic"
+            getDriversPageTopic: "get_drivers_page_topic"
+            getDriversPageReplyTopic: "get_drivers_page_reply_topic"
