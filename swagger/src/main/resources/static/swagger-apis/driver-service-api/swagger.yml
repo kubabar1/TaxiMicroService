@@ -9,10 +9,10 @@ schemes:
     - "https"
     - "http"
 tags:
-    - name: "driver"
-      description: "Driver related operations"
-    - name: "driverLocalisation"
-      description: "Driver localisation related operations"
+    -   name: "driver"
+        description: "Driver related operations"
+    -   name: "driverLocalisation"
+        description: "Driver localisation related operations"
 paths:
     /drivers:
         get:
@@ -24,17 +24,17 @@ paths:
             produces:
                 - "application/json"
             parameters:
-                - in: "query"
-                  type: "integer"
-                  name: "page"
-                  required: false
-                - in: "query"
-                  type: "integer"
-                  name: "count"
-                  required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "page"
+                    required: false
+                -   in: "query"
+                    type: "integer"
+                    name: "count"
+                    required: false
             responses:
                 "200":
-                    description: "Drivers successfully returned"
+                    description: "Drivers page successfully returned"
                     schema:
                         type: "array"
                         items:
@@ -47,24 +47,26 @@ paths:
                     description: "Access forbidden"
                 "405":
                     description: "Invalid input"
-
-    /drivers/{driverId}:
-        get:
+        post:
             tags:
                 - "driver"
-            summary: "Get driver with given ID"
+            summary: "Add driver"
             description: ""
-            operationId: "getDriver"
+            operationId: "addDrivers"
             produces:
                 - "application/json"
             parameters:
-                -   in: "path"
-                    type: "string"
-                    name: "driverId"
+                -   in: "body"
+                    name: "body"
+                    description: "Driver object that needs to be added"
                     required: true
+                    schema:
+                        items:
+                            type: "array"
+                            $ref: "#/definitions/DriverAddDTO"
             responses:
                 "200":
-                    description: "Driver successfully returned"
+                    description: "Driver successfully added"
                     schema:
                         items:
                             $ref: "#/definitions/DriverResponseDTO"
@@ -72,8 +74,6 @@ paths:
                     description: "Unauthorized user"
                 "403":
                     description: "Access forbidden"
-                "404":
-                    description: "Driver with given ID was not found"
 
     /drivers/{driverId}/localisation:
         get:
@@ -138,6 +138,9 @@ definitions:
     DriverResponseDTO:
         type: "object"
         properties:
+            id:
+                type: "number"
+                format: "long"
             userName:
                 type: "string"
             email:
@@ -148,6 +151,61 @@ definitions:
                 type: "string"
             pesel:
                 type: "string"
+            birthDate:
+                type: "string"
+                format: "date"
+            creationDate:
+                type: "string"
+                format: "date-time"
+            userSettings:
+                items:
+                    type: "array"
+                    $ref: "#/definitions/UserSettingsDTO"
+            userRole:
+                items:
+                    type: "array"
+                    $ref: "#/definitions/RoleDTO"
+
+    DriverAddDTO:
+        type: "object"
+        properties:
+            userName:
+                type: "string"
+            email:
+                type: "string"
+            name:
+                type: "string"
+            surname:
+                type: "string"
+            password:
+                type: "string"
+            pesel:
+                type: "string"
+            birthDate:
+                type: "string"
+                format: "date"
+
+    UserSettingsDTO:
+        type: "object"
+        properties:
+            appearance:
+                $ref: "#/definitions/AppearanceType"
+            language:
+                type: "string"
+
+    RoleDTO:
+        type: "object"
+        properties:
+            role:
+                type: "string"
+
+    UserRole:
+        type: "string"
+        enum: ["driver", "passenger"]
+
+    AppearanceType:
+        type: "string"
+        enum: ["light", "dark"]
 
     LocalisationDTO:
         type: "object"
