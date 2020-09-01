@@ -6,7 +6,7 @@ CREATE TABLE bookings (
     id SERIAL PRIMARY KEY NOT NULL,
     start_point INT NOT NULL,
     finish_point INT NOT NULL,
-    user_id INT NOT NULL,
+    passenger_id INT NOT NULL,
     driver_id INT,
     creation_date TIMESTAMP NOT NULL,
     status VARCHAR NOT NULL,
@@ -23,6 +23,6 @@ CREATE TABLE booking_status (
 
 CREATE TABLE localisations (
     id SERIAL PRIMARY KEY NOT NULL,
-    latitude INT NOT NULL,
-    longitude INT NOT NULL
+    latitude decimal NOT NULL,
+    longitude decimal NOT NULL
 );

@@ -1,12 +1,12 @@
 insert into
     booking_status (name, description)
 values
-    (''CREATED'', ''Booking created''),
-    (''ASSIGNED'', ''Booking assigned to driver''),
-    (''IN_PROGRESS'', ''Booking in progress''),
-    (''CANCELED'', ''Booking canceled''),
-    (''FINISHED'', ''Booking finished''),
-    (''ABORTED'', ''Booking aborted'');
+    ('CREATED', 'Booking created'),
+    ('ASSIGNED', 'Booking assigned to driver'),
+    ('IN_PROGRESS', 'Booking in progress'),
+    ('CANCELED', 'Booking canceled'),
+    ('FINISHED', 'Booking finished'),
+    ('ABORTED', 'Booking aborted');
 
 
 insert into
@@ -115,12 +115,12 @@ values
 
 
 insert into
-    bookings (start_point, finish_point, user_id, driver_id, creation_date, status)
+    bookings (start_point, finish_point, passenger_id, driver_id, creation_date, status)
 values
-    (1, 2, 1, 51, ''2020-08-20 06:01:11'', 1),
-    (3, 4, 2, 52, ''2020-08-21 07:02:12'', 2),
-    (5, 6, 3, 53, ''2020-08-22 08:03:13'', 3),
-    (7, 8, 4, 54, ''2020-08-23 09:04:14'', 4),
-    (9, 10, 5, 55, ''2020-08-24 10:05:15'', 5),
-    (11, 12, 6, 56, ''2020-08-25 11:06:16'', 6),
-    (13, 14, 7, null, ''2020-08-26 12:07:17'', 1);
+    (1, 2, 1, 51, '2020-08-20 06:01:11', 1),
+    (3, 4, 2, 52, '2020-08-21 07:02:12', 2),
+    (5, 6, 3, 53, '2020-08-22 08:03:13', 3),
+    (7, 8, 4, 54, '2020-08-23 09:04:14', 4),
+    (9, 10, 5, 55, '2020-08-24 10:05:15', 5),
+    (11, 12, 6, 56, '2020-08-25 11:06:16', 6),
+    (13, 14, 7, null, '2020-08-26 12:07:17', 1);

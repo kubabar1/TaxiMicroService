@@ -115,7 +115,7 @@ values
 
 
 insert into
-    bookings (start_point, finish_point, user_id, driver_id, creation_date, status)
+    bookings (start_point, finish_point, passenger_id, driver_id, creation_date, status)
 values
     (1, 2, 1, 51, '2020-08-20 06:01:11', 1),
     (3, 4, 2, 52, '2020-08-21 07:02:12', 2),
