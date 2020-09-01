@@ -4,5 +4,5 @@ spring:
             uri: 'http://${SPRING_CONFIG_SERVER_URI:localhost}:8888'
             fail-fast: true
             enabled: true
-            name: 'sales-service'
+            name: 'commerce-service'
             profile: '${SPRING_CONFIG_SERVER_ACTIVE_PROFILE:development}'

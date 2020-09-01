@@ -1,10 +1,10 @@
-package com.taximicroservice.salesservice;
+package com.taximicroservice.commerceservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SalesServiceApplicationTests {
+class CommerceServiceApplicationTests {
 
     @Test
     void contextLoads() {

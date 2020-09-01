@@ -2,14 +2,14 @@ swagger: "2.0"
 info:
     description: "Service for handling commerce operations"
     version: "1.0.0"
-    title: "Sales service"
-host: "sales-service.taxi-microservice.com"
+    title: "Commerce service"
+host: "commerce-service.taxi-microservice.com"
 basePath: "/"
 schemes:
     - "https"
     - "http"
 tags:
-    - name: "sales"
+    - name: "commerce"
       description: "Commerce operations"
 paths:
     /salary/driver/{driverId}:
