@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 public class BookingAddDTO implements Serializable {
@@ -16,9 +15,9 @@ public class BookingAddDTO implements Serializable {
     private Long driverId;
 
     @NotNull
-    private Long startPoint;
+    private LocalisationDTO startPoint;
 
     @NotNull
-    private Long finishPoint;
+    private LocalisationDTO finishPoint;
 
 }

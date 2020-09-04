@@ -16,11 +16,13 @@ public class BookingEntity implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "start_point")
-    private Long startPoint;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "start_point")
+    private LocalisationEntity startPoint;
 
-    @Column(name = "finish_point")
-    private Long finishPoint;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "finish_point")
+    private LocalisationEntity finishPoint;
 
     @Column(name = "passenger_id")
     private Long passengerId;
@@ -31,7 +33,8 @@ public class BookingEntity implements Serializable {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
-    @Column(name = "status")
-    private String status;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "status")
+    private BookingStatusEntity status;
 
 }

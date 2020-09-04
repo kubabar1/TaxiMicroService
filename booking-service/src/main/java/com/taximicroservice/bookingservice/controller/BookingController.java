@@ -1,7 +1,6 @@
 package com.taximicroservice.bookingservice.controller;
 
 import com.taximicroservice.bookingservice.exception.BookingServiceException;
-import com.taximicroservice.bookingservice.exception.ExternalServiceException;
 import com.taximicroservice.bookingservice.model.dto.BookingAddDTO;
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
 import com.taximicroservice.bookingservice.model.dto.LocalisationDTO;
@@ -13,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -32,8 +32,6 @@ public class BookingController {
             passengerResponseDTOPage = bookingService.getBookingsPage(page, count);
         } catch (BookingServiceException e) {
             return ResponseEntity.unprocessableEntity().build();
-        } catch (ExternalServiceException e) {
-            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
 
         if (passengerResponseDTOPage.getSize() == 0) {
@@ -45,32 +43,63 @@ public class BookingController {
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BookingResponseDTO> addBooking(@Valid @RequestBody BookingAddDTO bookingAddDTO) {
-        bookingService.addBooking(bookingAddDTO);
-        return null;
+        try {
+            return new ResponseEntity<>(bookingService.addBooking(bookingAddDTO), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping(value = "/{bookingId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BookingResponseDTO> getBookingById(@PathVariable("bookingId") Long bookingId) {
-        bookingService.getBookingById(bookingId);
-        return null;
+        try {
+            return new ResponseEntity<>(bookingService.getBookingById(bookingId), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping(value = "/assigned/{bookingId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Page<BookingResponseDTO>> getBookingsAssignedToDriver(@PathVariable("bookingId") Long bookingId,
+    @GetMapping(value = "/assigned/{driverId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Page<BookingResponseDTO>> getBookingsAssignedToDriver(@PathVariable("driverId") Long driverId,
                                                                                 @RequestParam(value = "page") int page,
                                                                                 @RequestParam(value = "count") int count) {
-        bookingService.getBookingsAssignedToDriver(bookingId, page, count);
-        return null;
+        Page<BookingResponseDTO> bookingResponseDTOPage;
+
+        try {
+            bookingResponseDTOPage = bookingService.getBookingsAssignedToDriver(driverId, page, count);
+        } catch (BookingServiceException e) {
+            return ResponseEntity.unprocessableEntity().build();
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (bookingResponseDTOPage.getSize() == 0) {
+            return new ResponseEntity<>(bookingResponseDTOPage, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(bookingResponseDTOPage, HttpStatus.OK);
+        }
     }
 
     @GetMapping(value = "/nearby-created",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Page<BookingResponseDTO>> getNearbyCreatedBookings(@Valid @RequestBody LocalisationDTO localisationDTO,
+                                                                             @RequestParam(value = "distance") int distance,
                                                                              @RequestParam(value = "page") int page,
                                                                              @RequestParam(value = "count") int count) {
-        bookingService.getNearbyCreatedBookings(localisationDTO, page, count);
-        return null;
+        Page<BookingResponseDTO> bookingResponseDTOPage;
+
+        try {
+            bookingResponseDTOPage = bookingService.getNearbyCreatedBookings(localisationDTO, distance, page, count);
+        } catch (BookingServiceException e) {
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
+        if (bookingResponseDTOPage.getSize() == 0) {
+            return new ResponseEntity<>(bookingResponseDTOPage, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(bookingResponseDTOPage, HttpStatus.OK);
+        }
     }
 
 }

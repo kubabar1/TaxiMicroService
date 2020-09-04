@@ -31,6 +31,8 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.4.RELEASE'
+    compile 'org.modelmapper:modelmapper:0.7.5'
+    compile 'org.hibernate:hibernate-spatial:5.4.21.Final'
 }
 
 test {

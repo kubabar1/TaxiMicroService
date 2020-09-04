@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS bookings;
 
 CREATE TABLE booking_status (
     id VARCHAR PRIMARY KEY NOT NULL,
-    name VARCHAR NOT NULL,
     description VARCHAR NOT NULL
 );
 
