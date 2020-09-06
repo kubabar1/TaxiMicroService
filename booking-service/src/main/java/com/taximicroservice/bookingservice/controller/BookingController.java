@@ -5,6 +5,7 @@ import com.taximicroservice.bookingservice.model.dto.BookingAddDTO;
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
 import com.taximicroservice.bookingservice.model.dto.LocalisationDTO;
 import com.taximicroservice.bookingservice.service.BookingService;
+import org.locationtech.jts.io.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -83,15 +84,17 @@ public class BookingController {
     @GetMapping(value = "/nearby-created",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Page<BookingResponseDTO>> getNearbyCreatedBookings(@Valid @RequestBody LocalisationDTO localisationDTO,
-                                                                             @RequestParam(value = "distance") int distance,
-                                                                             @RequestParam(value = "page") int page,
-                                                                             @RequestParam(value = "count") int count) {
+    public ResponseEntity<Page<BookingResponseDTO>> getNearbyCreatedBookings(
+            @Valid @RequestBody LocalisationDTO driverLocalisation,
+            @RequestParam(value = "distance") double distance,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "count") int count) {
         Page<BookingResponseDTO> bookingResponseDTOPage;
 
         try {
-            bookingResponseDTOPage = bookingService.getNearbyCreatedBookings(localisationDTO, distance, page, count);
-        } catch (BookingServiceException e) {
+            bookingResponseDTOPage = bookingService.getNearbyCreatedBookings(driverLocalisation, distance, page, count);
+        } catch (BookingServiceException | ParseException e) {
+            e.printStackTrace();
             return ResponseEntity.unprocessableEntity().build();
         }
 

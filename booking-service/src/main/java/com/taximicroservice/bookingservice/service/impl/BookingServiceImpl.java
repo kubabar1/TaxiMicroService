@@ -11,13 +11,25 @@ import com.taximicroservice.bookingservice.model.utils.BookingValidator;
 import com.taximicroservice.bookingservice.repository.BookingRepository;
 import com.taximicroservice.bookingservice.repository.BookingStatusRepository;
 import com.taximicroservice.bookingservice.service.BookingService;
+import org.hibernate.spatial.predicate.SpatialPredicates;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -68,11 +80,42 @@ public class BookingServiceImpl implements BookingService {
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));
     }
 
+    public static Specification<BookingEntity> filterWithinRadius(double latitude, double longitute, double radius) {
+        return (Specification<BookingEntity>) (root, query, builder) -> {
+            GeometryFactory factory = new GeometryFactory();
+            Point comparisonPoint = factory.createPoint(new Coordinate(latitude, longitute));
+            return SpatialPredicates.distanceWithin(builder, root.get("startPoint"), comparisonPoint, radius);
+        };
+    }
+
     @Override
-    public Page<BookingResponseDTO> getNearbyCreatedBookings(LocalisationDTO localisationDTO, int distance, int page, int count)
-            throws BookingServiceException {
+    public Page<BookingResponseDTO> getNearbyCreatedBookings(LocalisationDTO driverLocalisation, double distance, int page, int count)
+            throws BookingServiceException, ParseException {
         BookingValidator.validatePageAndCount(page, count);
-        return null;
+
+        String wktString = "POINT(22.183206 112.305145)";
+        WKTReader reader = new WKTReader();
+        Geometry geom = reader.read(wktString);
+
+        System.out.println("#############################################");
+        System.out.println("#############################################");
+        System.out.println("#############################################");
+        System.out.println("#############################################");
+        System.out.println("#############################################");
+
+        bookingRepository.findAll(filterWithinRadius(driverLocalisation.getLatitude(), driverLocalisation.getLongitude(), distance)).forEach(System.out::println);
+
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+
+        throw new BookingServiceException("");
+        /*return bookingRepository
+                .getNearbyCreatedBookings(geom, distance, PageRequest.of(page, count))
+                .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));*/
     }
 
 }

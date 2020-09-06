@@ -1,6 +1,11 @@
 package com.taximicroservice.bookingservice.model.dto;
 
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import org.locationtech.jts.geom.Point;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,12 +19,14 @@ public class BookingResponseDTO implements Serializable {
 
     private Long driverId;
 
-    private Long startPoint;
+    @JsonSerialize(using = GeometrySerializer.class)
+    private Point startPoint;
 
-    private Long finishPoint;
+    @JsonSerialize(using = GeometrySerializer.class)
+    private Point finishPoint;
 
     private LocalDateTime creationDate;
 
-    private String status;
+    private BookingStatusResponseDTO status;
 
 }

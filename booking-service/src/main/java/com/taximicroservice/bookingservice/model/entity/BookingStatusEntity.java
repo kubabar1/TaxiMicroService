@@ -11,13 +11,10 @@ import java.io.Serializable;
 public class BookingStatusEntity implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
 }
