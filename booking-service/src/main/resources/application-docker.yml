@@ -2,19 +2,23 @@ spring:
     cloud:
         discovery:
             enabled: true
-    # datasource:
-    #     url: '${SPRING_DATASOURCE_URL}'
-    #     username: '${SPRING_DATASOURCE_USERNAME}'
-    #     password: '${SPRING_DATASOURCE_PASSWORD}'
-    #     initialization-mode: never
-    # jpa:
-    #     hibernate:
-    #         ddl-auto: none
+    datasource:
+        url: "jdbc:postgresql://booking-service-database:5432/booking_service"
+        username: "postgres"
+        password: "qwerty"
+        initialization-mode: never
+        driverClassName: org.postgresql.Driver
+        schema:
+        data:
+    jpa:
+        database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
+        hibernate:
+            ddl-auto: none
 
-# logging:
-#     level:
-#         org:
-#             springframework: DEBUG
+logging:
+    level:
+        org:
+            springframework: DEBUG
 
 eureka:
     client:

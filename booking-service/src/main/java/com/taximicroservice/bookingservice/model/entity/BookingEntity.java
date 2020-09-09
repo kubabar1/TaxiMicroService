@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Coordinate;
 
 import javax.persistence.*;
 import java.io.Serializable;

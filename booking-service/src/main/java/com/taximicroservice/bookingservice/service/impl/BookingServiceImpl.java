@@ -11,13 +11,11 @@ import com.taximicroservice.bookingservice.model.utils.BookingValidator;
 import com.taximicroservice.bookingservice.repository.BookingRepository;
 import com.taximicroservice.bookingservice.repository.BookingStatusRepository;
 import com.taximicroservice.bookingservice.service.BookingService;
+import org.hibernate.spatial.SpatialFunction;
 import org.hibernate.spatial.predicate.SpatialPredicates;
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,10 +24,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -80,7 +75,7 @@ public class BookingServiceImpl implements BookingService {
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));
     }
 
-    public static Specification<BookingEntity> filterWithinRadius(double latitude, double longitute, double radius) {
+    public static Specification<BookingEntity> filterWithinRadius2(double latitude, double longitute, double radius) {
         return (Specification<BookingEntity>) (root, query, builder) -> {
             GeometryFactory factory = new GeometryFactory();
             Point comparisonPoint = factory.createPoint(new Coordinate(latitude, longitute));
@@ -90,32 +85,22 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Page<BookingResponseDTO> getNearbyCreatedBookings(LocalisationDTO driverLocalisation, double distance, int page, int count)
-            throws BookingServiceException, ParseException {
+            throws BookingServiceException {
         BookingValidator.validatePageAndCount(page, count);
+        return bookingRepository
+                .findAll(filterWithinRadius(driverLocalisation.getLongitude(), driverLocalisation.getLatitude(), distance), PageRequest.of(page, count))
+                .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));
+    }
 
-        String wktString = "POINT(22.183206 112.305145)";
-        WKTReader reader = new WKTReader();
-        Geometry geom = reader.read(wktString);
-
-        System.out.println("#############################################");
-        System.out.println("#############################################");
-        System.out.println("#############################################");
-        System.out.println("#############################################");
-        System.out.println("#############################################");
-
-        bookingRepository.findAll(filterWithinRadius(driverLocalisation.getLatitude(), driverLocalisation.getLongitude(), distance)).forEach(System.out::println);
-
-
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-
-
-        throw new BookingServiceException("");
-        /*return bookingRepository
-                .getNearbyCreatedBookings(geom, distance, PageRequest.of(page, count))
-                .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));*/
+    private static Specification<BookingEntity> filterWithinRadius(double longitude, double latitude, double radius) {
+        return (Specification<BookingEntity>) (root, query, builder) -> {
+            Expression<Point> point = builder.function("ST_Point", Point.class, builder.literal(longitude), builder.literal(latitude));
+            Expression<Point> comparisonPoint = builder.function("ST_SetSRID", Point.class, point, builder.literal(3857));
+            Expression<Boolean> expression = builder.function(SpatialFunction.dwithin.toString(), boolean.class,
+                    root.get("startPoint"), comparisonPoint, builder.literal(radius));
+            System.out.println(SpatialFunction.distance);
+            return builder.equal(expression, true);
+        };
     }
 
 }

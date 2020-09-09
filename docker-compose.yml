@@ -52,6 +52,24 @@ services:
             SPRING_CONFIG_SERVER_URI: "spring-config-server"
             SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
 
+    booking-service-database:
+        container_name: booking-service-database
+        image: mdillon/postgis
+        ports:
+            - "5433:5432"
+        volumes:
+            - ./booking-service/src/main/resources/db_scripts/postgresql/booking_service_schema_psql.sql:/docker-entrypoint-initdb.d/1_booking_service_schema.sql
+            - ./booking-service/src/main/resources/db_scripts/postgresql/booking_service_demo_psql.sql:/docker-entrypoint-initdb.d/2_booking_service_demo.sql
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 3s
+            retries: 10
+        mem_limit: 160m
+        environment:
+            POSTGRES_DB: booking_service
+            POSTGRES_PASSWORD: qwerty
+            POSTGRES_USER: postgres
+
     user-service:
         image: user-service
         container_name: user-service
