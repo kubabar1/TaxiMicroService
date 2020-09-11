@@ -4,8 +4,9 @@
 name: Unit test workflow
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ master workflow_dispatch ]
+    branches: [ master ]
 
 jobs:
   build:
