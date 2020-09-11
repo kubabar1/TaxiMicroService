@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 
-import static com.taximicroservice.passengerservice.model.utils.UserUtils.generateUserResponseDTO;
+import static com.taximicroservice.utils.UserUtils.generateUserResponseDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
