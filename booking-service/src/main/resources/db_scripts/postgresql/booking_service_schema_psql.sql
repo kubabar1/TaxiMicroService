@@ -8,8 +8,8 @@ CREATE TABLE booking_status (
 
 CREATE TABLE bookings (
     id SERIAL PRIMARY KEY NOT NULL,
-    start_point GEOGRAPHY(Point) NOT NULL,
-    finish_point GEOGRAPHY(Point) NOT NULL,
+    start_point geography(Point) NOT NULL,
+    finish_point geography(Point) NOT NULL,
     passenger_id INT NOT NULL,
     driver_id INT,
     creation_date TIMESTAMP NOT NULL,

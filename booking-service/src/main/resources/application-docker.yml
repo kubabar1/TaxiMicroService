@@ -3,9 +3,9 @@ spring:
         discovery:
             enabled: true
     datasource:
-        url: "jdbc:postgresql://booking-service-database:5432/booking_service"
-        username: "postgres"
-        password: "qwerty"
+        url: "${BOOKING_SERVICE_DATASOURCE_URL}"
+        username: "${BOOKING_SERVICE_DATASOURCE_USERNAME}"
+        password: "${BOOKING_SERVICE_DATASOURCE_PASSWORD}"
         initialization-mode: never
         driverClassName: org.postgresql.Driver
         schema:

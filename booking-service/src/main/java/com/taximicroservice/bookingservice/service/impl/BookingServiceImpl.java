@@ -14,6 +14,7 @@ import com.taximicroservice.bookingservice.service.BookingService;
 import org.hibernate.spatial.SpatialFunction;
 import org.hibernate.spatial.predicate.SpatialPredicates;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.modelmapper.ModelMapper;
@@ -94,11 +95,11 @@ public class BookingServiceImpl implements BookingService {
 
     private static Specification<BookingEntity> filterWithinRadius(double longitude, double latitude, double radius) {
         return (Specification<BookingEntity>) (root, query, builder) -> {
+            Expression<Geometry> geography = builder.function("geography", Geometry.class, root.get("startPoint"));
             Expression<Point> point = builder.function("ST_Point", Point.class, builder.literal(longitude), builder.literal(latitude));
-            Expression<Point> comparisonPoint = builder.function("ST_SetSRID", Point.class, point, builder.literal(3857));
+            Expression<Point> comparisonPoint = builder.function("ST_SetSRID", Point.class, point, builder.literal(4326));
             Expression<Boolean> expression = builder.function(SpatialFunction.dwithin.toString(), boolean.class,
-                    root.get("startPoint"), comparisonPoint, builder.literal(radius));
-            System.out.println(SpatialFunction.distance);
+                    geography, comparisonPoint, builder.literal(radius));
             return builder.equal(expression, true);
         };
     }
