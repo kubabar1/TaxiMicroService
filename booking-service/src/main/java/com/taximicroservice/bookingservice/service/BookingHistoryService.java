@@ -6,8 +6,8 @@ import org.springframework.data.domain.Page;
 
 public interface BookingHistoryService {
 
-    Page<BookingResponseDTO> getPreviousDriverBookingsPage(Long driverId, int page, int count) throws BookingServiceException;
+    Page<BookingResponseDTO> getDriverBookingsHistoryPage(Long driverId, int page, int count) throws BookingServiceException;
 
-    Page<BookingResponseDTO> getPreviousPassengerBookingsPage(Long passengerId, int page, int count) throws BookingServiceException;
+    Page<BookingResponseDTO> getPassengerBookingsHistoryPage(Long passengerId, int page, int count) throws BookingServiceException;
 
 }

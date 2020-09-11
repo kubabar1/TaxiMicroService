@@ -6,6 +6,7 @@ public enum BookingStatusEnum {
     IN_PROGRESS("IN_PROGRESS"),
     CANCELED("CANCELED"),
     FINISHED("FINISHED"),
+    REMOVED("REMOVED"),
     ABORTED("ABORTED");
 
     private String name;

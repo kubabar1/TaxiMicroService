@@ -22,14 +22,14 @@ public class BookingHistoryServiceImpl implements BookingHistoryService {
 
 
     @Override
-    public Page<BookingResponseDTO> getPreviousDriverBookingsPage(Long driverId, int page, int count) throws BookingServiceException {
+    public Page<BookingResponseDTO> getDriverBookingsHistoryPage(Long driverId, int page, int count) throws BookingServiceException {
         BookingValidator.validatePageAndCount(page, count);
         return bookingRepository.findByDriverId(driverId, PageRequest.of(page, count))
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));
     }
 
     @Override
-    public Page<BookingResponseDTO> getPreviousPassengerBookingsPage(Long passengerId, int page, int count) throws BookingServiceException {
+    public Page<BookingResponseDTO> getPassengerBookingsHistoryPage(Long passengerId, int page, int count) throws BookingServiceException {
         BookingValidator.validatePageAndCount(page, count);
         return bookingRepository.findByPassengerId(passengerId, PageRequest.of(page, count))
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));

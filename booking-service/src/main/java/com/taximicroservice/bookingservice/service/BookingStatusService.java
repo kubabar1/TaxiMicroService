@@ -2,9 +2,11 @@ package com.taximicroservice.bookingservice.service;
 
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
 
+import javax.persistence.EntityNotFoundException;
+
 public interface BookingStatusService {
 
-    BookingResponseDTO assignDriverToBooking(Long bookingId);
+    BookingResponseDTO assignDriverToBooking(Long driverId, Long bookingId) throws EntityNotFoundException;
 
     BookingResponseDTO abortBooking(Long bookingId);
 
@@ -14,6 +16,6 @@ public interface BookingStatusService {
 
     BookingResponseDTO removeBooking(Long bookingId);
 
-    BookingResponseDTO startBooking(Long bookingId);
+    BookingResponseDTO startBookingProgress(Long bookingId);
 
 }

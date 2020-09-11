@@ -19,13 +19,13 @@ public class BookingHistoryController {
 
 
     @GetMapping(value = "/driver/{driverId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Page<BookingResponseDTO>> getPreviousDriverBookingsPage(@PathVariable("driverId") Long bookingId,
-                                                                                  @RequestParam(value = "page") int page,
-                                                                                  @RequestParam(value = "count") int count) {
+    public ResponseEntity<Page<BookingResponseDTO>> getDriverBookingsHistoryPage(@PathVariable("driverId") Long bookingId,
+                                                                                 @RequestParam(value = "page") int page,
+                                                                                 @RequestParam(value = "count") int count) {
         Page<BookingResponseDTO> bookingResponseDTOPage;
 
         try {
-            bookingResponseDTOPage = bookingHistoryService.getPreviousDriverBookingsPage(bookingId, page, count);
+            bookingResponseDTOPage = bookingHistoryService.getDriverBookingsHistoryPage(bookingId, page, count);
         } catch (BookingServiceException e) {
             return ResponseEntity.unprocessableEntity().build();
         }
@@ -38,13 +38,13 @@ public class BookingHistoryController {
     }
 
     @GetMapping(value = "/passenger/{passengerId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Page<BookingResponseDTO>> getPreviousPassengerBookingsPage(@PathVariable("passengerId") Long bookingId,
-                                                                                     @RequestParam(value = "page") int page,
-                                                                                     @RequestParam(value = "count") int count) {
+    public ResponseEntity<Page<BookingResponseDTO>> getPassengerBookingsHistoryPage(@PathVariable("passengerId") Long bookingId,
+                                                                                    @RequestParam(value = "page") int page,
+                                                                                    @RequestParam(value = "count") int count) {
         Page<BookingResponseDTO> bookingResponseDTOPage;
 
         try {
-            bookingResponseDTOPage = bookingHistoryService.getPreviousPassengerBookingsPage(bookingId, page, count);
+            bookingResponseDTOPage = bookingHistoryService.getPassengerBookingsHistoryPage(bookingId, page, count);
         } catch (BookingServiceException e) {
             return ResponseEntity.unprocessableEntity().build();
         }
