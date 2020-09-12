@@ -12,7 +12,6 @@ import com.taximicroservice.bookingservice.repository.BookingRepository;
 import com.taximicroservice.bookingservice.repository.BookingStatusRepository;
 import com.taximicroservice.bookingservice.service.BookingService;
 import org.hibernate.spatial.SpatialFunction;
-import org.hibernate.spatial.predicate.SpatialPredicates;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -29,6 +28,7 @@ import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+
 @Service
 public class BookingServiceImpl implements BookingService {
 
@@ -41,28 +41,45 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private GeometryFactory geometryFactory;
+
+    @Autowired
+    private BookingValidator bookingValidator;
+
 
     @Override
     public Page<BookingResponseDTO> getBookingsPage(int page, int count) throws BookingServiceException {
-        BookingValidator.validatePageAndCount(page, count);
+        bookingValidator.validatePageAndCount(page, count);
         return bookingRepository.findAll(PageRequest.of(page, count))
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));
     }
 
     @Override
-    public BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException {
+    public BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException, BookingServiceException {
+        bookingValidator.validateDriverId(bookingAddDTO.getDriverId());
+        bookingValidator.validatePassengerId(bookingAddDTO.getPassengerId());
+
         boolean isDriverSet = Objects.isNull(bookingAddDTO.getDriverId());
         BookingStatusEnum bookingStatusEnum = isDriverSet ? BookingStatusEnum.CREATED : BookingStatusEnum.ASSIGNED;
         BookingStatusEntity bookingStatusEntity = bookingStatusRepository
                 .findById(bookingStatusEnum.getName())
                 .orElseThrow(EntityNotFoundException::new);
 
-        BookingEntity bookingEntity = modelMapper.map(bookingAddDTO, BookingEntity.class);
+        BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setCreationDate(LocalDateTime.now());
         bookingEntity.setStatus(bookingStatusEntity);
+        bookingEntity.setStartPoint(geometryFactory.createPoint(new Coordinate(bookingAddDTO.getStartPoint().getLatitude(),
+                bookingAddDTO.getStartPoint().getLongitude())));
+        bookingEntity.setFinishPoint(geometryFactory.createPoint(new Coordinate(bookingAddDTO.getFinishPoint().getLatitude(),
+                bookingAddDTO.getFinishPoint().getLongitude())));
+        bookingEntity.setPassengerId(bookingAddDTO.getPassengerId());
+        bookingEntity.setDriverId(bookingAddDTO.getDriverId());
 
         return modelMapper.map(bookingRepository.save(bookingEntity), BookingResponseDTO.class);
     }
+
+
 
     @Override
     public BookingResponseDTO getBookingById(Long bookingId) throws EntityNotFoundException {
@@ -71,23 +88,15 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Page<BookingResponseDTO> getBookingsAssignedToDriver(Long driverId, int page, int count) throws BookingServiceException, EntityNotFoundException {
-        BookingValidator.validatePageAndCount(page, count);
+        bookingValidator.validatePageAndCount(page, count);
         return bookingRepository.findByDriverIdAndStatus_id(driverId, BookingStatusEnum.ASSIGNED.getName(), PageRequest.of(page, count))
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));
-    }
-
-    public static Specification<BookingEntity> filterWithinRadius2(double latitude, double longitute, double radius) {
-        return (Specification<BookingEntity>) (root, query, builder) -> {
-            GeometryFactory factory = new GeometryFactory();
-            Point comparisonPoint = factory.createPoint(new Coordinate(latitude, longitute));
-            return SpatialPredicates.distanceWithin(builder, root.get("startPoint"), comparisonPoint, radius);
-        };
     }
 
     @Override
     public Page<BookingResponseDTO> getNearbyCreatedBookings(LocalisationDTO driverLocalisation, double distance, int page, int count)
             throws BookingServiceException {
-        BookingValidator.validatePageAndCount(page, count);
+        bookingValidator.validatePageAndCount(page, count);
         return bookingRepository
                 .findAll(filterWithinRadius(driverLocalisation.getLongitude(), driverLocalisation.getLatitude(), distance), PageRequest.of(page, count))
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));

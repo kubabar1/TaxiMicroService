@@ -27,4 +27,5 @@ dependencyManagement {
 
 test {
     useJUnitPlatform()
+    testLogging.showStandardStreams = true
 }

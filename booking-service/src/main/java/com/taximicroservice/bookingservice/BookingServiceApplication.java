@@ -1,5 +1,6 @@
 package com.taximicroservice.bookingservice;
 
+import org.locationtech.jts.geom.GeometryFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,10 @@ public class BookingServiceApplication {
         return new ModelMapper();
     }
 
+    @Bean
+    public GeometryFactory geometryFactory() {
+        return new GeometryFactory();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(BookingServiceApplication.class, args);

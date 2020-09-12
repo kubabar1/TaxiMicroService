@@ -46,8 +46,10 @@ public class BookingController {
     public ResponseEntity<BookingResponseDTO> addBooking(@Valid @RequestBody BookingAddDTO bookingAddDTO) {
         try {
             return new ResponseEntity<>(bookingService.addBooking(bookingAddDTO), HttpStatus.OK);
+        } catch (BookingServiceException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

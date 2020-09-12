@@ -1,5 +1,6 @@
 package com.taximicroservice.bookingservice.controller;
 
+import com.taximicroservice.bookingservice.exception.BookingServiceException;
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
 import com.taximicroservice.bookingservice.service.BookingStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,21 @@ public class BookingStatusController {
             , @RequestParam("driverId") Long driverId) {
         try {
             return new ResponseEntity<>(bookingStatusService.assignDriverToBooking(bookingId, driverId), HttpStatus.OK);
+        } catch (BookingServiceException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "/unassign-driver/{bookingId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<BookingResponseDTO> unassignDriverFromBooking(@PathVariable("bookingId") Long bookingId) {
+        try {
+            return new ResponseEntity<>(bookingStatusService.unassignDriverFromBooking(bookingId), HttpStatus.OK);
+        } catch (BookingServiceException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -32,8 +46,10 @@ public class BookingStatusController {
     public ResponseEntity<BookingResponseDTO> abortBooking(@PathVariable("bookingId") Long bookingId) {
         try {
             return new ResponseEntity<>(bookingStatusService.abortBooking(bookingId), HttpStatus.OK);
+        } catch (BookingServiceException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -41,8 +57,10 @@ public class BookingStatusController {
     public ResponseEntity<BookingResponseDTO> cancelBooking(@PathVariable("bookingId") Long bookingId) {
         try {
             return new ResponseEntity<>(bookingStatusService.cancelBooking(bookingId), HttpStatus.OK);
+        } catch (BookingServiceException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -50,17 +68,10 @@ public class BookingStatusController {
     public ResponseEntity<BookingResponseDTO> finishBooking(@PathVariable("bookingId") Long bookingId) {
         try {
             return new ResponseEntity<>(bookingStatusService.finishBooking(bookingId), HttpStatus.OK);
+        } catch (BookingServiceException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PutMapping(value = "/remove/{bookingId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<BookingResponseDTO> removeBooking(@PathVariable("bookingId") Long bookingId) {
-        try {
-            return new ResponseEntity<>(bookingStatusService.removeBooking(bookingId), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -68,8 +79,10 @@ public class BookingStatusController {
     public ResponseEntity<BookingResponseDTO> startBooking(@PathVariable("bookingId") Long bookingId) {
         try {
             return new ResponseEntity<>(bookingStatusService.startBookingProgress(bookingId), HttpStatus.OK);
+        } catch (BookingServiceException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

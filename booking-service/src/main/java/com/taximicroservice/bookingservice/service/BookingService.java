@@ -4,7 +4,6 @@ import com.taximicroservice.bookingservice.exception.BookingServiceException;
 import com.taximicroservice.bookingservice.model.dto.BookingAddDTO;
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
 import com.taximicroservice.bookingservice.model.dto.LocalisationDTO;
-import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
 import org.springframework.data.domain.Page;
 
@@ -14,7 +13,7 @@ public interface BookingService {
 
     Page<BookingResponseDTO> getBookingsPage(int page, int count) throws BookingServiceException;
 
-    BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException;
+    BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException, BookingServiceException;
 
     BookingResponseDTO getBookingById(Long bookingId) throws EntityNotFoundException;
 

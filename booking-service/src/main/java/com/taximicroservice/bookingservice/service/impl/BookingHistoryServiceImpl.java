@@ -20,17 +20,20 @@ public class BookingHistoryServiceImpl implements BookingHistoryService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private BookingValidator bookingValidator;
+
 
     @Override
     public Page<BookingResponseDTO> getDriverBookingsHistoryPage(Long driverId, int page, int count) throws BookingServiceException {
-        BookingValidator.validatePageAndCount(page, count);
+        bookingValidator.validatePageAndCount(page, count);
         return bookingRepository.findByDriverId(driverId, PageRequest.of(page, count))
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));
     }
 
     @Override
     public Page<BookingResponseDTO> getPassengerBookingsHistoryPage(Long passengerId, int page, int count) throws BookingServiceException {
-        BookingValidator.validatePageAndCount(page, count);
+        bookingValidator.validatePageAndCount(page, count);
         return bookingRepository.findByPassengerId(passengerId, PageRequest.of(page, count))
                 .map(bookingEntity -> modelMapper.map(bookingEntity, BookingResponseDTO.class));
     }
