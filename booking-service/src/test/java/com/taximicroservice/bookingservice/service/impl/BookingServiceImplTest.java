@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.test.annotation.DirtiesContext;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class BookingServiceImplTest {
 
     @Autowired
@@ -65,7 +67,7 @@ class BookingServiceImplTest {
         Page<BookingResponseDTO> bookingResponseDTOPage = bookingService.getBookingsPage(0, 5);
 
         assertEquals(2, bookingResponseDTOPage.getTotalPages());
-        assertEquals(8, bookingResponseDTOPage.getTotalElements());
+        assertEquals(9, bookingResponseDTOPage.getTotalElements());
         assertEquals(0, bookingResponseDTOPage.getNumber());
         assertEquals(5, bookingResponseDTOPage.getNumberOfElements());
         assertEquals(5, bookingResponseDTOPage.getSize());

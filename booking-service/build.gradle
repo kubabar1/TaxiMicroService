@@ -38,6 +38,7 @@ dependencies {
     testCompile(group: 'org.orbisgis', name: 'h2gis', version: '1.5.0') {
         exclude group: 'com.h2database', module: 'h2'
     }
+    testCompile 'com.google.code.gson:gson:2.8.6'
 }
 
 test {
