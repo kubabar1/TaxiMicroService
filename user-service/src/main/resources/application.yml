@@ -24,7 +24,9 @@ spring:
 userService:
     kafka:
         bootstrapAddress: "localhost:9092"
-        groupId: "passenger_service_group"
+        passengerGroupId: "passenger_service_group"
+        driverGroupId: "driver_service_group"
+        bookingGroupId: "booking_service_group"
         topics:
             addPassengerTopic: "add_passenger_topic"
             addPassengerReplyTopic: "add_passenger_reply_topic"
@@ -34,3 +36,5 @@ userService:
             addDriverReplyTopic: "add_driver_reply_topic"
             getDriversPageTopic: "get_drivers_page_topic"
             getDriversPageReplyTopic: "get_drivers_page_reply_topic"
+            getUserById: "get_user_by_id_topic"
+            getUserByIdReply: "get_user_by_id_reply_topic"

@@ -29,4 +29,13 @@ public class KafkaListenerConfig {
         return factory;
     }
 
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Long>>
+    requestUserResponseDTOByIdListenerContainerFactory(KafkaConsumerConfig kafkaConsumerConfig, KafkaProducerConfig kafkaProducerConfig) {
+        ConcurrentKafkaListenerContainerFactory<String, Long> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(kafkaConsumerConfig.requestUserResponseByIdConsumerFactory());
+        factory.setReplyTemplate(kafkaProducerConfig.replyUserResponseDTOTemplate());
+        return factory;
+    }
+
 }

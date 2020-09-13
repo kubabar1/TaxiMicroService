@@ -34,6 +34,8 @@ dependencies {
     compile 'org.hibernate:hibernate-spatial:5.4.21.Final'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
     compile group: 'com.graphhopper.external', name: 'jackson-datatype-jts', version: '0.10-2.5-1'
+    compile 'org.apache.kafka:kafka-clients:2.4.1'
+    compile 'org.springframework.kafka:spring-kafka:2.5.3.RELEASE'
     testRuntime group: 'com.h2database', name: 'h2', version: '1.4.197'
     testCompile(group: 'org.orbisgis', name: 'h2gis', version: '1.5.0') {
         exclude group: 'com.h2database', module: 'h2'

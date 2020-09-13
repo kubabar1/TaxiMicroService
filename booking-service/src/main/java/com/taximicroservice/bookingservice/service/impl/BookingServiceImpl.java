@@ -57,8 +57,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException, BookingServiceException {
-        bookingValidator.validateDriverId(bookingAddDTO.getDriverId());
-        bookingValidator.validatePassengerId(bookingAddDTO.getPassengerId());
+        bookingValidator.validateUserId(bookingAddDTO.getDriverId());
+        bookingValidator.validateUserId(bookingAddDTO.getPassengerId());
 
         boolean isDriverSet = Objects.isNull(bookingAddDTO.getDriverId());
         BookingStatusEnum bookingStatusEnum = isDriverSet ? BookingStatusEnum.CREATED : BookingStatusEnum.ASSIGNED;
