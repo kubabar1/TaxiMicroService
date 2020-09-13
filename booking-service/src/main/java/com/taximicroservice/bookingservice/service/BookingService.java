@@ -1,6 +1,7 @@
 package com.taximicroservice.bookingservice.service;
 
 import com.taximicroservice.bookingservice.exception.BookingServiceException;
+import com.taximicroservice.bookingservice.exception.ExternalServiceException;
 import com.taximicroservice.bookingservice.model.dto.BookingAddDTO;
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
 import com.taximicroservice.bookingservice.model.dto.LocalisationDTO;
@@ -13,7 +14,7 @@ public interface BookingService {
 
     Page<BookingResponseDTO> getBookingsPage(int page, int count) throws BookingServiceException;
 
-    BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException, BookingServiceException;
+    BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException, BookingServiceException, ExternalServiceException;
 
     BookingResponseDTO getBookingById(Long bookingId) throws EntityNotFoundException;
 

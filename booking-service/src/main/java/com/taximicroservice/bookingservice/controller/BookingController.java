@@ -1,5 +1,6 @@
 package com.taximicroservice.bookingservice.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.taximicroservice.bookingservice.exception.BookingServiceException;
 import com.taximicroservice.bookingservice.model.dto.BookingAddDTO;
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
@@ -43,6 +44,7 @@ public class BookingController {
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @HystrixCommand(fallbackMethod = "addBookingFallback")
     public ResponseEntity<BookingResponseDTO> addBooking(@Valid @RequestBody BookingAddDTO bookingAddDTO) {
         try {
             return new ResponseEntity<>(bookingService.addBooking(bookingAddDTO), HttpStatus.OK);
@@ -105,6 +107,10 @@ public class BookingController {
         } else {
             return new ResponseEntity<>(bookingResponseDTOPage, HttpStatus.OK);
         }
+    }
+
+    public ResponseEntity<BookingResponseDTO> addBookingFallback(BookingAddDTO bookingAddDTO) {
+        return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
 
 }

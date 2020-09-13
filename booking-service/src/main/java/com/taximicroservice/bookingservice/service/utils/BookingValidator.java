@@ -1,6 +1,7 @@
 package com.taximicroservice.bookingservice.service.utils;
 
 import com.taximicroservice.bookingservice.exception.BookingServiceException;
+import com.taximicroservice.bookingservice.exception.ExternalServiceException;
 import com.taximicroservice.bookingservice.model.dto.kafka.UserResponseDTO;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
@@ -35,7 +36,7 @@ public class BookingValidator {
         }
     }
 
-    public void validateUserId(Long userId) throws BookingServiceException {
+    public void validateUserId(Long userId) throws ExternalServiceException {
         ProducerRecord<String, Long> record = new ProducerRecord<>(getUserByIdTopic, userId);
         record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, getUserByIdReplyTopic.getBytes()));
 
@@ -43,10 +44,10 @@ public class BookingValidator {
             UserResponseDTO userResponseDTO = replyUserResponseDTOListenerContainer.sendAndReceive(record).get().value();
             long userIdResponse = userResponseDTO.getId();
             if (userId != userIdResponse) {
-                throw new BookingServiceException("User ID validation failed");
+                throw new ExternalServiceException("User ID validation failed");
             }
         } catch (InterruptedException | ExecutionException e) {
-            throw new BookingServiceException("User ID validation failed");
+            throw new ExternalServiceException("User ID validation failed");
         }
     }
 

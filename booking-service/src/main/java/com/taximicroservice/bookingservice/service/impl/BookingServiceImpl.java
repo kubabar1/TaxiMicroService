@@ -1,6 +1,7 @@
 package com.taximicroservice.bookingservice.service.impl;
 
 import com.taximicroservice.bookingservice.exception.BookingServiceException;
+import com.taximicroservice.bookingservice.exception.ExternalServiceException;
 import com.taximicroservice.bookingservice.model.dto.BookingAddDTO;
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
 import com.taximicroservice.bookingservice.model.dto.LocalisationDTO;
@@ -56,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException, BookingServiceException {
+    public BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException, BookingServiceException, ExternalServiceException {
         bookingValidator.validateUserId(bookingAddDTO.getDriverId());
         bookingValidator.validateUserId(bookingAddDTO.getPassengerId());
 
