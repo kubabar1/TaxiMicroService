@@ -18,9 +18,15 @@ spring:
 logging:
     level:
         org:
-            springframework: DEBUG
+            springframework:
+                boot:
+                    autoconfigure: ERROR
 
 eureka:
     client:
         serviceUrl:
             defaultZone: 'http://eureka-naming-server:8761/eureka/'
+
+bookingService:
+    kafka:
+        bootstrapAddress: "kafka-server:9092"

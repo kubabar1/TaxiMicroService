@@ -7,3 +7,7 @@ eureka:
     client:
         serviceUrl:
             defaultZone: 'http://eureka-naming-server:8761/eureka/'
+
+driverService:
+    kafka:
+        bootstrapAddress: "kafka-server:9092"

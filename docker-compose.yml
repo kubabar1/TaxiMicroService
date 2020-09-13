@@ -43,14 +43,23 @@ services:
         ports:
             - "8081:8080"
         depends_on:
-          spring-config-server:
+            spring-config-server:
                 condition: service_healthy
-          eureka-naming-server:
+            eureka-naming-server:
                 condition: service_healthy
+            user-service:
+                condition: service_healthy
+            booking-service-database:
+                condition: service_healthy
+            kafka-server:
+                condition: service_started
         mem_limit: 160m
         environment:
             SPRING_CONFIG_SERVER_URI: "spring-config-server"
             SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
+            BOOKING_SERVICE_DATASOURCE_URL: "jdbc:postgresql://booking-service-database:5432/booking_service"
+            BOOKING_SERVICE_DATASOURCE_USERNAME: "docker"
+            BOOKING_SERVICE_DATASOURCE_PASSWORD: "docker"
 
     booking-service-database:
         container_name: booking-service-database
@@ -70,11 +79,6 @@ services:
             POSTGRES_USER: docker
             POSTGRES_PASS: docker
             POSTGRES_PORT: 5432
-            SPRING_CONFIG_SERVER_URI: "spring-config-server"
-            SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
-            USER_SERVICE_DATASOURCE_URL: "jdbc:postgresql://booking-service-database:5432/booking_service"
-            USER_SERVICE_DATASOURCE_USERNAME: "docker"
-            USER_SERVICE_DATASOURCE_PASSWORD: "docker"
 
     user-service:
         image: user-service
@@ -89,6 +93,8 @@ services:
                 condition: service_healthy
             user-service-database:
                 condition: service_healthy
+            kafka-server:
+                condition: service_started
         healthcheck:
             test: curl http://user-service:8080 || exit 1
             interval: 3s
@@ -246,3 +252,24 @@ services:
         environment:
             SPRING_CONFIG_SERVER_URI: "spring-config-server"
             SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
+
+    zookeeper-server:
+        image: wurstmeister/zookeeper
+        container_name: zookeeper-server
+        ports:
+            - "2181"
+    kafka-server:
+        image: wurstmeister/kafka
+        container_name: kafka-server
+        ports:
+            - "9092"
+        depends_on:
+            zookeeper-server:
+                condition: service_started
+        environment:
+            KAFKA_LISTENERS: PLAINTEXT://kafka-server:9092
+            # KAFKA_ADVERTISED_HOST_NAME: kafka-server
+            # KAFKA_ADVERTISED_PORT: 9095
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper-server:2181
+            KAFKA_LOG_DIRS: /kafka/logs
+            # KAFKA_offsets_topic_replication_factor: 3

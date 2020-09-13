@@ -58,8 +58,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingResponseDTO addBooking(BookingAddDTO bookingAddDTO) throws EntityNotFoundException, BookingServiceException, ExternalServiceException {
-        bookingValidator.validateUserId(bookingAddDTO.getDriverId());
         bookingValidator.validateUserId(bookingAddDTO.getPassengerId());
+        if (Objects.nonNull(bookingAddDTO.getDriverId())) {
+            bookingValidator.validateUserId(bookingAddDTO.getDriverId());
+        }
 
         boolean isDriverSet = Objects.isNull(bookingAddDTO.getDriverId());
         BookingStatusEnum bookingStatusEnum = isDriverSet ? BookingStatusEnum.CREATED : BookingStatusEnum.ASSIGNED;
@@ -79,7 +81,6 @@ public class BookingServiceImpl implements BookingService {
 
         return modelMapper.map(bookingRepository.save(bookingEntity), BookingResponseDTO.class);
     }
-
 
 
     @Override

@@ -11,7 +11,6 @@ public class BookingAddDTO implements Serializable {
     @NotNull
     private Long passengerId;
 
-    @NotNull
     private Long driverId;
 
     @NotNull
