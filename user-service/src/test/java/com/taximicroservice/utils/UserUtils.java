@@ -1,4 +1,4 @@
-package com.taximicroservice.passengerservice.model.utils;
+package com.taximicroservice.utils;
 
 import com.taximicroservice.userservice.model.dto.*;
 import com.taximicroservice.userservice.model.entity.*;

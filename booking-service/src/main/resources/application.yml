@@ -4,3 +4,35 @@ spring:
     cloud:
         discovery:
             enabled: false
+    datasource:
+        url: "jdbc:postgresql://localhost:5433/booking_service"
+        username: "docker"
+        password: "docker"
+        initialization-mode: never
+        driverClassName: org.postgresql.Driver
+        schema:
+        data:
+    jpa:
+        database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
+        hibernate:
+            ddl-auto: none
+    h2:
+        console:
+            enabled:
+                true
+
+bookingService:
+    kafka:
+        bootstrapAddress: "localhost:9092"
+        groupId: "booking_service_group"
+        topics:
+            getUserById: "get_user_by_id_topic"
+            getUserByIdReply: "get_user_by_id_reply_topic"
+
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 3000

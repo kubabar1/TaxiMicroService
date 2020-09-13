@@ -66,4 +66,20 @@ jobs:
           if-no-files-found: error
           path:  |
             driver-service/build/reports/tests/test
+
+      - uses: eskatos/gradle-command-action@v1
+        name: build booking-service
+        with:
+          wrapper-directory: booking-service
+          build-root-directory: booking-service
+          gradle-version: 6.5.1
+          arguments: build
+      - name: publish booking-service unit test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: booking-service-unit-tests-results
+          if-no-files-found: error
+          path:  |
+            booking-service/build/reports/tests/test
       

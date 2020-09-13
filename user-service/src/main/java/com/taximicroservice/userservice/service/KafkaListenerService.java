@@ -18,4 +18,6 @@ public interface KafkaListenerService {
 
     UserResponseDTOPage getDriversPageListener(PageRequestDTO pageRequestDTO) throws UserServiceException;
 
+    UserResponseDTO getUserResponseDTOByIdListener(Long userId) throws UserServiceException;
+
 }

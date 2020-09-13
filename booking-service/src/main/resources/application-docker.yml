@@ -2,21 +2,31 @@ spring:
     cloud:
         discovery:
             enabled: true
-    # datasource:
-    #     url: '${SPRING_DATASOURCE_URL}'
-    #     username: '${SPRING_DATASOURCE_USERNAME}'
-    #     password: '${SPRING_DATASOURCE_PASSWORD}'
-    #     initialization-mode: never
-    # jpa:
-    #     hibernate:
-    #         ddl-auto: none
+    datasource:
+        url: "${BOOKING_SERVICE_DATASOURCE_URL}"
+        username: "${BOOKING_SERVICE_DATASOURCE_USERNAME}"
+        password: "${BOOKING_SERVICE_DATASOURCE_PASSWORD}"
+        initialization-mode: never
+        driverClassName: org.postgresql.Driver
+        schema:
+        data:
+    jpa:
+        database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
+        hibernate:
+            ddl-auto: none
 
-# logging:
-#     level:
-#         org:
-#             springframework: DEBUG
+logging:
+    level:
+        org:
+            springframework:
+                boot:
+                    autoconfigure: ERROR
 
 eureka:
     client:
         serviceUrl:
             defaultZone: 'http://eureka-naming-server:8761/eureka/'
+
+bookingService:
+    kafka:
+        bootstrapAddress: "kafka-server:9092"

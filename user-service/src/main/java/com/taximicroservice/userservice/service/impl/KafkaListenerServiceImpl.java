@@ -129,4 +129,11 @@ public class KafkaListenerServiceImpl implements KafkaListenerService {
         return new UserResponseDTOPage(userResponseDTOPage);
     }
 
+    @KafkaListener(topics = "${userService.kafka.topics.getUserById}", containerFactory = "requestUserResponseDTOByIdListenerContainerFactory")
+    @SendTo()
+    @Override
+    public UserResponseDTO getUserResponseDTOByIdListener(Long userId) throws UserServiceException {
+        return modelMapper.map(userRepository.findById(userId).orElseThrow(EntityNotFoundException::new), UserResponseDTO.class);
+    }
+
 }
