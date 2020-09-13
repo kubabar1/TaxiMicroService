@@ -2,7 +2,7 @@ package com.taximicroservice.bookingservice.service.impl;
 
 import com.taximicroservice.bookingservice.exception.BookingServiceException;
 import com.taximicroservice.bookingservice.model.dto.BookingResponseDTO;
-import com.taximicroservice.bookingservice.model.utils.BookingValidator;
+import com.taximicroservice.bookingservice.service.utils.BookingValidator;
 import com.taximicroservice.bookingservice.repository.BookingRepository;
 import com.taximicroservice.bookingservice.service.BookingHistoryService;
 import org.modelmapper.ModelMapper;

@@ -7,7 +7,7 @@ import com.taximicroservice.bookingservice.model.dto.LocalisationDTO;
 import com.taximicroservice.bookingservice.model.entity.BookingEntity;
 import com.taximicroservice.bookingservice.model.entity.BookingStatusEntity;
 import com.taximicroservice.bookingservice.model.utils.BookingStatusEnum;
-import com.taximicroservice.bookingservice.model.utils.BookingValidator;
+import com.taximicroservice.bookingservice.service.utils.BookingValidator;
 import com.taximicroservice.bookingservice.repository.BookingRepository;
 import com.taximicroservice.bookingservice.repository.BookingStatusRepository;
 import com.taximicroservice.bookingservice.service.BookingService;

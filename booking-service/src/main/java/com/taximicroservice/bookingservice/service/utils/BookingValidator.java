@@ -1,4 +1,4 @@
-package com.taximicroservice.bookingservice.model.utils;
+package com.taximicroservice.bookingservice.service.utils;
 
 import com.taximicroservice.bookingservice.exception.BookingServiceException;
 import org.springframework.stereotype.Component;
