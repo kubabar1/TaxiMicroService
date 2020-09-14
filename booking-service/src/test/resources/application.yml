@@ -20,3 +20,11 @@ spring:
         console:
             enabled:
                 true
+
+bookingService:
+    kafka:
+        bootstrapAddress: "localhost:9092"
+        groupId: "booking_service_group"
+        topics:
+            getUserById: "get_user_by_id_topic"
+            getUserByIdReply: "get_user_by_id_reply_topic"
