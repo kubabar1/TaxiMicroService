@@ -1,5 +1,8 @@
 package com.taximicroservice.notificationservice.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.taximicroservice.notificationservice.model.utils.NotificationStatusEnum;
 import com.taximicroservice.notificationservice.model.utils.NotificationTypeEnum;
 import lombok.Data;
@@ -22,6 +25,8 @@ public class NotificationResponseDTO implements Serializable {
 
     private String receiverUsername;
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime creationDate;
 
 }

@@ -39,7 +39,7 @@ public class NotificationController {
     }
 
     @GetMapping(value = "/{notificationId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<NotificationResponseDTO> getNotificationById(@PathVariable Long notificationId) {
+    public ResponseEntity<NotificationResponseDTO> getNotificationById(@PathVariable(value = "notificationId") Long notificationId) {
         try {
             return new ResponseEntity<>(notificationService.getNotificationById(notificationId), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
@@ -48,7 +48,7 @@ public class NotificationController {
     }
 
     @GetMapping(value = "/username/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Page<NotificationResponseDTO>> getNotificationsByUserId(@PathVariable String userId,
+    public ResponseEntity<Page<NotificationResponseDTO>> getNotificationsByUserId(@PathVariable(value = "userId") String userId,
                                                                                   @RequestParam(value = "page") int page,
                                                                                   @RequestParam(value = "count") int count) {
         Page<NotificationResponseDTO> notificationResponseDTORestPage;

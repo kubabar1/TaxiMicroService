@@ -20,7 +20,7 @@ public class NotificationStatusController {
 
 
     @PutMapping(value = "/read/{notificationId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<NotificationResponseDTO> setNotificationAsRead(@PathVariable Long notificationId) {
+    public ResponseEntity<NotificationResponseDTO> setNotificationAsRead(@PathVariable(value = "notificationId") Long notificationId) {
         try {
             return new ResponseEntity<>(notificationStatusService.setNotificationAsRead(notificationId), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
@@ -31,7 +31,7 @@ public class NotificationStatusController {
     }
 
     @PutMapping(value = "/delete/{notificationId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<NotificationResponseDTO> setNotificationAsDeleted(@PathVariable Long notificationId) {
+    public ResponseEntity<NotificationResponseDTO> setNotificationAsDeleted(@PathVariable(value = "notificationId") Long notificationId) {
         try {
             return new ResponseEntity<>(notificationStatusService.setNotificationAsDeleted(notificationId), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
