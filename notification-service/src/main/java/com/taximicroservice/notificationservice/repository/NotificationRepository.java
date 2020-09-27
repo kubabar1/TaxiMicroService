@@ -10,6 +10,4 @@ public interface NotificationRepository extends PagingAndSortingRepository<Notif
 
     Page<NotificationEntity> findByReceiverUsername(String receiverUsername, Pageable pageable);
 
-    Page<NotificationEntity> findByStatus(String statusId, PageRequest of);
-
 }

@@ -11,6 +11,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class NotificationListenerServiceImpl implements NotificationListenerService {
 
@@ -34,6 +36,7 @@ public class NotificationListenerServiceImpl implements NotificationListenerServ
     private void saveNotificationInDatabase(NotificationRequestDTO notificationRequestDTO) {
         NotificationEntity notificationEntity = modelMapper.map(notificationRequestDTO, NotificationEntity.class);
         notificationEntity.setStatus(NotificationStatusEnum.SENT);
+        notificationEntity.setCreationDate(LocalDateTime.now());
         notificationRepository.save(notificationEntity);
     }
 
