@@ -18,9 +18,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests().antMatchers(registerStompEndpoint + "/**").permitAll()
-                .anyRequest().denyAll();
+                // .antMatchers("/h2-console/**").permitAll()
+                .anyRequest().permitAll(); // TODO: Fix security
+        http.csrf().disable(); // TODO: Fix security
+        // http.headers().frameOptions().disable();
     }
 
 }

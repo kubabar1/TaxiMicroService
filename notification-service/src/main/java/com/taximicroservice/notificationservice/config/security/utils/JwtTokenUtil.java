@@ -16,7 +16,7 @@ public class JwtTokenUtil {
     @Value("${notificationService.tokenValiditySeconds}")
     public long jwtTokenValidity;
 
-    @Value("${jwt.secret}")
+    @Value("${notificationService.jwt.secret}")
     private String secret;
 
 

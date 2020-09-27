@@ -1,4 +1,4 @@
-package com.taximicroservice.notificationservice.controller;
+package com.taximicroservice.notificationservice.config.websocket;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ import java.security.Principal;
 import java.util.Map;
 
 @Controller
-public class WebSocketController {
+public class WebSocketMessageMapper {
 
     @Autowired
     private Gson gson;
 
 
-    @MessageMapping("/message")
+    /*@MessageMapping("/message")
     @SendToUser("/queue/reply")
     public String processMessageFromClient(@Payload String message, Principal principal) throws Exception {
         return gson.fromJson(message, Map.class).get("message").toString();
@@ -29,7 +29,7 @@ public class WebSocketController {
     @SendTo("/topic/news")
     public String broadcastNews(@Payload String message) {
         return gson.fromJson(message, Map.class).get("message").toString();
-    }
+    }*/
 
     @MessageExceptionHandler
     @SendToUser("/queue/errors")
