@@ -2,8 +2,28 @@ spring:
     cloud:
         discovery:
             enabled: true
+    datasource:
+        url: "${NOTIFICATION_SERVICE_DATASOURCE_URL}"
+        username: "${NOTIFICATION_SERVICE_DATASOURCE_USERNAME}"
+        password: "${NOTIFICATION_SERVICE_DATASOURCE_PASSWORD}"
+        initialization-mode: never
+        driverClassName: org.postgresql.Driver
+        schema:
+        data:
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: none
+    h2:
+        console:
+            enabled:
+                false
 
 eureka:
     client:
         serviceUrl:
             defaultZone: 'http://eureka-naming-server:8761/eureka/'
+
+notificationService:
+    kafka:
+        bootstrapAddress: "kafka-server:9092"
