@@ -31,6 +31,18 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.4.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.3.3.RELEASE'
+    compile 'org.springframework.security:spring-security-jwt:1.1.1.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    compile 'com.google.code.gson:gson:2.8.6'
+    compile 'org.springframework:spring-messaging:5.2.9.RELEASE'
+    compile 'org.springframework.security:spring-security-messaging:5.4.0'
+    compile 'io.jsonwebtoken:jjwt:0.9.1'
+    compile 'org.apache.kafka:kafka-clients:2.4.1'
+    compile 'org.springframework.kafka:spring-kafka:2.5.3.RELEASE'
+    compile 'org.modelmapper:modelmapper:0.7.5'
 }
 
 test {

@@ -111,8 +111,8 @@ services:
         container_name: user-service-database
         image: postgres
         volumes:
-            - ./user-service/src/main/resources/db_scripts/h2/user_service_schema_h2.sql:/docker-entrypoint-initdb.d/1_user_service_schema.sql
-            - ./user-service/src/main/resources/db_scripts/h2/user_service_demo_h2.sql:/docker-entrypoint-initdb.d/2_user_service_demo.sql
+            - ./user-service/src/main/resources/db_scripts/postgresql/user_service_schema_psql.sql:/docker-entrypoint-initdb.d/1_user_service_schema.sql
+            - ./user-service/src/main/resources/db_scripts/postgresql/user_service_demo_psql.sql:/docker-entrypoint-initdb.d/2_user_service_demo.sql
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U postgres"]
             interval: 3s
@@ -184,10 +184,33 @@ services:
                 condition: service_healthy
             eureka-naming-server:
                 condition: service_healthy
+            notification-service-database:
+                condition: service_healthy
+            kafka-server:
+                condition: service_started
         mem_limit: 160m
         environment:
             SPRING_CONFIG_SERVER_URI: "spring-config-server"
             SPRING_CONFIG_SERVER_ACTIVE_PROFILE: "development"
+            NOTIFICATION_SERVICE_DATASOURCE_URL: "jdbc:postgresql://notification-service-database:5432/notification_service"
+            NOTIFICATION_SERVICE_DATASOURCE_USERNAME: "postgres"
+            NOTIFICATION_SERVICE_DATASOURCE_PASSWORD: "qwerty"
+
+    notification-service-database:
+        container_name: notification-service-database
+        image: postgres
+        volumes:
+            - ./notification-service/src/main/resources/db_scripts/postgresql/notification_service_schema_psql.sql:/docker-entrypoint-initdb.d/1_notification_service_schema.sql
+            - ./notification-service/src/main/resources/db_scripts/postgresql/notification_service_demo_psql.sql:/docker-entrypoint-initdb.d/2_notification_service_demo.sql
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 3s
+            retries: 10
+        mem_limit: 160m
+        environment:
+            POSTGRES_DB: notification_service
+            POSTGRES_PASSWORD: qwerty
+            POSTGRES_USER: postgres
 
     mailing-service:
         image: mailing-service
