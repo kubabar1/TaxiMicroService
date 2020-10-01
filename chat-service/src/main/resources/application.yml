@@ -4,3 +4,26 @@ spring:
     cloud:
         discovery:
             enabled: false
+    datasource:
+        url: jdbc:h2:mem:testdb
+        driverClassName: org.h2.Driver
+        username: h2
+        password: qwerty
+        schema: classpath:/db_scripts/h2/chat_service_schema_h2.sql
+        data: classpath:/db_scripts/h2/chat_service_demo_h2.sql
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto:
+                update
+    h2:
+        console:
+            enabled:
+                true
+
+chatService:
+    registerStompEndpoint: '/stomp'
+    allowedOrigins: http://127.0.0.1:8081
+    tokenValiditySeconds: 3153600000 # 100 years
+    jwt:
+        secret: qwerty
