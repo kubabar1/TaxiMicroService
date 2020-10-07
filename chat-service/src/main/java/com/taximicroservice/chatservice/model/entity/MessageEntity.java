@@ -17,8 +17,8 @@ public class MessageEntity implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sender_id", nullable = false)
-    private String senderId;
+    @Column(name = "sender_username", nullable = false)
+    private String senderUsername;
 
     @Column(name = "content", nullable = false)
     private String content;

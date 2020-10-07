@@ -2,8 +2,10 @@ package com.taximicroservice.chatservice.config.websocket.security;
 
 import com.taximicroservice.chatservice.config.security.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
@@ -13,6 +15,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import java.util.List;
 import java.util.Objects;
 
+@Configuration
 public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
 
     @Autowired
@@ -25,13 +28,17 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-        if(Objects.isNull(accessor)) {
-            throw new InternalAuthenticationServiceException("Accessor is null");
+        if (Objects.isNull(accessor)) {
+            throw new MessagingException("Accessor is null");
         }
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
             String bearerToken = accessor.getFirstNativeHeader("X-Authorization");
-            jwtTokenUtil.validateToken(bearerToken);
+            try {
+                jwtTokenUtil.validateToken(bearerToken);
+            } catch (InternalAuthenticationServiceException e) {
+                throw new MessagingException(e.getMessage());
+            }
 
             String jwtFromToken = jwtTokenUtil.getJwtFromBearerToken(bearerToken);
             String username = jwtTokenUtil.getUsernameFromToken(jwtFromToken);

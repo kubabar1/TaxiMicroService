@@ -9,7 +9,7 @@ CREATE TABLE message_status (
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY NOT NULL,
     content TEXT NOT NULL,
-    sender VARCHAR NOT NULL,
+    sender_username VARCHAR NOT NULL,
     creation_date TIMESTAMP NOT NULL,
     status VARCHAR NOT NULL,
     booking_id VARCHAR NOT NULL,

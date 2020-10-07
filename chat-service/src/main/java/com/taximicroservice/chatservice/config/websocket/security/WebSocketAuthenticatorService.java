@@ -1,5 +1,6 @@
 package com.taximicroservice.chatservice.config.websocket.security;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
+@Configuration
 public class WebSocketAuthenticatorService {
 
     public UsernamePasswordAuthenticationToken getAuthenticatedOrFail(String username, List<String> userRole)

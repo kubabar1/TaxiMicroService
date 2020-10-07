@@ -7,9 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class MessageResponseDTO implements Serializable {
-
-    private Long id;
+public class MessageDTO implements Serializable {
 
     private String senderUsername;
 

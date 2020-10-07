@@ -5,7 +5,7 @@ values
     ('READ', 'Notification read by user');
 
 insert into
-    messages (status, sender_id, content, booking_id, creation_date)
+    messages (status, sender_username, content, booking_id, creation_date)
 values
     ('READ', 'adam123', 'Where are You now?', 1, '2020-09-14 09:01:44'),
     ('READ', 'tpoli28', 'Nearby train station, and You?', 1, '2020-09-14 09:02:50'),
