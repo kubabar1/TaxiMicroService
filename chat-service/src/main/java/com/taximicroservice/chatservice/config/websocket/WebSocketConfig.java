@@ -18,8 +18,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value(value = "${chatService.allowedOrigins}")
     private String[] allowedOrigins;
 
-    @Autowired
-    private CustomExceptionHandler customExceptionHandler;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
@@ -32,7 +30,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint(registerStompEndpoint)
                 .setAllowedOrigins(allowedOrigins)
                 .withSockJS();
-        registry.setErrorHandler(customExceptionHandler);
     }
 
 }
