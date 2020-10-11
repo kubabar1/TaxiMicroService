@@ -25,6 +25,10 @@ bookingService:
     kafka:
         bootstrapAddress: "localhost:9092"
         groupId: "booking_service_group"
+        groups:
+            chatServiceGroupId: "chat_service_group"
         topics:
             getUserById: "get_user_by_id_topic"
             getUserByIdReply: "get_user_by_id_reply_topic"
+            getBookingBookingDataByIdTopic: "get_booking_data_by_id_topic"
+            getBookingBookingDataByIdReplyTopic: "get_booking_data_by_id_reply_topic"
