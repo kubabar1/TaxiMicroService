@@ -17,6 +17,6 @@ public class MessageDTO implements Serializable {
 
     private MessageStatusEnum messageStatus;
 
-    private String bookingId;
+    private Long bookingId;
 
 }

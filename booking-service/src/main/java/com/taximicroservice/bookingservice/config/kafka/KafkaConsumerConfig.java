@@ -2,6 +2,7 @@ package com.taximicroservice.bookingservice.config.kafka;
 
 import com.taximicroservice.bookingservice.model.dto.kafka.UserResponseDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,15 +34,23 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
+    public Map<String, Object> getBookingDataByIdConsumerConfigs() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigProps.bootstrapAddress);
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        return props;
+    }
+
+    @Bean
     public ConsumerFactory<String, UserResponseDTO> replyUserResponseDTOConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
                 new JsonDeserializer<>(UserResponseDTO.class, false));
     }
 
     @Bean
-    public KafkaMessageListenerContainer<String, UserResponseDTO> replyDriverListenerContainer() {
-        ContainerProperties containerProperties = new ContainerProperties(kafkaConfigProps.getUserByIdReplyTopic);
-        return new KafkaMessageListenerContainer<>(replyUserResponseDTOConsumerFactory(), containerProperties);
+    public ConsumerFactory<String, Long> getBookingDataByIdConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(getBookingDataByIdConsumerConfigs());
     }
 
 }

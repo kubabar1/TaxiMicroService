@@ -27,3 +27,9 @@ chatService:
     tokenValiditySeconds: 3153600000 # 100 years
     jwt:
         secret: qwerty
+    kafka:
+        bootstrapAddress: "localhost:9092"
+        chatGroupId: "chat_service_group"
+        topics:
+            getBookingBookingDataByIdTopic: "get_booking_data_by_id_topic"
+            getBookingBookingDataByIdReplyTopic: "get_booking_data_by_id_reply_topic"

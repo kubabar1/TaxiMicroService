@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class MessageEntity implements Serializable {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 

@@ -7,15 +7,15 @@ import org.springframework.context.annotation.Configuration;
 public class KafkaConfigProps {
 
     @Value(value = "${bookingService.kafka.bootstrapAddress}")
-    protected String bootstrapAddress;
+    public String bootstrapAddress;
 
     @Value(value = "${bookingService.kafka.groupId}")
-    protected String groupId;
+    public String groupId;
 
     @Value(value = "${bookingService.kafka.topics.getUserById}")
-    protected String getUserByIdTopic;
+    public String getUserByIdTopic;
 
     @Value(value = "${bookingService.kafka.topics.getUserByIdReply}")
-    protected String getUserByIdReplyTopic;
+    public String getUserByIdReplyTopic;
 
 }

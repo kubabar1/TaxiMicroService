@@ -18,7 +18,7 @@ class Form extends Component {
         senderToken: null,
         token_adam123: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMTIzIiwicm9sZXMiOlsiUEFTU0VOR0VSX1JPTEUiXSwiZXhwIjo0NzU0NTA5MjYxLCJpYXQiOjE2MDA5MDkyNjF9.0ndas5eKnnGjlLDd_lDvkAEXq3hiSEuH7Katj-pGiWoYpn5OFvMRTbyySst28u-ParT2XjBsLV7MX0gdcBAHxg',
         token_adam1234: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMTIzNCIsInJvbGVzIjpbIlBBU1NFTkdFUl9ST0xFIl0sImV4cCI6NDc1NTE5Njk1MCwiaWF0IjoxNjAxNTk2OTUwfQ.50l5zxD062qZnLgjDdnO_Y-ho24HFe937rohYLpeP1_TJIzXXDSX7KxDGh_EeE_yFWm86acPyd5Np4OARVf2cQ',
-        token_tpoli28_driver: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0cG9saTI4Iiwicm9sZXMiOlsiRFJJVkVSX1JPTEUiXSwiZXhwIjo0NzU1MzE5NjAwLCJpYXQiOjE2MDE3MTk2MDB9.-dSfKZl6ZJaLv5XN8z5Yw-Kg8Ix-0Q_1o8RoIgpkNSV-62Ns7513EbdFU4_KigkBrkJX00x5QlyImfSa7PGwuQ'
+        token_hhurring1d_driver: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaHVycmluZzFkIiwicm9sZXMiOlsiRFJJVkVSX1JPTEUiXSwiZXhwIjo0NzU1OTY1OTUxLCJpYXQiOjE2MDIzNjU5NTF9.yWoYbIu3_QXnHc0b16KT0MDejuI5qDLgicNel2ChOuxS6pgZRqYh-HGAId_iaAXJZS5BgKrAa062CsQ3oWjnUw'
     };
   }
 
@@ -46,11 +46,11 @@ class Form extends Component {
 
     ws.connect(authHeader, () => {
       this.showNotification("success", "Connected")
-      ws.subscribe("/queue/errors", message => {
+      ws.subscribe("/user/queue/errors", message => {
         console.log("Error " + message.body);
         this.showNotification("danger", message.body)
       }, authHeader);
-      ws.subscribe("/queue/reply/bookings/"+this.state.bookingId, message => {
+      ws.subscribe("/user/queue/reply/bookings", message => {
         console.log("Message " + message.body);
         console.log(message);
         this.showNotification("info", message.body)
@@ -120,10 +120,10 @@ class Form extends Component {
           Connect as adam1234 (passenger)
         </button>
         <button
-            onClick={(event) => this.connect(event, this.state.token_tpoli28_driver, "tpoli28")}
+            onClick={(event) => this.connect(event, this.state.token_hhurring1d_driver, "hhurring1d")}
             disabled={this.state.ws!=null || this.state.bookingId==null}
         >
-          Connect as tpoli28 (driver)
+          Connect as hhurring1d (driver)
         </button>
         <button
             onClick={this.disconnect}
